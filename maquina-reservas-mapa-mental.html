@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano Estratégico de Reserva Direta — Hotel Solar das Palmeiras</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F1EA; --surface:#FFFFFF; --surface-2:#FBF9F4;
+  --ink:#23211C; --muted:#726D62; --faint:#9A9488;
+  --line:#E5E0D4;
+  --accent:#2E6C5F; --accent-deep:#1F4E44; --accent-soft:#E4EFEB;
+  --amber:#B27A26; --amber-soft:#F5EBD6;
+  --green:#3B8B57; --green-soft:#E2F0E5;
+  --shadow:0 1px 2px rgba(35,33,28,.04), 0 12px 34px -18px rgba(35,33,28,.28);
+  --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);
+  overflow:hidden;-webkit-font-smoothing:antialiased;}
+h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(34px,5.4vw,64px);line-height:1.04;letter-spacing:-.01em}
+h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(26px,3.6vw,42px);line-height:1.08;letter-spacing:-.01em}
+.lead{font-size:clamp(15px,1.5vw,18px);line-height:1.65;color:var(--muted);max-width:72ch}
+.eyebrow{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+.deck{position:relative;height:100vh;width:100vw}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:92px clamp(28px,7vw,120px) 104px;opacity:0;visibility:hidden;
+  transform:translateY(18px) scale(.99);transition:opacity .5s ease, transform .5s ease, visibility .5s;overflow-y:auto;}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide::-webkit-scrollbar{width:8px}
+.slide::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.inner{width:100%;max-width:1060px;margin:auto}
+
+#progress{position:fixed;top:0;left:0;height:3px;width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-deep));z-index:60;transition:width .45s cubic-bezier(.4,0,.2,1);}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;
+  padding:20px 34px;pointer-events:none;}
+.brand{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.section-tag{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:16px 34px;background:linear-gradient(to top,var(--bg) 60%,transparent);}
+.dots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;max-width:56vw}
+.dots button{width:8px;height:8px;border-radius:50%;border:none;background:var(--line);cursor:pointer;padding:0;transition:all .3s}
+.dots button.on{background:var(--accent);transform:scale(1.35)}
+.arrows{display:flex;align-items:center;gap:10px}
+.counter{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:52px;text-align:center;font-weight:500}
+.arrow{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;
+  display:grid;place-items:center;color:var(--ink);transition:all .2s;box-shadow:var(--shadow);}
+.arrow:hover{border-color:var(--accent);color:var(--accent)}
+.arrow:disabled{opacity:.35;cursor:not-allowed}
+
+.cover-tag{display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent-deep);
+  padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;margin-top:24px}
+.cover-meta{margin-top:40px;display:flex;gap:34px;flex-wrap:wrap;font-size:13px;color:var(--faint)}
+.cover-meta b{display:block;color:var(--ink);font-weight:600;font-size:14px;margin-top:3px}
+.kicker-row{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.kicker-row .num{font-family:'Fraunces',serif;font-size:15px;color:var(--accent);border:1px solid var(--accent-soft);
+  background:var(--accent-soft);border-radius:999px;padding:4px 14px;font-weight:600}
+.cap{font-size:13px;color:var(--muted)}
+.objective{font-size:14.5px;line-height:1.55;color:var(--muted);background:var(--accent-soft);border-radius:12px;padding:14px 18px;margin:18px 0 4px}
+.objective b{color:var(--accent-deep)}
+.note{display:flex;gap:9px;font-size:12.5px;font-style:italic;color:var(--faint);line-height:1.5;margin:16px 2px 0;}
+.note::before{content:"";flex:none;width:3px;border-radius:3px;background:var(--line)}
+
+/* KPI grid */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
+@media(max-width:820px){ .kpis{grid-template-columns:1fr 1fr} }
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow)}
+.kpi .lbl{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:8px}
+.kpi .val{font-family:'Fraunces',serif;font-size:34px;color:var(--ink);line-height:1}
+.kpi .val.warn{color:var(--amber)}
+.kpi .val.good{color:var(--accent)}
+.kpi .sub{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}
+
+/* problem chips / bullets */
+.plist{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.pitem{display:flex;gap:14px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--amber);
+  border-radius:12px;padding:15px 18px;box-shadow:var(--shadow)}
+.pitem .pn{flex:none;width:26px;height:26px;border-radius:50%;background:var(--amber-soft);color:var(--amber);
+  font-size:13px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.pitem h3{font-size:15px;font-weight:600;margin-bottom:3px}
+.pitem p{font-size:13.5px;line-height:1.5;color:var(--muted)}
+
+/* goals */
+.goals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
+@media(max-width:820px){ .goals{grid-template-columns:1fr} }
+.goal{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow);text-align:center}
+.goal .from{font-size:13px;color:var(--faint);text-decoration:line-through}
+.goal .arrow-d{color:var(--accent);font-size:18px;margin:4px 0}
+.goal .to{font-family:'Fraunces',serif;font-size:30px;color:var(--accent-deep);line-height:1}
+.goal .what{font-size:13px;color:var(--muted);margin-top:8px}
+
+/* funnel */
+.funnel{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.fstep{display:flex;align-items:center;gap:16px}
+.fstep .bar{flex:none;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:10px;padding:14px 18px;box-shadow:var(--shadow)}
+.fstep .bar h3{font-size:15px;font-weight:600}
+.fstep .bar p{font-size:12.5px;color:var(--muted);margin-top:2px}
+.fstep .meta{font-size:13px;color:var(--muted)}
+.fstep .meta b{color:var(--accent-deep)}
+.w1{width:96%}.w2{width:78%}.w3{width:60%}.w4{width:42%}
+
+/* channel mix bars */
+.mix{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:22px}
+@media(max-width:820px){ .mix{grid-template-columns:1fr} }
+.mix h3{font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.mix h3 .t{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.mrow{margin-bottom:12px}
+.mrow .top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;color:var(--muted)}
+.mrow .top b{color:var(--ink)}
+.mbar{height:14px;border-radius:8px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}
+.mfill{height:100%;border-radius:8px}
+.f-ota{background:var(--amber)}
+.f-dir{background:var(--accent)}
+.f-oth{background:var(--faint)}
+
+/* roadmap */
+.tempos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0 8px}
+@media(max-width:820px){ .tempos{grid-template-columns:1fr} }
+.tempo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow)}
+.tempo .ph{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:6px}
+.tempo .n{font-family:'Fraunces',serif;font-size:22px;color:var(--accent);line-height:1.1;margin-bottom:10px}
+.tempo ul{list-style:none;margin:0;padding:0}
+.tempo li{font-size:13px;color:var(--muted);line-height:1.5;padding-left:16px;position:relative;margin-bottom:6px}
+.tempo li::before{content:"";position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--accent)}
+
+/* projection table */
+.ptable{width:100%;border-collapse:collapse;margin-top:20px;font-size:14px;background:var(--surface);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.ptable th,.ptable td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line)}
+.ptable th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);font-weight:700;background:var(--surface-2)}
+.ptable td{color:var(--muted)}
+.ptable td.m{color:var(--ink);font-weight:600}
+.ptable td.g{color:var(--accent);font-weight:700}
+.ptable tr:last-child td{border-bottom:none}
+.pullquote{position:relative;font-family:'Fraunces',serif;font-size:clamp(20px,2.4vw,28px);line-height:1.35;
+  color:var(--accent-deep);padding:8px 0 0 42px;margin-top:10px;max-width:22ch}
+.pullquote::before{content:"\201C";position:absolute;left:-4px;top:-16px;font-size:74px;color:var(--accent);opacity:.28;font-family:'Fraunces',serif}
+.steps-next{display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.snext{display:flex;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 18px;box-shadow:var(--shadow)}
+.snext .sn{flex:none;width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent-deep);font-size:13px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.snext p{font-size:14px;line-height:1.5;color:var(--ink)}
+.snext p span{color:var(--muted)}
+</style>
+</head>
+<body>
+  <div id="progress"></div>
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> Quadro Marketing</div>
+    <div class="section-tag" id="sectionTag">Estratégia</div>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- 01 · CAPA -->
+    <section class="slide active" data-section="Abertura">
+      <div class="inner">
+        <div class="eyebrow">Plano Estratégico · Confidencial</div>
+        <h1>Estratégia de<br>Reserva Direta</h1>
+        <div class="cover-tag">Hotel Solar das Palmeiras · 84 quartos · Litoral Norte/SP</div>
+        <div class="cover-meta">
+          <div>Preparado por <b>Quadro Marketing</b></div>
+          <div>Para <b>Sr. Ricardo Almeida — Diretor-Geral</b></div>
+          <div>Horizonte <b>90 dias · Jul–Set 2026</b></div>
+        </div>
+        <div class="note">Documento de trabalho baseado nos dados operacionais fornecidos pelo hotel. Números apresentados são estimativas de baseline para calibração conjunta.</div>
+      </div>
+    </section>
+
+    <!-- 02 · DIAGNÓSTICO -->
+    <section class="slide" data-section="Diagnóstico">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">01</span><span class="cap">Onde o hotel está hoje</span></div>
+        <h2>Diagnóstico — baseline</h2>
+        <div class="kpis">
+          <div class="kpi"><div class="lbl">Ocupação média (12m)</div><div class="val warn">58%</div><div class="sub">Alta 81% · Baixa 39%</div></div>
+          <div class="kpi"><div class="lbl">Diária média (ADR)</div><div class="val">R$ 392</div><div class="sub">Estável há 3 temporadas</div></div>
+          <div class="kpi"><div class="lbl">Receita via OTA</div><div class="val warn">68%</div><div class="sub">Booking + Expedia</div></div>
+          <div class="kpi"><div class="lbl">Comissão OTA / mês</div><div class="val warn">~R$ 46 mil</div><div class="sub">Média 18% sobre receita OTA</div></div>
+        </div>
+        <div class="objective"><b>LEITURA:</b> operação saudável em diária e demanda, mas com a margem sequestrada pelas OTAs e forte sazonalidade — o hotel vende bem, mas não vende <b>direto</b>.</div>
+      </div>
+    </section>
+
+    <!-- 03 · GARGALOS -->
+    <section class="slide" data-section="Diagnóstico">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">02</span><span class="cap">O que está travando o canal direto</span></div>
+        <h2>Três gargalos</h2>
+        <div class="plist">
+          <div class="pitem"><div class="pn">1</div><div><h3>Dependência estrutural das OTAs</h3><p>68% da receita passa por comissão. Sem canal direto forte, o hotel "aluga" a própria demanda e perde poder de precificação.</p></div></div>
+          <div class="pitem"><div class="pn">2</div><div><h3>Site sem função de conversão</h3><p>Motor de reserva presente, porém sem funil: tráfego chega, não há captura, remarketing ou oferta direta. A reserva escapa para o Booking.</p></div></div>
+          <div class="pitem"><div class="pn">3</div><div><h3>Baixa temporada sem geração de demanda</h3><p>Ocupação despenca para 39% no inverno. Não há campanha ativa nem base própria para reativar hóspedes na baixa.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 · OBJETIVOS -->
+    <section class="slide" data-section="Metas 90 dias">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">03</span><span class="cap">Aonde chegamos em 90 dias</span></div>
+        <h2>Metas do ciclo</h2>
+        <div class="goals">
+          <div class="goal"><div class="from">68% OTA</div><div class="arrow-d">↓</div><div class="to">52%</div><div class="what">Dependência de OTA</div></div>
+          <div class="goal"><div class="from">32% direto</div><div class="arrow-d">↑</div><div class="to">48%</div><div class="what">Receita por canal direto</div></div>
+          <div class="goal"><div class="from">39% baixa</div><div class="arrow-d">↑</div><div class="to">50%</div><div class="what">Ocupação na baixa temporada</div></div>
+        </div>
+        <div class="objective"><b>META FINANCEIRA:</b> recuperar de <b>R$ 12 a 16 mil/mês</b> em comissão até o fim do ciclo, migrando receita OTA para o canal direto — mantendo a ocupação total.</div>
+      </div>
+    </section>
+
+    <!-- 05 · FUNIL -->
+    <section class="slide" data-section="Estratégia">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">04</span><span class="cap">O motor da estratégia</span></div>
+        <h2>Funil de reserva direta</h2>
+        <div class="funnel">
+          <div class="fstep"><div class="bar w1"><h3>1 · Atração</h3><p>Meta/Google Ads segmentados + conteúdo de destino</p></div><div class="meta">Tráfego qualificado <b>→ landing do hotel</b></div></div>
+          <div class="fstep"><div class="bar w2"><h3>2 · Captura</h3><p>Oferta direta, WhatsApp e captura de e-mail/telefone</p></div><div class="meta">Visitante <b>→ lead identificado</b></div></div>
+          <div class="fstep"><div class="bar w3"><h3>3 · Conversão</h3><p>Atendimento 24/7 + remarketing + tarifa direta melhor</p></div><div class="meta">Lead <b>→ reserva direta</b></div></div>
+          <div class="fstep"><div class="bar w4"><h3>4 · Retenção</h3><p>Base própria, pós-estadia e reativação na baixa</p></div><div class="meta">Hóspede <b>→ recompra sem OTA</b></div></div>
+        </div>
+        <div class="note">Cada etapa é rastreada — da campanha ao check-in — para saber exatamente o retorno de cada real investido.</div>
+      </div>
+    </section>
+
+    <!-- 06 · MIX DE CANAIS -->
+    <section class="slide" data-section="Mix de canais">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">05</span><span class="cap">Reequilíbrio da receita por canal</span></div>
+        <h2>Mix de canais — hoje vs. meta</h2>
+        <div class="mix">
+          <div>
+            <h3><span class="t">Hoje</span></h3>
+            <div class="mrow"><div class="top"><span>OTAs (Booking/Expedia)</span><b>68%</b></div><div class="mbar"><div class="mfill f-ota" style="width:68%"></div></div></div>
+            <div class="mrow"><div class="top"><span>Canal direto</span><b>24%</b></div><div class="mbar"><div class="mfill f-dir" style="width:24%"></div></div></div>
+            <div class="mrow"><div class="top"><span>Outros (telefone/balcão)</span><b>8%</b></div><div class="mbar"><div class="mfill f-oth" style="width:8%"></div></div></div>
+          </div>
+          <div>
+            <h3><span class="t">Meta · 90 dias</span></h3>
+            <div class="mrow"><div class="top"><span>OTAs (Booking/Expedia)</span><b>52%</b></div><div class="mbar"><div class="mfill f-ota" style="width:52%"></div></div></div>
+            <div class="mrow"><div class="top"><span>Canal direto</span><b>40%</b></div><div class="mbar"><div class="mfill f-dir" style="width:40%"></div></div></div>
+            <div class="mrow"><div class="top"><span>Outros (telefone/balcão)</span><b>8%</b></div><div class="mbar"><div class="mfill f-oth" style="width:8%"></div></div></div>
+          </div>
+        </div>
+        <div class="objective"><b>PRINCÍPIO:</b> não é abandonar a OTA — é deixar de depender dela. A OTA vira vitrine de captação; a reserva de repetição acontece no canal direto.</div>
+      </div>
+    </section>
+
+    <!-- 07 · ROADMAP -->
+    <section class="slide" data-section="Roadmap">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">06</span><span class="cap">Como executamos em 3 fases</span></div>
+        <h2>Roadmap de 90 dias</h2>
+        <div class="tempos">
+          <div class="tempo"><div class="ph">Fase 1 · Dias 1–30</div><div class="n">Fundação</div>
+            <ul><li>Auditoria de canais e paridade tarifária</li><li>Landing + motor de reserva com funil</li><li>Rastreamento ponta a ponta (campanha→check-in)</li><li>WhatsApp e captura de leads ativos</li></ul></div>
+          <div class="tempo"><div class="ph">Fase 2 · Dias 31–60</div><div class="n">Tração</div>
+            <ul><li>Campanhas Meta/Google de reserva direta</li><li>Remarketing de quem abandonou</li><li>Atendimento 24/7 e resposta rápida</li><li>Oferta de tarifa direta vantajosa</li></ul></div>
+          <div class="tempo"><div class="ph">Fase 3 · Dias 61–90</div><div class="n">Escala</div>
+            <ul><li>Base própria e e-mail/CRM ativos</li><li>Campanha de baixa temporada</li><li>Otimização por dado em tempo real</li><li>Revisão de metas e próximo ciclo</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 · PROJEÇÃO -->
+    <section class="slide" data-section="Projeção">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">07</span><span class="cap">Impacto financeiro estimado</span></div>
+        <h2>Projeção do ciclo</h2>
+        <table class="ptable">
+          <tr><th>Indicador</th><th>Hoje</th><th>Fim do ciclo (meta)</th></tr>
+          <tr><td class="m">Receita via OTA</td><td>~R$ 256 mil/mês</td><td class="m">~R$ 196 mil/mês</td></tr>
+          <tr><td class="m">Comissão paga à OTA</td><td>~R$ 46 mil/mês</td><td class="g">~R$ 32 mil/mês</td></tr>
+          <tr><td class="m">Receita canal direto</td><td>~R$ 90 mil/mês</td><td class="g">~R$ 150 mil/mês</td></tr>
+          <tr><td class="m">Comissão recuperada</td><td>—</td><td class="g">R$ 12–16 mil/mês</td></tr>
+          <tr><td class="m">Ocupação na baixa</td><td>39%</td><td class="g">~50%</td></tr>
+        </table>
+        <div class="note">Projeção conservadora, com ocupação total mantida. O ganho vem da troca de canal (menos comissão), não de encher mais quartos — esse é o bônus da Fase 3.</div>
+      </div>
+    </section>
+
+    <!-- 09 · PRÓXIMOS PASSOS -->
+    <section class="slide" data-section="Próximos passos">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">08</span><span class="cap">O que acontece a partir da aprovação</span></div>
+        <p class="pullquote">O motor de reserva já é bom. Falta o funil que faz ele girar.</p>
+        <div class="steps-next">
+          <div class="snext"><div class="sn">1</div><p>Validação do baseline <span>— confirmar números reais de ocupação, ADR e mix com a equipe do hotel (semana 1).</span></p></div>
+          <div class="snext"><div class="sn">2</div><p>Acesso e integrações <span>— PMS, motor de reserva, gerenciador de canais e contas de anúncio.</span></p></div>
+          <div class="snext"><div class="sn">3</div><p>Kickoff da Fase 1 <span>— fundação técnica e rastreamento no ar em até 30 dias.</span></p></div>
+        </div>
+        <div class="objective" style="margin-top:20px"><b>QUADRO MARKETING</b> · Plano Estratégico de Reserva Direta — Hotel Solar das Palmeiras · Jul 2026</div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <div class="dots" id="dots"></div>
+    <div class="arrows">
+      <button class="arrow" id="prev" aria-label="Anterior">‹</button>
+      <div class="counter" id="counter">01 / 09</div>
+      <button class="arrow" id="next" aria-label="Próximo">›</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const total = slides.length;
+    let cur = 0;
+    const dotsWrap = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const progress = document.getElementById('progress');
+    const sectionTag = document.getElementById('sectionTag');
+    slides.forEach((s,i)=>{
+      const b=document.createElement('button');
+      b.setAttribute('aria-label','Slide '+(i+1));
+      b.addEventListener('click',()=>go(i));
+      dotsWrap.appendChild(b);
+    });
+    const dots = Array.from(dotsWrap.children);
+    const pad = n => String(n).padStart(2,'0');
+    function go(i){
+      i = Math.max(0, Math.min(total-1, i));
+      slides[cur].classList.remove('active');
+      cur = i;
+      slides[cur].classList.add('active');
+      slides[cur].scrollTop = 0;
+      dots.forEach((d,k)=>d.classList.toggle('on', k===cur));
+      counter.textContent = pad(cur+1)+' / '+pad(total);
+      progress.style.width = ((cur)/(total-1)*100)+'%';
+      prevBtn.disabled = cur===0;
+      nextBtn.disabled = cur===total-1;
+      sectionTag.textContent = slides[cur].dataset.section || '';
+    }
+    prevBtn.addEventListener('click',()=>go(cur-1));
+    nextBtn.addEventListener('click',()=>go(cur+1));
+    document.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); go(cur+1); }
+      else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+      else if(e.key===' '){
+        const s=slides[cur];
+        if(Math.ceil(s.scrollTop+s.clientHeight) >= s.scrollHeight-2){ e.preventDefault(); go(cur+1); }
+      }
+      else if(e.key==='Home'){ go(0); }
+      else if(e.key==='End'){ go(total-1); }
+    });
+    let tsx=0, tsy=0;
+    document.addEventListener('touchstart',e=>{tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;},{passive:true});
+    document.addEventListener('touchend',e=>{
+      const dx=e.changedTouches[0].clientX-tsx;
+      const dy=e.changedTouches[0].clientY-tsy;
+      if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)){ dx<0?go(cur+1):go(cur-1); }
+    },{passive:true});
+    go(0);
+  </script>
+</body>
+</html>
