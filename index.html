@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central de Materiais — Quadro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-raised: #131313;
+    --ink: #f2ede2;
+    --ink-dim: #8c8880;
+    --amber: #f0a63a;
+    --amber-dim: #7a5a2a;
+    --line: #232320;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Host Grotesk', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6vh 6vw;
+  }
+
+  main {
+    width: 100%;
+    max-width: 720px;
+  }
+
+  .eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(2.1rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 0.75rem;
+  }
+
+  .sub {
+    color: var(--ink-dim);
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 3rem;
+    max-width: 46ch;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.5rem 0.25rem;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: padding-left 0.25s ease;
+  }
+
+  .item:hover { padding-left: 0.75rem; }
+
+  .item::before {
+    content: '';
+    position: absolute;
+    left: -6vw;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--amber);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.25s ease;
+  }
+
+  @media (min-width: 480px) {
+    .item::before { left: -1.25rem; }
+  }
+
+  .item:hover::before { transform: scaleY(1); }
+
+  .item-body { flex: 1; }
+
+  .item-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    transition: color 0.2s ease;
+  }
+
+  .item:hover .item-title { color: var(--amber); }
+
+  .item-desc {
+    font-size: 0.88rem;
+    color: var(--ink-dim);
+    font-weight: 400;
+  }
+
+  .arrow {
+    font-size: 1.3rem;
+    color: var(--amber-dim);
+    transition: transform 0.25s ease, color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .item:hover .arrow {
+    color: var(--amber);
+    transform: translateX(4px);
+  }
+
+  footer {
+    margin-top: 2.5rem;
+    font-size: 0.78rem;
+    color: var(--ink-dim);
+  }
+
+  @media (max-width: 480px) {
+    .item-desc { display: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Quadro Marketing · 7 documentos</div>
+  <h1>Central de Materiais</h1>
+  <p class="sub">Acesso rápido aos entregáveis desta entrega. Clique em qualquer item para abrir.</p>
+
+  <nav class="list">
+    <a class="item" href="campanha-trafego-pago.html">
+      <div class="item-body">
+        <div class="item-title">Campanha de Tráfego Pago</div>
+        <div class="item-desc">Estrutura das campanhas, criativos e distribuição de verba</div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="item" href="conteudo-organico.html">
+      <div class="item-body">
+        <div class="item-title">Conteúdo Orgânico</div>
+        <div class="item-desc">Linha editorial e calendário de publicações</div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="item" href="blueprint-gestao-trafego.html">
+      <div class="item-body">
+        <div class="item-title">Blueprint de Gestão de Tráfego</div>
+        <div class="item-desc">Processo e governança da operação</div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="item" href="scripts-sdr-closer.html">
+      <div class="item-body">
+        <div class="item-title">Scripts SDR/Closer</div>
+        <div class="item-desc">Roteiros de abordagem e fechamento comercial</div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="item" href="alteracoes-seo.html">
+      <div class="item-body">
+        <div class="item-title">Alterações SEO</div>
+        <div class="item-desc">Ajustes técnicos e de conteúdo aplicados</div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="item" href="maquina-reservas-mapa-mental.html">
+      <div class="item-body">
+        <div class="item-title">Máquina de Reservas — Mapa Mental</div>
+        <div class="item-desc">Visão geral do funil e dos pontos de conversão</div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="item" href="otimizacao-perfil-instagram.html">
+      <div class="item-body">
+        <div class="item-title">Otimização de Perfil Instagram</div>
+        <div class="item-desc">Bio, destaques e ajustes de posicionamento</div>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+  </nav>
+
+  <footer>Quadro Marketing</footer>
+</main>
+</body>
+</html>
