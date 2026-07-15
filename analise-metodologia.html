@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análise Competitiva — Quadro Marketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F1EA; --surface:#FFFFFF; --surface-2:#FBF9F4;
+  --ink:#23211C; --muted:#726D62; --faint:#9A9488;
+  --line:#E5E0D4;
+  --accent:#2E6C5F; --accent-deep:#1F4E44; --accent-soft:#E4EFEB;
+  --amber:#B27A26; --amber-soft:#F5EBD6;
+  --green:#3B8B57; --green-soft:#E2F0E5;
+  --shadow:0 1px 2px rgba(35,33,28,.04), 0 12px 34px -18px rgba(35,33,28,.28);
+  --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);overflow:hidden;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+
+h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(38px,6.4vw,74px);line-height:1.02;letter-spacing:-.01em}
+h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.01em}
+.lead{font-size:clamp(16px,1.5vw,19px);line-height:1.65;color:var(--muted);max-width:70ch}
+.eyebrow{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px}
+.step-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;margin-bottom:12px;display:block}
+
+.deck{position:relative;height:100vh;width:100vw}
+.slide{
+  position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:96px clamp(28px,7vw,120px) 108px;
+  opacity:0;visibility:hidden;transform:translateY(18px) scale(.99);
+  transition:opacity .5s ease, transform .5s ease, visibility .5s;overflow-y:auto;
+}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide::-webkit-scrollbar{width:8px}
+.slide::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.inner{width:100%;max-width:980px;margin:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:820px){ .two{grid-template-columns:1fr} }
+@media(max-width:560px){ .slide{padding:88px 22px 104px} }
+
+/* progress */
+#progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-deep));z-index:60;transition:width .45s cubic-bezier(.4,0,.2,1)}
+/* topbar */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:22px 34px;pointer-events:none}
+.brand{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.section-tag{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+/* nav */
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 34px;background:linear-gradient(to top,var(--bg) 60%,transparent)}
+.dots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;max-width:60vw}
+.dots button{width:8px;height:8px;border-radius:50%;border:none;background:var(--line);cursor:pointer;padding:0;transition:all .3s}
+.dots button.on{background:var(--accent);transform:scale(1.35)}
+.arrows{display:flex;align-items:center;gap:10px}
+.counter{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:52px;text-align:center;font-weight:500}
+.arrow{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--ink);transition:all .2s;box-shadow:var(--shadow)}
+.arrow:hover{border-color:var(--accent);color:var(--accent)}
+.arrow:disabled{opacity:.35;cursor:not-allowed}
+
+/* cover */
+.cover-tag{display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent-deep);padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;margin-top:26px}
+.cover-hint{margin-top:44px;font-size:13px;color:var(--faint);display:flex;align-items:center;gap:12px}
+.keycap{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:12px;font-weight:600;color:var(--muted);box-shadow:0 1px 0 var(--line)}
+
+/* context */
+.context{display:flex;gap:12px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:24px;font-size:14.5px;color:var(--muted);line-height:1.55}
+.context b{color:var(--ink);font-weight:600}
+.context .ico{flex:none;width:22px;height:22px;border-radius:6px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:13px;font-weight:700;margin-top:1px}
+.context.warn{background:var(--amber-soft);border-color:#E9D9B6}
+.context.warn .ico{background:#EBD9B4;color:var(--amber)}
+.context.warn b{color:var(--amber)}
+
+/* script card */
+.script{position:relative;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;padding:18px 22px 18px 24px;margin:14px 0;box-shadow:var(--shadow);font-size:15px;line-height:1.62;color:var(--ink)}
+.script p+p{margin-top:10px}
+.script.amber{border-left-color:var(--amber)}
+.script b{color:var(--accent-deep)}
+.script.amber b{color:var(--amber)}
+
+/* note */
+.note{display:flex;gap:9px;font-size:13.5px;font-style:italic;color:var(--faint);line-height:1.5;margin:12px 2px 4px;padding-left:2px}
+.note::before{content:"";flex:none;width:3px;border-radius:3px;background:var(--line)}
+
+/* pullquote */
+.pullquote{position:relative;font-family:'Fraunces',serif;font-size:clamp(22px,3vw,34px);line-height:1.34;color:var(--accent-deep);padding:8px 0 0 44px;margin-top:6px}
+.pullquote::before{content:"\201C";position:absolute;left:-4px;top:-18px;font-size:86px;color:var(--accent);opacity:.28;font-family:'Fraunces',serif}
+
+/* tempos */
+.tempos{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0 4px}
+.tempo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow)}
+.tempo .n{font-family:'Fraunces',serif;font-size:30px;color:var(--accent);line-height:1;margin-bottom:12px}
+.tempo h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.tempo p{font-size:13px;color:var(--muted);line-height:1.5}
+@media(max-width:820px){ .tempos{grid-template-columns:1fr 1fr} }
+@media(max-width:560px){ .tempos{grid-template-columns:1fr} }
+
+/* ol-clean */
+.ol-clean{margin:6px 0 0 2px;padding:0;list-style:none;counter-reset:o}
+.ol-clean li{display:flex;gap:11px;font-size:14.5px;line-height:1.5;color:var(--muted);margin-bottom:10px}
+.ol-clean li::before{counter-increment:o;content:counter(o);flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent-deep);font-size:11.5px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.ol-clean li b{color:var(--ink);font-weight:600}
+
+/* obs cards */
+.obs{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.obs-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+.obs-card .oi{flex:none;width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:'Fraunces',serif;font-size:17px;font-weight:600}
+.obs-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
+.obs-card p{font-size:13.5px;line-height:1.55;color:var(--muted)}
+.obs-card.warn .oi{background:var(--amber-soft);color:var(--amber)}
+.obs-card.win .oi{background:var(--green-soft);color:var(--green)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:22px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow)}
+.stat .num{font-family:'Fraunces',serif;font-size:clamp(28px,4vw,40px);color:var(--accent-deep);line-height:1}
+.stat .lbl{font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.42}
+.stat.amber .num{color:var(--amber)}
+
+/* flow pipeline */
+.flow{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin-top:22px}
+.fstep{flex:1 1 132px;min-width:132px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px;box-shadow:var(--shadow)}
+.fstep .fn{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.fstep h4{font-size:13.5px;font-weight:600;margin-top:6px;line-height:1.28}
+.fstep p{font-size:11.5px;color:var(--muted);margin-top:5px;line-height:1.4}
+.fstep .ftag{display:inline-block;margin-top:9px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:6px}
+.fstep .ftag.new{background:var(--amber-soft);color:var(--amber)}
+.fstep .ftag.keep{background:#EDEAE1;color:var(--muted)}
+.fstep .ftag.sharp{background:var(--accent-soft);color:var(--accent-deep)}
+
+/* matrix */
+.matrix-wrap{overflow-x:auto;margin-top:14px;border-radius:14px;box-shadow:var(--shadow)}
+.matrix{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:560px}
+.matrix th,.matrix td{padding:9px 8px;text-align:center;border-bottom:1px solid var(--line)}
+.matrix thead th{background:var(--surface-2);font-size:11px;font-weight:700;color:var(--ink);letter-spacing:.02em}
+.matrix thead th.qh{background:var(--accent-soft);color:var(--accent-deep)}
+.matrix tbody th{text-align:left;font-weight:600;color:var(--ink);font-size:12px;padding-left:14px}
+.matrix tr:last-child td,.matrix tr:last-child th{border-bottom:none}
+.matrix td.q{background:var(--accent-soft)}
+.mk{font-weight:700;font-size:14px}
+.mk.y{color:var(--green)}
+.mk.p{color:var(--amber)}
+.mk.n{color:var(--faint)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend b{font-size:14px}
+
+/* compare two-col */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+@media(max-width:820px){ .cmp{grid-template-columns:1fr} }
+.col{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow)}
+.col.win{border-top:3px solid var(--accent)}
+.col.now{border-top:3px solid var(--line)}
+.ch{display:inline-flex;align-items:center;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:5px 12px;border-radius:999px;margin-bottom:14px}
+.now .ch{background:#EDEAE1;color:var(--muted)}
+.win .ch{background:var(--accent-soft);color:var(--accent-deep)}
+.col ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.col li{font-size:13.5px;line-height:1.5;color:var(--muted);display:flex;gap:10px}
+.col li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--line);margin-top:7px}
+.win li::before{background:var(--accent)}
+.col li b{color:var(--ink);font-weight:600}
+</style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> Quadro Marketing</div>
+    <div class="section-tag" id="sectionTag">Abertura</div>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- 1. CAPA -->
+    <section class="slide active" data-section="Abertura">
+      <div class="inner">
+        <div class="eyebrow">Análise de Mercado · Marketing Hoteleiro · Jul 2026</div>
+        <h1>O que os líderes<br>do nicho fazem —<br>e onde a Quadro ganha</h1>
+        <p class="lead" style="margin-top:22px">A metodologia prática dos quatro maiores players do nicho, comparada ao nosso método MAESTRO + Quadro Chat. Com o mapa do que copiar, do que já é diferencial nosso e do que muda no ciclo mensal.</p>
+        <div class="cover-tag">Reprotel · HotelariaWeb · Tribuzana · Réserve &nbsp;×&nbsp; Quadro</div>
+        <div class="cover-hint">Navegue com <span class="keycap">←</span> <span class="keycap">→</span> · pontos e swipe também funcionam</div>
+      </div>
+    </section>
+
+    <!-- 2. ESCOPO -->
+    <section class="slide" data-section="Escopo">
+      <div class="inner">
+        <div class="eyebrow">O que esta análise responde</div>
+        <h2>Seis perguntas, uma decisão</h2>
+        <div class="context" style="margin-top:22px"><span class="ico">i</span><div>Base: conteúdo integral dos sites dos 4 concorrentes + nossa metodologia e onboarding. Sem achismo — cada ponto está ancorado no que eles publicam e no que já fazemos.</div></div>
+        <ol class="ol-clean">
+          <li>A <b>metodologia prática</b> (passo a passo) de cada concorrente.</li>
+          <li>Onde nosso <b>fluxo precisa melhorar</b> — eles têm mais estrada no nicho.</li>
+          <li>Quais <b>diferenciais reais</b> a Quadro traz e como explorá-los.</li>
+          <li>Quais <b>iscas gratuitas</b> copiar — ou fazer melhor.</li>
+          <li>Quais <b>ferramentas essenciais</b> nos faltam e o que vale construir.</li>
+          <li>O que muda no <b>ciclo mensal</b> para bater o que funciona no nicho.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 3. DENOMINADOR COMUM -->
+    <section class="slide" data-section="O consenso do nicho">
+      <div class="inner">
+        <div class="eyebrow">O consenso do nicho</div>
+        <h2>Os quatro seguem o mesmo esqueleto</h2>
+        <div class="context" style="margin-top:20px"><span class="ico">i</span><div><b>EFEITO BILLBOARD:</b> a OTA torna o hotel conhecido; o trabalho é recapturar esse hóspede no canal direto antes que ele feche no Booking. Todo o método gira em torno disso.</div></div>
+        <div class="flow">
+          <div class="fstep"><div class="fn">01</div><h4>Diagnóstico</h4><p>Raio-X: dependência de OTA, site, tarifas, atendimento.</p></div>
+          <div class="fstep"><div class="fn">02</div><h4>Site + Motor</h4><p>Motor de reservas integrado ao PMS — o clique vira reserva.</p></div>
+          <div class="fstep"><div class="fn">03</div><h4>Google Hotel Ads</h4><p>O canal de maior ROI. Joia técnica de todos eles.</p></div>
+          <div class="fstep"><div class="fn">04</div><h4>Meta + Search</h4><p>Desejo + captura de quem já busca o nome do hotel.</p></div>
+          <div class="fstep"><div class="fn">05</div><h4>SEO + Conteúdo</h4><p>Demanda orgânica de destino, custo marginal zero.</p></div>
+          <div class="fstep"><div class="fn">06</div><h4>CRM + Relatório</h4><p>Rastreio de origem e custo por reserva por canal.</p></div>
+        </div>
+        <div class="stats">
+          <div class="stat amber"><div class="num">15–25%</div><div class="lbl">comissão média cobrada pelas OTAs por reserva</div></div>
+          <div class="stat"><div class="num">5–8%</div><div class="lbl">custo do Google Hotel Ads bem gerido</div></div>
+          <div class="stat"><div class="num">+50%</div><div class="lbl">dos hóspedes visitam o site do hotel antes de reservar</div></div>
+          <div class="stat amber"><div class="num">18%</div><div class="lbl">nova comissão do Booking a partir de jul/2026</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. REPROTEL -->
+    <section class="slide" data-section="Concorrente · Reprotel">
+      <div class="inner">
+        <div class="eyebrow">Concorrente 01 · a referência que admiramos</div>
+        <h2>Reprotel — autoridade + Google Hotel Ads</h2>
+        <div class="two" style="margin-top:24px">
+          <div>
+            <span class="step-label">Método · 5 pilares</span>
+            <ol class="ol-clean">
+              <li>Consultoria gratuita = diagnóstico + porta de entrada.</li>
+              <li>Google Hotel Ads + Performance Max (certificados Google).</li>
+              <li>Meta Ads com remarketing.</li>
+              <li>Site vendedor com gatilhos mentais + motor de reservas.</li>
+              <li>SEO, blog, e-mail e Web Analytics (GA4).</li>
+            </ol>
+          </div>
+          <div>
+            <span class="step-label" style="color:var(--accent)">Prova social</span>
+            <div class="stats" style="margin-top:0;grid-template-columns:1fr 1fr">
+              <div class="stat"><div class="num">150</div><div class="lbl">clientes ativos</div></div>
+              <div class="stat"><div class="num">R$5M</div><div class="lbl">em mídia gerida/ano</div></div>
+              <div class="stat"><div class="num">22×</div><div class="lbl">ROI em case real</div></div>
+              <div class="stat"><div class="num">60–75%</div><div class="lbl">de reservas diretas</div></div>
+            </div>
+            <div class="script"><p><b>O que copiar:</b> tratar o Google Hotel Ads como joia técnica e usar certificação/autoridade como prova. Consultoria gratuita como porta de entrada.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. HOTELARIAWEB -->
+    <section class="slide" data-section="Concorrente · HotelariaWeb">
+      <div class="inner">
+        <div class="eyebrow">Concorrente 02 · o espelho da nossa lógica de produto</div>
+        <h2>HotelariaWeb — plataforma própria all-in-one</h2>
+        <div class="two" style="margin-top:24px">
+          <div>
+            <span class="step-label">Método</span>
+            <ol class="ol-clean">
+              <li>Planejamento: SWOT, persona, voz da marca, funil.</li>
+              <li>Site na plataforma própria (popup, cronômetro, WhatsApp Capture).</li>
+              <li>Google Ads/Hotel Ads + ranqueamento no Google Meu Negócio.</li>
+              <li>Social selling + Meta Ads + blog/SEO.</li>
+              <li>NPS no check-out → convite de avaliação só para promotores.</li>
+            </ol>
+          </div>
+          <div>
+            <span class="step-label" style="color:var(--accent)">Destaque</span>
+            <div class="script"><p>Plataforma própria com <b>lead score por IA</b>, e-mail integrado, biblioteca de mídia com IA e <b>cálculo automático de CAC/ROI</b> via integração com o PMS.</p></div>
+            <div class="script"><p><b>O que copiar:</b> é a mesma lógica de produto que já temos no Quadro Chat. Valida que plataforma própria é diferencial — e o funil <b>NPS → avaliação no Google</b> como feature.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. TRIBUZANA -->
+    <section class="slide" data-section="Concorrente · Tribuzana">
+      <div class="inner">
+        <div class="eyebrow">Concorrente 03 · produto de entrada + cadência</div>
+        <h2>Tribuzana — Inbound sobre RD Station</h2>
+        <div class="two" style="margin-top:24px">
+          <div>
+            <span class="step-label">Método · inbound</span>
+            <ol class="ol-clean">
+              <li>Planejamento: personas + jornada de compra.</li>
+              <li>Atração: SEO, conteúdo e ads.</li>
+              <li>Conversão: landing pages, pop-ups, botão de WhatsApp.</li>
+              <li>Nutrição: automação e segmentação (RD Station).</li>
+              <li>Análise de resultados.</li>
+            </ol>
+          </div>
+          <div>
+            <span class="step-label" style="color:var(--accent)">Destaque</span>
+            <div class="script amber"><p><b>Reserva Relâmpago:</b> widget de popup/barra com cronômetro, <b>R$249/mês, sem fidelidade</b> — um produto de entrada de baixo ticket que alimenta o funil.</p></div>
+            <div class="script amber"><p><b>Cadência "planejar, divulgar, vender":</b> 60 dias de planejamento e divulgação iniciando 45 dias antes da data.</p></div>
+            <div class="note">O que copiar: produto de entrada de baixo ticket + cadência sazonal antecipada.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. RÉSERVE -->
+    <section class="slide" data-section="Concorrente · Réserve">
+      <div class="inner">
+        <div class="eyebrow">Concorrente 04 · o mais moderno</div>
+        <h2>Réserve — Ecossistema de Aquisição</h2>
+        <div class="two" style="margin-top:24px">
+          <div>
+            <span class="step-label">Método · ciclo de 5 pilares</span>
+            <ol class="ol-clean">
+              <li>Diagnóstico e estratégia.</li>
+              <li>Geração de demanda (Hotel Ads + Meta + SEO).</li>
+              <li>Conversão no canal direto (site rápido + motor no PMS).</li>
+              <li>Atendimento que fecha (WhatsApp + IA, resposta &lt; 5 min).</li>
+              <li>Dados e otimização (rastreio + Looker Studio).</li>
+            </ol>
+          </div>
+          <div>
+            <span class="step-label" style="color:var(--accent)">Destaque</span>
+            <div class="script"><p><b>Rampa clara de 90 dias</b>, audiovisual profissional (foto, vídeo e tour 360°) e conteúdo cirúrgico: transparência de preço e <b>news-jacking</b> da comissão de 18% do Booking.</p></div>
+            <div class="script"><p><b>O que copiar:</b> rampa de 90 dias, atendimento medido em minutos e conteúdo que ataca a dor com número.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. MATRIZ -->
+    <section class="slide" data-section="Mapa de capacidades">
+      <div class="inner">
+        <div class="eyebrow">Onde cada um está</div>
+        <h2>Mapa de capacidades</h2>
+        <div class="matrix-wrap">
+          <table class="matrix">
+            <thead>
+              <tr>
+                <th style="text-align:left;padding-left:14px">Capacidade</th>
+                <th>Reprotel</th><th>Hotelaria&shy;Web</th><th>Tribuzana</th><th>Réserve</th><th class="qh">Quadro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th>Google Hotel Ads (maior ROI)</th><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td class="q"><span class="mk p">◑</span></td></tr>
+              <tr><th>Motor de reservas + PMS</th><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td class="q"><span class="mk y">✓</span></td></tr>
+              <tr><th>CRM com rastreio de origem</th><td><span class="mk p">◑</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td class="q"><span class="mk y">✓</span></td></tr>
+              <tr><th>Métricas duras (custo/reserva, direto×OTA)</th><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td class="q"><span class="mk p">◑</span></td></tr>
+              <tr><th>Atendimento IA 24/7 (WhatsApp)</th><td><span class="mk n">—</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td class="q"><span class="mk y">✓</span></td></tr>
+              <tr><th>Plataforma / produto próprio</th><td><span class="mk n">—</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk n">—</span></td><td class="q"><span class="mk y">✓</span></td></tr>
+              <tr><th>Diagnóstico gratuito (porta de entrada)</th><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td><span class="mk y">✓</span></td><td class="q"><span class="mk n">—</span></td></tr>
+              <tr><th>Consultoria de vendas + scripts SDR</th><td><span class="mk n">—</span></td><td><span class="mk n">—</span></td><td><span class="mk p">◑</span></td><td><span class="mk p">◑</span></td><td class="q"><span class="mk y">✓</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="legend">
+          <span><b class="mk y">✓</b> faz</span>
+          <span><b class="mk p">◑</b> parcial / implícito</span>
+          <span><b class="mk n">—</b> não faz</span>
+        </div>
+        <div class="script" style="margin-top:16px"><p>Estamos <b>fortes em produto, relacionamento e venda</b> — e atrás na <b>aquisição técnica, nas métricas e na porta de entrada</b>. É exatamente aí que devemos atacar.</p></div>
+      </div>
+    </section>
+
+    <!-- 9. GAPS -->
+    <section class="slide" data-section="Onde melhorar">
+      <div class="inner">
+        <div class="eyebrow">O que precisamos afiar</div>
+        <h2>Seis lacunas no nosso fluxo</h2>
+        <div class="two" style="margin-top:22px">
+          <div class="obs">
+            <div class="obs-card warn"><div class="oi">A</div><div><h3>Google Hotel Ads não é nomeado</h3><p>Falamos "Google e Meta" genérico. Eles tratam Hotel Ads como o canal de maior ROI, integrado ao PMS.</p></div></div>
+            <div class="obs-card warn"><div class="oi">B</div><div><h3>Falta Search no nome do hotel</h3><p>Capturar quem viu o hotel na OTA e depois pesquisa o nome no Google. Barato e alto ROI.</p></div></div>
+            <div class="obs-card warn"><div class="oi">C</div><div><h3>Métricas "soft"</h3><p>Falta custo por reserva por canal e % direto vs. OTA na frente do relatório — a dor que o cliente cita.</p></div></div>
+          </div>
+          <div class="obs">
+            <div class="obs-card warn"><div class="oi">D</div><div><h3>Ciclo mensal reativo</h3><p>Sem camada de calendário sazonal antecipado (o 60/45 dias da Tribuzana).</p></div></div>
+            <div class="obs-card warn"><div class="oi">E</div><div><h3>Audiovisual só em Caldas Novas</h3><p>Atendemos o Brasil, mas só captamos imagem localmente. Imagem é o 1º critério de decisão.</p></div></div>
+            <div class="obs-card warn"><div class="oi">F</div><div><h3>Sem diagnóstico gratuito</h3><p>Não temos porta de entrada estruturada — e nossa meta nº 1 é agendar reuniões.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. DIFERENCIAIS -->
+    <section class="slide" data-section="Nossos diferenciais">
+      <div class="inner">
+        <div class="eyebrow">O que já é nosso</div>
+        <h2>Três diferenciais reais da Quadro</h2>
+        <div class="obs" style="margin-top:22px">
+          <div class="obs-card win"><div class="oi">1</div><div><h3>Quadro Chat — o motor que os outros alugam</h3><p>Omnichannel + CRM + chatbot IA + relacionamento + automação, tudo próprio. A Réserve terceiriza, a Tribuzana aluga (RD/Asksuite), a Reprotel nem tem. Só a HotelariaWeb chega perto.</p></div></div>
+          <div class="obs-card win"><div class="oi">2</div><div><h3>Consultoria de vendas + scripts para o SDR/Closer do hotel</h3><p>Entramos na operação comercial do hotel, não só no marketing. Ninguém entrega script de venda para a equipe do próprio hotel. Encaixa no nosso ICP: dono ativo, hotel de 40–200 quartos.</p></div></div>
+          <div class="obs-card win"><div class="oi">3</div><div><h3>Dossiê vivo — Retrato do Mês</h3><p>Diagnóstico contínuo, não único como o deles. Vira diferencial de verdade quando vem com métrica dura.</p></div></div>
+        </div>
+        <p class="pullquote" style="margin-top:28px">Temos o motor que os concorrentes alugam.</p>
+      </div>
+    </section>
+
+    <!-- 11. ISCAS -->
+    <section class="slide" data-section="Iscas gratuitas">
+      <div class="inner">
+        <div class="eyebrow">Topo de funil</div>
+        <h2>Iscas gratuitas: copiar e superar</h2>
+        <div class="cmp">
+          <div class="col now">
+            <span class="ch">O mercado usa</span>
+            <ul>
+              <li>Calendário Hoteleiro (já virou plataforma na Tribuzana)</li>
+              <li>Ebooks: Guia Definitivo, Google Hotel Ads, PMax</li>
+              <li>Quiz "seu marketing é eficiente?"</li>
+              <li>365 ideias de posts</li>
+              <li>Calculadora de investimento em marketing</li>
+            </ul>
+          </div>
+          <div class="col win">
+            <span class="ch">Nossa jogada</span>
+            <ul>
+              <li><b>Calculadora de Comissões</b> — quanto o Booking tira de você por ano. Ataca a dor emocional do dono.</li>
+              <li><b>Diagnóstico / Raio-X gratuito</b> em relatório personalizado → gera a reunião (meta nº 1).</li>
+              <li><b>Quiz "Seu hotel depende demais das OTAs?"</b> → score → diagnóstico.</li>
+              <li>Calendário Hoteleiro só se amarrado às campanhas do Quadro Chat.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="note">A calculadora de <b>perda</b> é mais forte que a de investimento: mexe com "ver o lucro escorrer para as OTAs".</div>
+      </div>
+    </section>
+
+    <!-- 12. FERRAMENTAS -->
+    <section class="slide" data-section="Ferramentas & tool própria">
+      <div class="inner">
+        <div class="eyebrow">Tecnologia</div>
+        <h2>O que falta — e o que vale construir</h2>
+        <div class="context warn" style="margin-top:20px"><span class="ico">!</span><div><b>NÃO ESTAMOS ATENTOS A:</b> Google Hotel Ads / PMax (competência, não ferramenta), Looker Studio como dashboard do cliente, e rastreio de origem em nível de UTM no botão de WhatsApp e no site.</div></div>
+        <div class="script"><p><b>NÃO construa outra plataforma.</b> Com 15 clientes seria erro — e o Quadro Chat já é mais do que a maioria tem. As três jogadas de maior alavancagem e menor custo:</p></div>
+        <div class="tempos">
+          <div class="tempo"><div class="n">1</div><h3>Afinar o Quadro Chat</h3><p>Custo por reserva por canal + reservas diretas vs. OTA, prontos para o cliente ver.</p></div>
+          <div class="tempo"><div class="n">2</div><h3>Widget de conversão</h3><p>Estilo Reserva Relâmpago (popup/cronômetro) como produto de entrada de baixo ticket.</p></div>
+          <div class="tempo"><div class="n">3</div><h3>Calculadora + Looker</h3><p>Calculadora de comissões como isca e Looker Studio consolidando Google + Meta + motor.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13. CICLO MENSAL -->
+    <section class="slide" data-section="Ciclo mensal ideal">
+      <div class="inner">
+        <div class="eyebrow">O destino</div>
+        <h2>O ciclo mensal ideal da Quadro</h2>
+        <div class="flow">
+          <div class="fstep"><div class="fn">01</div><h4>Retrato do Mês</h4><p>Dossiê vivo, nosso diagnóstico contínuo.</p><span class="ftag keep">Mantido</span></div>
+          <div class="fstep"><div class="fn">02</div><h4>Métricas na abertura</h4><p>Custo/reserva por canal · direto vs. OTA.</p><span class="ftag sharp">Afiar</span></div>
+          <div class="fstep"><div class="fn">03</div><h4>Calendário sazonal</h4><p>Planejar 60 dias / divulgar 45 antes da data.</p><span class="ftag new">Novo</span></div>
+          <div class="fstep"><div class="fn">04</div><h4>Blueprint de tráfego</h4><p>Hotel Ads + Search no nome + remarketing.</p><span class="ftag sharp">Afiar</span></div>
+          <div class="fstep"><div class="fn">05</div><h4>Conteúdo + Scripts</h4><p>Copy, conteúdo e scripts via Quadro Chat.</p><span class="ftag keep">Mantido</span></div>
+          <div class="fstep"><div class="fn">06</div><h4>Atendimento medido</h4><p>Tempo de resposta &lt; 5 min como KPI.</p><span class="ftag new">Novo</span></div>
+          <div class="fstep"><div class="fn">07</div><h4>Escuta + Diagnóstico</h4><p>Fechamento do ciclo e aquisição de novos hotéis.</p><span class="ftag sharp">Afiar</span></div>
+        </div>
+        <div class="note">A espinha atual continua. O que muda: a camada de <b>antecipação sazonal</b>, as <b>métricas na abertura</b> e o <b>atendimento medido</b> — tudo sobre o que o Quadro Chat já viabiliza.</div>
+      </div>
+    </section>
+
+    <!-- 14. PRIORIDADES -->
+    <section class="slide" data-section="Prioridades">
+      <div class="inner">
+        <div class="eyebrow">Por onde começar</div>
+        <h2>As prioridades — ligadas à meta</h2>
+        <div class="stats" style="grid-template-columns:1fr 1fr 1fr;margin-top:20px">
+          <div class="stat amber"><div class="num">0</div><div class="lbl">fechamentos com tráfego generalista (87 leads, 41 desqualificados)</div></div>
+          <div class="stat"><div class="num">20</div><div class="lbl">reuniões agendadas — nossa meta nº 1</div></div>
+          <div class="stat"><div class="num">+R$100k</div><div class="lbl">de faturamento até o próximo ano</div></div>
+        </div>
+        <ol class="ol-clean" style="margin-top:24px">
+          <li><b>Montar o Diagnóstico Gratuito</b> como porta de entrada — é o que resolve a meta de reuniões.</li>
+          <li><b>Nomear e dominar Google Hotel Ads</b> + Search no nome do hotel.</li>
+          <li><b>Afinar o relatório:</b> custo por reserva por canal + direto vs. OTA na abertura.</li>
+          <li><b>Lançar a Calculadora de Comissões</b> + widget de conversão como produto de entrada.</li>
+          <li><b>Adotar a cadência sazonal 60/45</b> por cima do ciclo mensal.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 15. FECHAMENTO -->
+    <section class="slide" data-section="Fechamento">
+      <div class="inner">
+        <div class="eyebrow">Em uma frase</div>
+        <p class="pullquote">A Quadro já tem o motor que os concorrentes alugam. Falta afiar o discurso técnico, as métricas e a porta de entrada.</p>
+        <p class="lead" style="margin-top:30px">Não precisamos reinventar o método do nicho — ele é conhecido e nós já cobrimos a parte mais difícil (produto e relacionamento). O jogo é aquisição: diagnóstico gratuito, Hotel Ads e métricas que provam reserva real.</p>
+        <div class="cover-tag">Vamos executar?</div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <div class="dots" id="dots"></div>
+    <div class="arrows">
+      <button class="arrow" id="prev" aria-label="Anterior">‹</button>
+      <div class="counter" id="counter">01 / 01</div>
+      <button class="arrow" id="next" aria-label="Próximo">›</button>
+    </div>
+  </div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let cur = 0;
+  const dotsWrap = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const progress = document.getElementById('progress');
+  const sectionTag = document.getElementById('sectionTag');
+
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label','Slide '+(i+1));
+    b.addEventListener('click',()=>go(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+  const pad = n => String(n).padStart(2,'0');
+
+  function go(i){
+    i = Math.max(0, Math.min(total-1, i));
+    slides[cur].classList.remove('active');
+    cur = i;
+    slides[cur].classList.add('active');
+    slides[cur].scrollTop = 0;
+    dots.forEach((d,k)=>d.classList.toggle('on', k===cur));
+    counter.textContent = pad(cur+1)+' / '+pad(total);
+    progress.style.width = ((cur)/(total-1)*100)+'%';
+    prevBtn.disabled = cur===0;
+    nextBtn.disabled = cur===total-1;
+    sectionTag.textContent = slides[cur].dataset.section || '';
+  }
+
+  prevBtn.addEventListener('click',()=>go(cur-1));
+  nextBtn.addEventListener('click',()=>go(cur+1));
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); go(cur+1); }
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+    else if(e.key===' '){
+      const s=slides[cur];
+      if(Math.ceil(s.scrollTop+s.clientHeight) >= s.scrollHeight-2){ e.preventDefault(); go(cur+1); }
+    }
+    else if(e.key==='Home'){ go(0); }
+    else if(e.key==='End'){ go(total-1); }
+  });
+
+  let tsx=0, tsy=0;
+  document.addEventListener('touchstart',e=>{tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tsx;
+    const dy=e.changedTouches[0].clientY-tsy;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)){ dx<0?go(cur+1):go(cur-1); }
+  },{passive:true});
+
+  go(0);
+</script>
+</body>
+</html>
