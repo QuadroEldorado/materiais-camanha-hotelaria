@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadro Marketing · Guia de Produção — Agosto 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F1EA; --surface:#FFFFFF; --surface-2:#FBF9F4;
+  --ink:#23211C; --muted:#726D62; --faint:#9A9488;
+  --line:#E5E0D4;
+  --accent:#2E6C5F; --accent-deep:#1F4E44; --accent-soft:#E4EFEB;
+  --amber:#B27A26; --amber-soft:#F5EBD6;
+  --green:#3B8B57; --green-soft:#E2F0E5;
+  --shadow:0 1px 2px rgba(35,33,28,.04), 0 12px 34px -18px rgba(35,33,28,.28);
+  --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);overflow:hidden;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+
+h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(38px,6.4vw,74px);line-height:1.02;letter-spacing:-.01em}
+h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.01em}
+.lead{font-size:clamp(16px,1.5vw,19px);line-height:1.65;color:var(--muted);max-width:70ch}
+.eyebrow{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+.deck{position:relative;height:100vh;width:100vw}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:92px clamp(28px,7vw,120px) 104px;
+  opacity:0;visibility:hidden;
+  transform:translateY(18px) scale(.99);
+  transition:opacity .5s ease, transform .5s ease, visibility .5s;
+  overflow-y:auto;
+}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide::-webkit-scrollbar{width:8px}
+.slide::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.inner{width:100%;max-width:980px;margin:auto}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:820px){ .two{grid-template-columns:1fr} }
+@media(max-width:560px){ .slide{padding:88px 22px 104px} }
+
+/* progresso */
+#progress{position:fixed;top:0;left:0;height:3px;width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-deep));z-index:60;transition:width .45s cubic-bezier(.4,0,.2,1)}
+/* topo */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:22px 34px;pointer-events:none}
+.brand{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.section-tag{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+/* rodapé */
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 34px;background:linear-gradient(to top,var(--bg) 60%,transparent)}
+.dots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;max-width:60vw}
+.dots button{width:8px;height:8px;border-radius:50%;border:none;background:var(--line);cursor:pointer;padding:0;transition:all .3s}
+.dots button.on{background:var(--accent);transform:scale(1.35)}
+.arrows{display:flex;align-items:center;gap:10px}
+.counter{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:60px;text-align:center;font-weight:500}
+.arrow{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--ink);transition:all .2s;box-shadow:var(--shadow)}
+.arrow:hover{border-color:var(--accent);color:var(--accent)}
+.arrow:disabled{opacity:.35;cursor:not-allowed}
+
+/* capa */
+.cover-tag{display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent-deep);padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;margin-top:26px}
+.cover-hint{margin-top:44px;font-size:13px;color:var(--faint);display:flex;align-items:center;gap:12px}
+.keycap{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:12px;font-weight:600;color:var(--muted);box-shadow:0 1px 0 var(--line)}
+
+/* contexto */
+.context{display:flex;gap:12px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:22px;font-size:14.5px;color:var(--muted);line-height:1.55}
+.context b{color:var(--ink);font-weight:600}
+.context .ico{flex:none;width:22px;height:22px;border-radius:6px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:13px;font-weight:700;margin-top:1px}
+
+/* script */
+.script{position:relative;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;padding:18px 22px 18px 24px;margin:14px 0;box-shadow:var(--shadow);font-size:15.5px;line-height:1.62;color:var(--ink)}
+.script p+p{margin-top:10px}
+.script.amber{border-left-color:var(--amber)}
+
+/* badges */
+.msg-head{display:flex;align-items:center;gap:10px;margin:24px 0 4px;flex-wrap:wrap}
+.msg-head:first-child{margin-top:0}
+.badge{font-size:11.5px;letter-spacing:.06em;font-weight:700;text-transform:uppercase;padding:5px 11px;border-radius:8px;background:var(--accent-soft);color:var(--accent-deep)}
+.badge.amber{background:var(--amber-soft);color:var(--amber)}
+.badge.muted{background:#EDEAE1;color:var(--muted)}
+
+/* nota */
+.note{display:flex;gap:9px;font-size:13.5px;font-style:italic;color:var(--faint);line-height:1.5;margin:8px 2px 4px;padding-left:2px}
+.note::before{content:"";flex:none;width:3px;border-radius:3px;background:var(--line)}
+
+/* chips semáforo */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.chip{display:inline-flex;gap:8px;align-items:center;font-size:13px}
+.chip .k{flex:none;font-weight:700;padding:3px 11px;border-radius:7px;font-size:11.5px;letter-spacing:.03em}
+.chip.green .k{background:var(--green-soft);color:var(--green)}
+.chip.amber .k{background:var(--amber-soft);color:var(--amber)}
+.chip.neutral .k{background:#EDEAE1;color:var(--muted)}
+.chip.accent .k{background:var(--accent-soft);color:var(--accent-deep)}
+
+/* grade de etapas / tempos (roteiro reels) */
+.tempos{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0 20px}
+.tempo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 15px;box-shadow:var(--shadow)}
+.tempo .n{font-family:'Fraunces',serif;font-size:15px;color:var(--accent);line-height:1;margin-bottom:9px;letter-spacing:.02em}
+.tempo p{font-size:12.5px;color:var(--muted);line-height:1.5}
+@media(max-width:820px){ .tempos{grid-template-columns:1fr 1fr} }
+@media(max-width:560px){ .tempos{grid-template-columns:1fr} }
+
+/* pull quote */
+.pullquote{position:relative;font-family:'Fraunces',serif;font-size:clamp(19px,2.2vw,25px);line-height:1.4;color:var(--accent-deep);padding:8px 0 0 40px;margin-top:6px}
+.pullquote::before{content:"\201C";position:absolute;left:-4px;top:-14px;font-size:70px;color:var(--accent);opacity:.28;font-family:'Fraunces',serif}
+
+/* lista limpa numerada (slides do carrossel) */
+.ol-clean{margin:8px 0 0 2px;padding:0;list-style:none;counter-reset:o}
+.ol-clean li{display:flex;gap:11px;font-size:14px;line-height:1.55;color:var(--muted);margin-bottom:8px}
+.ol-clean li::before{counter-increment:o;content:counter(o);flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent-deep);font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+.ol-clean li b{color:var(--ink);font-weight:600}
+
+/* objetivo faixa */
+.objective{font-size:14.5px;line-height:1.55;color:var(--muted);background:var(--accent-soft);border-radius:12px;padding:14px 18px;margin-bottom:20px}
+.objective b{color:var(--accent-deep)}
+
+/* cards observação */
+.obs{display:flex;flex-direction:column;gap:14px;margin-top:10px}
+.obs-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+.obs-card .oi{flex:none;width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:'Fraunces',serif;font-size:17px;font-weight:600}
+.obs-card h3{font-size:15px;font-weight:600;margin-bottom:4px}
+.obs-card p{font-size:13.5px;line-height:1.55;color:var(--muted)}
+
+/* kicker */
+.kicker-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.kicker-row .num{font-family:'Fraunces',serif;font-size:15px;color:var(--accent);border:1px solid var(--accent-soft);background:var(--accent-soft);border-radius:999px;padding:4px 14px;font-weight:600}
+
+/* rótulo de campo (guia de produção) */
+.field-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);font-weight:700;margin:20px 0 2px}
+.field-label:first-of-type{margin-top:4px}
+
+/* mês — grade de calendário */
+.calgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.calcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px;box-shadow:var(--shadow);border-top:3px solid var(--accent)}
+.calcard.reels{border-top-color:var(--amber)}
+.calcard.static{border-top-color:var(--green)}
+.calcard.stories{border-top-color:var(--faint)}
+.calcard .cd{font-size:11px;color:var(--faint);font-weight:600;letter-spacing:.04em}
+.calcard .cid{font-family:'Fraunces',serif;font-size:15px;color:var(--ink);margin:2px 0 4px}
+.calcard .cf{font-size:12px;color:var(--muted);line-height:1.4}
+@media(max-width:820px){ .calgrid{grid-template-columns:1fr 1fr} }
+@media(max-width:560px){ .calgrid{grid-template-columns:1fr} }
+
+.legend-row{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;font-size:12.5px;color:var(--muted)}
+.legend-row span{display:inline-flex;align-items:center;gap:7px}
+.legend-row i{width:11px;height:11px;border-radius:3px;display:inline-block}
+</style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> Quadro Marketing</div>
+    <div class="section-tag" id="sectionTag">Abertura</div>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- 01 · CAPA -->
+    <section class="slide active" data-section="Abertura">
+      <div class="inner">
+        <div class="eyebrow">Guia de Produção — Agosto 2026</div>
+        <h1>Calendário<br>Orgânico</h1>
+        <div class="cover-tag">12 posts · Instagram &amp; Facebook</div>
+        <p class="lead" style="margin-top:26px">Roteiro de produção para designer e social media. Cada slide traz formato, data, hook, estrutura completa, legenda e CTA de um post.</p>
+        <div class="cover-hint">
+          Navegue com <span class="keycap">←</span> <span class="keycap">→</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 · VISÃO DO MÊS -->
+    <section class="slide" data-section="Visão do mês">
+      <div class="inner">
+        <div class="eyebrow">O mês em uma tela</div>
+        <h2>Agosto: 12 posts, 5 colunas</h2>
+        <p class="lead" style="margin-top:14px">Arco do mês: prática → reservas diretas → prova → sazonalidade de setembro (urgência crescente na reta final).</p>
+        <div class="calgrid">
+          <div class="calcard"><div class="cd">04/ago · Ter</div><div class="cid">ORG-01</div><div class="cf">Carrossel 6 · Prática</div></div>
+          <div class="calcard reels"><div class="cd">07/ago · Sex</div><div class="cid">ORG-02</div><div class="cf">Reels 30–45s · Prática</div></div>
+          <div class="calcard"><div class="cd">11/ago · Ter</div><div class="cid">ORG-03</div><div class="cf">Carrossel 5 · Reservas</div></div>
+          <div class="calcard static"><div class="cd">13/ago · Qui</div><div class="cid">ORG-04</div><div class="cf">Estático · Reservas</div></div>
+          <div class="calcard stories"><div class="cd">15/ago · Sáb</div><div class="cid">ORG-05</div><div class="cf">Stories 4 · Cases</div></div>
+          <div class="calcard reels"><div class="cd">18/ago · Ter</div><div class="cid">ORG-06</div><div class="cf">Reels 45–60s · Prática</div></div>
+          <div class="calcard"><div class="cd">20/ago · Qui</div><div class="cid">ORG-07</div><div class="cf">Carrossel 7 · Reservas</div></div>
+          <div class="calcard static"><div class="cd">22/ago · Sáb</div><div class="cid">ORG-08</div><div class="cf">Estático · Cases</div></div>
+          <div class="calcard reels"><div class="cd">25/ago · Ter</div><div class="cid">ORG-09</div><div class="cf">Reels 30–45s · Sazonal</div></div>
+          <div class="calcard"><div class="cd">27/ago · Qui</div><div class="cid">ORG-10</div><div class="cf">Carrossel 6 · Sazonal</div></div>
+          <div class="calcard reels"><div class="cd">29/ago · Sáb</div><div class="cid">ORG-11</div><div class="cf">Reels 30s · Bastidores</div></div>
+          <div class="calcard"><div class="cd">31/ago · Seg</div><div class="cid">ORG-12</div><div class="cf">Carrossel 5 · Sazonal</div></div>
+        </div>
+        <div class="legend-row">
+          <span><i style="background:var(--accent)"></i> Carrossel</span>
+          <span><i style="background:var(--amber)"></i> Reels</span>
+          <span><i style="background:var(--green)"></i> Estático</span>
+          <span><i style="background:var(--faint)"></i> Stories</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ORG-01 -->
+    <section class="slide" data-section="ORG-01 · Carrossel">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">01</span><span style="font-size:13px;color:var(--muted)">Marketing Hoteleiro na Prática</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Carrossel · 6 slides</b> &nbsp;·&nbsp; 04/ago (Terça) &nbsp;·&nbsp; Coluna: Marketing Hoteleiro na Prática</div></div>
+
+        <div class="field-label">Hook (2 linhas de abertura)</div>
+        <div class="script"><p>Tem dois tipos de hoteleiro em agosto. Um está preocupado. O outro já está preparando setembro.</p></div>
+
+        <div class="field-label">Slides</div>
+        <ol class="ol-clean">
+          <li><b>Capa —</b> 5 práticas de hotéis independentes que enchem na baixa temporada</li>
+          <li><b>Reserva direta como meta, não bônus —</b> motor de reserva não basta; precisa de campanha ativa gerando demanda própria. Depender só do Booking custa comissão todo mês.</li>
+          <li><b>A campanha roda antes da temporada —</b> otimizar leva 2–3 semanas. Quem enche em setembro começou em agosto.</li>
+          <li><b>Lead rastreado da campanha ao check-in —</b> "gente no Instagram" não é resultado. Importa saber qual anúncio gerou qual reserva e a que custo.</li>
+          <li><b>Atendimento com processo definido —</b> lead digital que encontra recepção sem orientação vai embora, muitas vezes pro concorrente. Script é segurança, não engessamento.</li>
+          <li><b>Agência que entende diária, OTA e sazonalidade —</b> estratégia desenhada pra quem opera hotel, não adaptada de campanha de academia.</li>
+        </ol>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>Tem dois tipos de hoteleiro em agosto. Um está preocupado. O outro já está preparando setembro.</p><p>O que separa os dois não é localização, estrelas ou preço de diária. É o que aconteceu nos 90 dias antes. Hotéis que enchem na baixa não têm sorte — têm processo.</p><p>💾 Salva esse post. Compartilha com um hoteleiro que precisa ver isso.</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Salve + compartilhe com um hoteleiro</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-02 -->
+    <section class="slide" data-section="ORG-02 · Reels">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">02</span><span style="font-size:13px;color:var(--muted)">Marketing Hoteleiro na Prática</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Reels · 30–45s</b> &nbsp;·&nbsp; 07/ago (Sexta) &nbsp;·&nbsp; Coluna: Marketing Hoteleiro na Prática</div></div>
+
+        <div class="field-label">Hook (fala de abertura)</div>
+        <div class="script"><p>"Antes de contratar agência para o seu hotel, você precisa saber desses 3 erros."</p></div>
+
+        <div class="field-label">Roteiro</div>
+        <div class="tempos">
+          <div class="tempo"><div class="n">0–5s</div><p>"Dono de hotel: antes de assinar qualquer contrato com agência, presta atenção."</p></div>
+          <div class="tempo"><div class="n">5–15s</div><p><b>Erro 1:</b> contratar quem nunca ouviu falar em motor de reserva, OTA ou diária. Post bonito não paga a folha.</p></div>
+          <div class="tempo"><div class="n">15–25s</div><p><b>Erro 2:</b> pagar tráfego e não saber o que virou reserva. Alcance não é resultado — custo por reserva real é.</p></div>
+          <div class="tempo"><div class="n">25–35s</div><p><b>Erro 3:</b> campanha no ar sem treinar atendimento. Lead chega, recepção não sabe o que fazer, vai embora pro concorrente.</p></div>
+        </div>
+        <div class="note">Fechamento (35–45s): "Esses três custaram reservas a muitos hotéis esse ano. Comenta qual você já viveu ou marca um hoteleiro que precisa ouvir isso."</div>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>3 erros que hotéis independentes cometem ao contratar agência de marketing. E pagam caro por isso.</p><p>Agência que não entende de diária, sazonalidade e OTA faz post, não reserva. Comenta qual você já viveu ou marca um hoteleiro. 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Comenta qual você já cometeu / Marca um hoteleiro</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-03 -->
+    <section class="slide" data-section="ORG-03 · Carrossel">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">03</span><span style="font-size:13px;color:var(--muted)">Reservas Diretas</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Carrossel · 5 slides</b> &nbsp;·&nbsp; 11/ago (Terça) &nbsp;·&nbsp; Coluna: Reservas Diretas</div></div>
+
+        <div class="field-label">Hook (2 linhas de abertura)</div>
+        <div class="script"><p>O Booking não cobra nada do hóspede. Cobra de você. Todo mês, em toda reserva.</p></div>
+
+        <div class="field-label">Slides</div>
+        <ol class="ol-clean">
+          <li><b>Capa —</b> OTA vs. Reserva Direta: a conta que a maioria dos hotéis não faz</li>
+          <li><b>O que você paga ao Booking —</b> hotel de 60 quartos, R$ 200/diária, 70% via OTA, comissão 20%: <b>R$ 25.200/mês → R$ 302.400/ano.</b> Some da margem antes de aparecer no balanço.</li>
+          <li><b>O que custa a reserva direta —</b> campanha Meta nichada, CPL R$ 12–15, lead qualificado no WhatsApp, SDR qualifica e agenda. Custo por reserva: fração do Booking.</li>
+          <li><b>O que muda na prática —</b> via OTA: 15–25% comissão, não conhece o hóspede, relacionamento é da plataforma. Via direto: CAC controlado, lead qualificado, hóspede vira relacionamento do hotel.</li>
+          <li><b>Fechamento —</b> cada hotel tem uma conta diferente. A nossa equipe calcula a do seu. Fale com nosso time. Link na bio.</li>
+        </ol>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>O Booking não cobra nada do hóspede. Cobra de você.</p><p>Cálculo de um hotel de 60 quartos, R$ 200/diária, 70% via OTA: R$ 302.400/ano em comissão. E é conservador — não conta Expedia, Hotels.com nem os outros.</p><p>Quer ver o cálculo do seu hotel? Fale com nosso time. Link na bio. 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Fale com nosso time para calcular o custo do seu hotel</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-04 -->
+    <section class="slide" data-section="ORG-04 · Estático">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">04</span><span style="font-size:13px;color:var(--muted)">Reservas Diretas</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Estático (feed)</b> &nbsp;·&nbsp; 13/ago (Quinta) &nbsp;·&nbsp; Coluna: Reservas Diretas</div></div>
+
+        <div class="field-label">Hook (2 linhas de abertura)</div>
+        <div class="script"><p>O Booking cobra até 25% por reserva. Quanto escorreu da sua margem nos últimos 12 meses?</p></div>
+
+        <div class="field-label">Texto visual (para o designer)</div>
+        <div class="objective">
+          <b>Hotel exemplo:</b> 60 quartos · R$ 200 de diária · 70% via OTA<br>
+          <b>Comissão mensal estimada:</b> R$ 25.200 &nbsp;·&nbsp; <b>Comissão anual:</b> R$ 302.400
+        </div>
+        <p class="pullquote">Esse valor some da sua margem antes de aparecer no balanço.</p>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>R$ 302.400 por ano em comissão.</p><p>Cálculo de um hotel de 60 quartos, R$ 200/diária, 70% via Booking. Não aparece como despesa separada — some da margem antes de você perceber. A pergunta não é "devo reduzir OTA?", é quanto você está disposto a perder antes de mudar algo.</p><p>Quer saber o número real do seu hotel? Me chama no DM ou comenta quantos quartos você tem. 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Me chama no DM / comenta o nº de quartos</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-05 -->
+    <section class="slide" data-section="ORG-05 · Stories">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">05</span><span style="font-size:13px;color:var(--muted)">Cases e Resultados</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Stories · 4 slides</b> &nbsp;·&nbsp; 15/ago (Sábado) &nbsp;·&nbsp; Coluna: Cases e Resultados</div></div>
+
+        <div class="field-label">Sequência de stories</div>
+        <div class="msg-head"><span class="badge">Slide 1 · Enquete</span></div>
+        <div class="script"><p>"Você sabe quanto paga de comissão para OTAs por mês?" &nbsp;→&nbsp; Sei o número exato · Tenho ideia aproximada · Não acompanho</p></div>
+
+        <div class="msg-head"><span class="badge">Slide 2 · Pós-enquete</span></div>
+        <div class="script"><p>Na maioria dos casos o hoteleiro não acompanha o número exato — mas sente no caixa, todo mês. Booking, Expedia, Hotels.com: 15–25% por reserva. Num hotel médio, R$ 20.000 a R$ 30.000/mês.</p></div>
+
+        <div class="msg-head"><span class="badge">Slide 3 · Processo</span></div>
+        <ol class="ol-clean">
+          <li>Calcula o custo real de aquisição via OTA</li>
+          <li>Estrutura campanha de tráfego para hotelaria</li>
+          <li>Rastreia o lead da campanha ao check-in</li>
+          <li>Você sabe o que cada real de marketing gerou</li>
+        </ol>
+
+        <div class="msg-head"><span class="badge amber">Slide 4 · CTA</span></div>
+        <div class="script amber"><p>Quer entender como isso funciona para o seu hotel? Me chama no DM. 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Responde a enquete / Me chama no DM</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-06 -->
+    <section class="slide" data-section="ORG-06 · Reels">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">06</span><span style="font-size:13px;color:var(--muted)">Marketing Hoteleiro na Prática</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Reels · 45–60s</b> &nbsp;·&nbsp; 18/ago (Terça) &nbsp;·&nbsp; Coluna: Marketing Hoteleiro na Prática</div></div>
+
+        <div class="field-label">Hook (fala de abertura)</div>
+        <div class="script"><p>"Você investe em marketing para o hotel. No fim do mês, não sabe quantas reservas aquilo gerou. Esse é o maior problema do marketing hoteleiro hoje."</p></div>
+
+        <div class="field-label">Roteiro</div>
+        <div class="tempos">
+          <div class="tempo"><div class="n">0–5s</div><p>"Você sabe quantas reservas o seu marketing gerou esse mês? O número real, não os cliques."</p></div>
+          <div class="tempo"><div class="n">5–20s</div><p>Hotel independente investe em Insta, tráfego, Google. Relatório traz alcance, curtidas, cliques. Reserva não aparece.</p></div>
+          <div class="tempo"><div class="n">20–35s</div><p>A métrica que importa é <b>custo por reserva</b> — não CPL, não CPC. Exige rastreio da campanha ao CRM, que agência genérica não configura.</p></div>
+          <div class="tempo"><div class="n">35–50s</div><p>Resultado: você tem medo de cortar o marketing porque pode ser ele trazendo reserva — mas não tem como saber. Investe às cegas.</p></div>
+        </div>
+        <div class="note">Fechamento (50–60s): "Me conta: qual métrica você acompanha hoje pra medir resultado do seu hotel? Quero entender onde está o gargalo."</div>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>Custo por clique não paga a folha. Custo por reserva, sim.</p><p>Essa é a métrica que hotéis bem estruturados acompanham — e que a maioria ainda não monitora. Me conta: o que você usa hoje pra medir resultado de marketing? 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Comenta a métrica que você monitora hoje</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-07 -->
+    <section class="slide" data-section="ORG-07 · Carrossel">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">07</span><span style="font-size:13px;color:var(--muted)">Reservas Diretas</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Carrossel · 7 slides</b> &nbsp;·&nbsp; 20/ago (Quinta) &nbsp;·&nbsp; Coluna: Reservas Diretas</div></div>
+
+        <div class="field-label">Hook (2 linhas de abertura)</div>
+        <div class="script"><p>Nenhum hotel independente vai zerar o Booking amanhã. Mas há 3 movimentos que mudam a direção da agulha em 90 dias.</p></div>
+
+        <div class="field-label">Slides</div>
+        <ol class="ol-clean">
+          <li><b>Capa —</b> 3 movimentos para reduzir dependência de OTA em 90 dias</li>
+          <li><b>Gerar demanda própria —</b> tráfego nichado, público segmentado por comportamento de busca de hospedagem, formulário que filtra o lead antes do WhatsApp.</li>
+          <li><b>Qualificar antes de atender —</b> SDR mapeia porte, decisor presente e dor real com OTA. Só entra na reunião quem tem fit.</li>
+          <li><b>Rastrear da campanha ao check-in —</b> qual anúncio gerou qual reserva, qual CPL mais baixo, onde quebra a conversão. Verba no que funciona, não no que parece.</li>
+          <li><b>O que isso gera em 90 dias —</b> menos dependência de OTA, mais margem por reserva, canal direto ganhando volume sem custo proporcional.</li>
+          <li><b>O que esse processo NÃO é —</b> postar mais, acumular seguidores, stories todo dia. É funil pensado pra reserva direta, com processo em cada etapa.</li>
+          <li><b>Fechamento —</b> 30 min de mapeamento gratuito. Diagnóstico gratuito. Fale com nosso time. Link na bio.</li>
+        </ol>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>Nenhum hotel vai zerar o Booking amanhã. Não é essa a proposta.</p><p>Mas há movimentos que mudam a direção da agulha em 90 dias. Esses 3 fazem diferença real para hotéis independentes. Quer entender como se aplica ao seu? Diagnóstico gratuito. Link na bio. 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Diagnóstico gratuito — fale com nosso time</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-08 -->
+    <section class="slide" data-section="ORG-08 · Estático">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">08</span><span style="font-size:13px;color:var(--muted)">Cases e Resultados</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Estático (feed)</b> &nbsp;·&nbsp; 22/ago (Sábado) &nbsp;·&nbsp; Coluna: Cases e Resultados</div></div>
+
+        <div class="field-label">Hook (2 linhas de abertura)</div>
+        <div class="script"><p>83% dos hotéis brasileiros são independentes. A maioria ainda entrega margem para OTAs sem estratégia de reserva direta.</p></div>
+
+        <div class="field-label">Texto visual (para o designer)</div>
+        <p class="pullquote">83% dos hotéis brasileiros são independentes.</p>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>83% dos hotéis brasileiros são independentes.</p><p>Hotéis de rede têm budget, equipe interna e revenue management. O independente compete pelos mesmos hóspedes com menos recurso — e muitas vezes com agência que não sabe o que é RevPAR, motor de reserva ou sazonalidade. Por isso a Quadro trabalha exclusivamente com hotelaria.</p><p>Antes de qualquer campanha, a primeira pergunta é uma só: você tem estratégia de reserva direta, ou ainda depende das OTAs? Me conta aqui. 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Comenta: você tem estratégia ou ainda depende das OTAs?</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-09 -->
+    <section class="slide" data-section="ORG-09 · Reels">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">09</span><span style="font-size:13px;color:var(--muted)">Sazonalidade Antecipada · semente set/2026</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Reels · 30–45s</b> &nbsp;·&nbsp; 25/ago (Terça) &nbsp;·&nbsp; Coluna: Sazonalidade Antecipada</div></div>
+
+        <div class="field-label">Hook (fala de abertura)</div>
+        <div class="script"><p>"Setembro está a 5 semanas. O seu hotel tem estratégia ou vai improvisar de novo?"</p></div>
+
+        <div class="field-label">Roteiro</div>
+        <div class="tempos">
+          <div class="tempo"><div class="n">0–5s</div><p>"Setembro começa em 5 semanas. Já está no radar?"</p></div>
+          <div class="tempo"><div class="n">5–20s</div><p>Todo ano igual: agosto passa rápido. Quem planejou tem ocupação parcial; quem deixou pra última hora derruba diária pra não ficar vazio.</p></div>
+          <div class="tempo"><div class="n">20–35s</div><p>Tráfego leva 2–3 semanas pra otimizar. Script de atendimento leva uma semana. Estratégia não aparece do nada na véspera.</p></div>
+          <div class="tempo"><div class="n">35–45s</div><p>Se quer setembro com ocupação, a conversa com nosso time precisa acontecer agora. Link na bio.</p></div>
+        </div>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>A temporada de setembro não avisa.</p><p>Quem planejou em agosto chega na frente. Quem improvisa em setembro corre atrás. Fale com nosso time antes que a temporada chegue. Link na bio. 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Conversa com nosso time antes que a temporada chegue</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-10 -->
+    <section class="slide" data-section="ORG-10 · Carrossel">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">10</span><span style="font-size:13px;color:var(--muted)">Sazonalidade Antecipada · urgência crescente</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Carrossel · 6 slides</b> &nbsp;·&nbsp; 27/ago (Quinta) &nbsp;·&nbsp; Coluna: Sazonalidade Antecipada</div></div>
+
+        <div class="field-label">Hook (2 linhas de abertura)</div>
+        <div class="script"><p>O hotel que vai ter setembro cheio já está se movendo agora. Agosto é o mês que separa quem vai encher de quem vai improvisar.</p></div>
+
+        <div class="field-label">Slides</div>
+        <ol class="ol-clean">
+          <li><b>Capa —</b> Por que setembro define quem vai ter hotel cheio — e quem vai correr atrás de desconto</li>
+          <li><b>O que chega em setembro —</b> feriado de 7/9 (pico em muitas regiões), Equipotel 2026, início da alta. O hóspede já está pesquisando e vendo campanha de quem saiu na frente.</li>
+          <li><b>O que os que planejaram estão fazendo —</b> campanha com criativo de setembro rodando, SDR qualificando leads, ocupação parcialmente preenchida antes do pico.</li>
+          <li><b>O que os que esperaram vão fazer —</b> impulsionar post genérico na semana do feriado, derrubar diária, entrar na guerra de preço das OTAs.</li>
+          <li><b>A diferença —</b> não é tamanho nem localização. É o tempo de antecipação da estratégia.</li>
+          <li><b>Fechamento —</b> ainda dá tempo, mas é agora. 30 min de diagnóstico gratuito. Fale com nosso time. Link na bio.</li>
+        </ol>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>Agosto acaba em menos de uma semana.</p><p>Os hotéis que vão ter setembro cheio já estão com campanha rodando. Os que vão improvisar chegam tentando acender o que devia estar rodando há 3 semanas. Ainda dá tempo pro seu hotel, mas a conversa precisa acontecer agora. Link na bio. 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Fale com nosso time — link na bio</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-11 -->
+    <section class="slide" data-section="ORG-11 · Reels">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">11</span><span style="font-size:13px;color:var(--muted)">Bastidores Quadro</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Reels · 30s</b> &nbsp;·&nbsp; 29/ago (Sábado) &nbsp;·&nbsp; Coluna: Bastidores Quadro</div></div>
+
+        <div class="field-label">Hook (fala de abertura)</div>
+        <div class="script"><p>"Todo mundo pergunta: por que vocês só trabalham com hotéis? A resposta é simples."</p></div>
+
+        <div class="field-label">Roteiro</div>
+        <div class="tempos">
+          <div class="tempo"><div class="n">0–5s</div><p>"Por que a Quadro só trabalha com hotelaria? Essa pergunta aparece muito."</p></div>
+          <div class="tempo"><div class="n">5–15s</div><p>Quem trabalha com tudo não entende nada a fundo. Hotel hoje, pizzaria amanhã, clínica depois: não conhece RevPAR, sazonalidade nem motor de reserva.</p></div>
+          <div class="tempo"><div class="n">15–25s</div><p>Escolhemos hotelaria porque o problema do dono de hotel independente é específico. Merece estratégia específica, não pacote de post adaptado.</p></div>
+          <div class="tempo"><div class="n">25–30s</div><p>"Me conta: qual foi a melhor decisão que você tomou pelo seu hotel? Quero saber."</p></div>
+        </div>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>Especialidade não é slogan.</p><p>É o que acontece quando você entende de diária, OTA e sazonalidade antes de falar de conteúdo. Me conta: qual foi a melhor decisão que você tomou pelo seu hotel? 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Me conta: qual foi a melhor decisão que você tomou pelo seu hotel?</span></div>
+      </div>
+    </section>
+
+    <!-- ORG-12 -->
+    <section class="slide" data-section="ORG-12 · Carrossel">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">12</span><span style="font-size:13px;color:var(--muted)">Sazonalidade Antecipada · urgência máxima</span></div>
+        <div class="context"><span class="ico">i</span><div><b>Carrossel · 5 slides</b> &nbsp;·&nbsp; 31/ago (Segunda) &nbsp;·&nbsp; Coluna: Sazonalidade Antecipada</div></div>
+
+        <div class="field-label">Hook (2 linhas de abertura)</div>
+        <div class="script"><p>Agosto acabou. O hotel que planejou já tem vantagem. Quem não planejou tem uma semana para mudar isso.</p></div>
+
+        <div class="field-label">Slides</div>
+        <ol class="ol-clean">
+          <li><b>Capa —</b> Setembro começa amanhã. Seu hotel está pronto?</li>
+          <li><b>O que setembro traz —</b> feriado de 7/9, Equipotel 2026, início da alta em muitas regiões. Preparado captura demanda aquecida; de última hora compete por desconto.</li>
+          <li><b>A diferença do planejamento —</b> com campanha: lead qualificado, SDR atende, reunião agendada. Sem campanha: post de última hora, lead sem qualificação, resultado imprevisível.</li>
+          <li><b>O que a Quadro oferece —</b> diagnóstico gratuito (30 min), estratégia específica pra temporada, campanha com rastreamento da campanha ao check-in.</li>
+          <li><b>Fechamento —</b> essa semana ainda dá tempo. 30 min, diagnóstico gratuito, sem compromisso. Se fizer sentido, a gente começa. Link na bio.</li>
+        </ol>
+
+        <div class="field-label">Legenda</div>
+        <div class="script amber"><p>Agosto acabou.</p><p>Setembro começa amanhã com feriado, Equipotel e início do período de alta demanda pra muitos hotéis. Quem planejou tem vantagem; quem não planejou ainda tem uma janela — essa semana. Fale com nosso time. Link na bio. 👇</p></div>
+
+        <div class="chips"><div class="chip accent"><span class="k">CTA</span></div><span style="font-size:13.5px;color:var(--muted)">Fale com nosso time esta semana — link na bio</span></div>
+      </div>
+    </section>
+
+    <!-- ENCERRAMENTO · CONVENÇÕES -->
+    <section class="slide" data-section="Convenções">
+      <div class="inner">
+        <div class="eyebrow">Antes de produzir</div>
+        <h2>Convenções de produção</h2>
+        <div class="obs" style="margin-top:20px">
+          <div class="obs-card"><div class="oi">A</div><div><h3>Colunas &amp; cores</h3><p>Carrossel = verde, Reels = âmbar, Estático = verde-sinal, Stories = cinza. Mantenha a paleta do Design System (fundo creme, sombra suave, sem bordas duras).</p></div></div>
+          <div class="obs-card"><div class="oi">B</div><div><h3>Formatos</h3><p>Carrossel e estático em 4:5 (1080×1350). Reels 9:16 com legendas queimadas. Stories 9:16 com áreas de toque livres no rodapé.</p></div></div>
+          <div class="obs-card"><div class="oi">C</div><div><h3>Arco do mês</h3><p>Prática → Reservas Diretas → Prova (Cases) → Sazonalidade de setembro com urgência subindo do ORG-09 ao ORG-12. O fecho do mês é a virada de temporada.</p></div></div>
+          <div class="obs-card"><div class="oi">D</div><div><h3>CTA &amp; conta</h3><p>Números (R$ 302.400/ano, 83%) são ilustrativos — manter o disclaimer "cálculo de exemplo". CTAs de conversa direcionam para DM ou link na bio.</p></div></div>
+        </div>
+        <div class="note">Semear ORG-09 a ORG-12 é a ponte pro calendário de setembro — reaproveitar ganchos de sazonalidade na virada de mês.</div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <div class="dots" id="dots"></div>
+    <div class="arrows">
+      <button class="arrow" id="prev" aria-label="Anterior">‹</button>
+      <div class="counter" id="counter">01 / 01</div>
+      <button class="arrow" id="next" aria-label="Próximo">›</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const total = slides.length;
+    let cur = 0;
+    const dotsWrap = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const progress = document.getElementById('progress');
+    const sectionTag = document.getElementById('sectionTag');
+
+    slides.forEach((s,i)=>{
+      const b=document.createElement('button');
+      b.setAttribute('aria-label','Slide '+(i+1));
+      b.addEventListener('click',()=>go(i));
+      dotsWrap.appendChild(b);
+    });
+    const dots = Array.from(dotsWrap.children);
+    const pad = n => String(n).padStart(2,'0');
+
+    function go(i){
+      i = Math.max(0, Math.min(total-1, i));
+      slides[cur].classList.remove('active');
+      cur = i;
+      slides[cur].classList.add('active');
+      slides[cur].scrollTop = 0;
+      dots.forEach((d,k)=>d.classList.toggle('on', k===cur));
+      counter.textContent = pad(cur+1)+' / '+pad(total);
+      progress.style.width = ((cur)/(total-1)*100)+'%';
+      prevBtn.disabled = cur===0;
+      nextBtn.disabled = cur===total-1;
+      sectionTag.textContent = slides[cur].dataset.section || '';
+    }
+
+    prevBtn.addEventListener('click',()=>go(cur-1));
+    nextBtn.addEventListener('click',()=>go(cur+1));
+
+    document.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); go(cur+1); }
+      else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+      else if(e.key===' '){
+        const s=slides[cur];
+        if(Math.ceil(s.scrollTop+s.clientHeight) >= s.scrollHeight-2){ e.preventDefault(); go(cur+1); }
+      }
+      else if(e.key==='Home'){ go(0); }
+      else if(e.key==='End'){ go(total-1); }
+    });
+
+    let tsx=0, tsy=0;
+    document.addEventListener('touchstart',e=>{tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;},{passive:true});
+    document.addEventListener('touchend',e=>{
+      const dx=e.changedTouches[0].clientX-tsx;
+      const dy=e.changedTouches[0].clientY-tsy;
+      if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)){ dx<0?go(cur+1):go(cur-1); }
+    },{passive:true});
+
+    go(0);
+  </script>
+</body>
+</html>
