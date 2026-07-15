@@ -162,6 +162,18 @@ h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,4vw,44px);l
 .col li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--line);margin-top:7px}
 .win li::before{background:var(--accent)}
 .col li b{color:var(--ink);font-weight:600}
+
+/* mapa: fundação + fases do funil */
+.founds{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 6px}
+.found{font-size:12px;font-weight:600;color:var(--amber);background:var(--amber-soft);border:1px solid #E9D9B6;border-radius:999px;padding:6px 12px}
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px}
+.phase{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 16px;box-shadow:var(--shadow)}
+.phase .ph{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.phase ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.phase li{font-size:12.5px;line-height:1.4;color:var(--muted);display:flex;gap:8px}
+.phase li::before{content:"";flex:none;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-top:6px}
+@media(max-width:820px){ .phases{grid-template-columns:1fr 1fr} }
+@media(max-width:560px){ .phases{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -445,10 +457,11 @@ h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,4vw,44px);l
     </section>
 
     <!-- 13. CICLO MENSAL -->
-    <section class="slide" data-section="Ciclo mensal ideal">
+    <section class="slide" data-section="Ciclo de entrega ao hotel">
       <div class="inner">
-        <div class="eyebrow">O destino</div>
-        <h2>O ciclo mensal ideal da Quadro</h2>
+        <div class="eyebrow">O que entregamos ao cliente</div>
+        <h2>O ciclo mensal que rodamos para cada hotel</h2>
+        <div class="context" style="margin-top:20px"><span class="ico">i</span><div><b>ESTE É O CICLO DE ENTREGA:</b> o que a Quadro roda todo mês <b>para cada hotel cliente</b> gerar mais reservas diretas. Atrair novos hotéis <b>para a Quadro</b> é outro funil — está no slide de Prioridades.</div></div>
         <div class="flow">
           <div class="fstep"><div class="fn">01</div><h4>Retrato do Mês</h4><p>Dossiê vivo, nosso diagnóstico contínuo.</p><span class="ftag keep">Mantido</span></div>
           <div class="fstep"><div class="fn">02</div><h4>Métricas na abertura</h4><p>Custo/reserva por canal · direto vs. OTA.</p><span class="ftag sharp">Afiar</span></div>
@@ -456,9 +469,64 @@ h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,4vw,44px);l
           <div class="fstep"><div class="fn">04</div><h4>Blueprint de tráfego</h4><p>Hotel Ads + Search no nome + remarketing.</p><span class="ftag sharp">Afiar</span></div>
           <div class="fstep"><div class="fn">05</div><h4>Conteúdo + Scripts</h4><p>Copy, conteúdo e scripts via Quadro Chat.</p><span class="ftag keep">Mantido</span></div>
           <div class="fstep"><div class="fn">06</div><h4>Atendimento medido</h4><p>Tempo de resposta &lt; 5 min como KPI.</p><span class="ftag new">Novo</span></div>
-          <div class="fstep"><div class="fn">07</div><h4>Escuta + Diagnóstico</h4><p>Fechamento do ciclo e aquisição de novos hotéis.</p><span class="ftag sharp">Afiar</span></div>
+          <div class="fstep"><div class="fn">07</div><h4>Escuta + Melhoria</h4><p>Feedback do hóspede alimenta o mês seguinte.</p><span class="ftag keep">Mantido</span></div>
         </div>
-        <div class="note">A espinha atual continua. O que muda: a camada de <b>antecipação sazonal</b>, as <b>métricas na abertura</b> e o <b>atendimento medido</b> — tudo sobre o que o Quadro Chat já viabiliza.</div>
+        <div class="note">A espinha atual continua. O que muda: a camada de <b>antecipação sazonal</b>, as <b>métricas na abertura</b> e o <b>atendimento medido</b>. As peças concretas (site, SEO, e-mail, NPS, rastreio…) estão mapeadas no próximo slide.</div>
+      </div>
+    </section>
+
+    <!-- 14. ONDE ENTRA CADA PEÇA -->
+    <section class="slide" data-section="Onde entra cada peça">
+      <div class="inner">
+        <div class="eyebrow">O ciclo por dentro</div>
+        <h2>Onde entra cada peça</h2>
+        <div class="context" style="margin-top:18px"><span class="ico">i</span><div>As táticas vivem em <b>duas camadas</b>: a <b>fundação</b>, construída uma vez na implantação e mantida; e o que <b>roda todo mês</b>, organizado pelo trabalho do funil.</div></div>
+        <span class="step-label">Fundação · construída uma vez na implantação (mês 1–2) e mantida</span>
+        <div class="founds">
+          <span class="found">Site vendedor + motor no PMS</span>
+          <span class="found">WhatsApp Capture</span>
+          <span class="found">Google Meu Negócio otimizado</span>
+          <span class="found">Rastreio (CRM) + Looker Studio</span>
+          <span class="found">Lead score por IA</span>
+          <span class="found">Automação de NPS</span>
+          <span class="found">Mapa da jornada + personas</span>
+        </div>
+        <span class="step-label" style="color:var(--accent);margin-top:20px">Recorrente · roda todo mês sobre a fundação</span>
+        <div class="phases">
+          <div class="phase">
+            <div class="ph">Atrair</div>
+            <ul>
+              <li>SEO + blog de destino</li>
+              <li>Social selling nas redes</li>
+              <li>Search no nome + Hotel Ads + Meta</li>
+              <li>Posts no Google Meu Negócio</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <div class="ph">Converter</div>
+            <ul>
+              <li>Pop-up + cronômetro (ofertas)</li>
+              <li>WhatsApp Capture → lead qualificado</li>
+              <li>Otimização do site vendedor</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <div class="ph">Relacionar</div>
+            <ul>
+              <li>E-mail + fluxos de nutrição (jornada)</li>
+              <li>Campanhas de relacionamento na base</li>
+              <li>NPS no check-out → avaliação só de promotores</li>
+            </ul>
+          </div>
+          <div class="phase">
+            <div class="ph">Medir</div>
+            <ul>
+              <li>Leitura do rastreio (CRM) + Looker</li>
+              <li>Lead score prioriza o atendimento</li>
+              <li>Custo/reserva e direto×OTA → alimenta o Retrato do Mês</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
 
