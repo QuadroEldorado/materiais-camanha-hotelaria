@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Otimização de Perfil — Bio e Destaques</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F1EA;--surface:#FFFFFF;--surface-2:#FBF9F4;
+  --ink:#23211C;--muted:#726D62;--faint:#9A9488;
+  --line:#E5E0D4;
+  --accent:#2E6C5F;--accent-deep:#1F4E44;--accent-soft:#E4EFEB;
+  --amber:#B27A26;--amber-soft:#F5EBD6;
+  --green:#3B8B57;--green-soft:#E2F0E5;
+  --shadow:0 1px 2px rgba(35,33,28,.04), 0 12px 34px -18px rgba(35,33,28,.28);
+  --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);overflow:hidden;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+
+h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(38px,6.4vw,74px);line-height:1.02;letter-spacing:-.01em}
+h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.01em}
+.lead{font-size:clamp(16px,1.5vw,19px);line-height:1.65;color:var(--muted);max-width:70ch}
+.eyebrow{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+#progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-deep));z-index:60;transition:width .45s cubic-bezier(.4,0,.2,1)}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:22px 34px;pointer-events:none}
+.brand{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.section-tag{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+.deck{position:relative;height:100vh;width:100vw}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:96px clamp(28px,7vw,120px) 108px;opacity:0;visibility:hidden;transform:translateY(18px) scale(.99);transition:opacity .5s ease, transform .5s ease, visibility .5s;overflow-y:auto}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide::-webkit-scrollbar{width:8px}
+.slide::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.inner{width:100%;max-width:980px;margin:auto}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:820px){ .two{grid-template-columns:1fr} }
+@media(max-width:560px){ .slide{padding:88px 22px 104px} }
+
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 34px;background:linear-gradient(to top,var(--bg) 60%,transparent)}
+.dots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;max-width:60vw}
+.dots button{width:8px;height:8px;border-radius:50%;border:none;background:var(--line);cursor:pointer;padding:0;transition:all .3s}
+.dots button.on{background:var(--accent);transform:scale(1.35)}
+.arrows{display:flex;align-items:center;gap:10px}
+.counter{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:52px;text-align:center;font-weight:500}
+.arrow{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--ink);transition:all .2s;box-shadow:var(--shadow)}
+.arrow:hover{border-color:var(--accent);color:var(--accent)}
+.arrow:disabled{opacity:.35;cursor:not-allowed}
+
+.cover-tag{display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent-deep);padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;margin-top:26px}
+.cover-hint{margin-top:44px;font-size:13px;color:var(--faint);display:flex;align-items:center;gap:12px}
+.keycap{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:12px;font-weight:600;color:var(--muted);box-shadow:0 1px 0 var(--line)}
+
+.context{display:flex;gap:12px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:26px;font-size:14.5px;color:var(--muted);line-height:1.55}
+.context b{color:var(--ink);font-weight:600}
+.context .ico{flex:none;width:22px;height:22px;border-radius:6px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:13px;font-weight:700;margin-top:1px}
+
+.objective{font-size:14.5px;line-height:1.55;color:var(--muted);background:var(--accent-soft);border-radius:12px;padding:14px 18px;margin-bottom:22px}
+.objective b{color:var(--accent-deep)}
+
+.bio-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow);margin-bottom:16px}
+.bio-card.reco{border-left:3px solid var(--accent)}
+.bio-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.bio-label{font-family:'Fraunces',serif;font-size:19px;color:var(--ink)}
+.tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 11px;border-radius:8px}
+.tag.reco{background:var(--green-soft);color:var(--green)}
+.tag.alt{background:#EDEAE1;color:var(--muted)}
+.tag.chars{background:var(--accent-soft);color:var(--accent-deep)}
+.bio-text{font-size:16px;line-height:1.55;color:var(--ink);font-weight:500;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.bio-note{font-size:13px;color:var(--muted);margin-top:12px;line-height:1.55}
+
+.note{display:flex;gap:9px;font-size:13.5px;font-style:italic;color:var(--faint);line-height:1.5;margin:8px 2px 4px;padding-left:2px}
+.note::before{content:"";flex:none;width:3px;border-radius:3px;background:var(--line)}
+
+.hl-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow);margin-bottom:16px;border-left:3px solid var(--accent)}
+.hl-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.hl-num{font-family:'Fraunces',serif;font-size:26px;color:var(--accent);line-height:1}
+.hl-name{font-family:'Fraunces',serif;font-size:20px;color:var(--ink)}
+.msg-head{display:flex;align-items:center;gap:10px;margin:14px 0 8px}
+.msg-head:first-child{margin-top:0}
+.badge{font-size:11.5px;letter-spacing:.06em;font-weight:700;text-transform:uppercase;padding:5px 11px;border-radius:8px;background:var(--accent-soft);color:var(--accent-deep)}
+.badge.amber{background:var(--amber-soft);color:var(--amber)}
+.script{position:relative;background:var(--surface-2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;padding:14px 20px;margin:6px 0 4px;font-size:15px;line-height:1.6;color:var(--ink)}
+.script.amber{border-left-color:var(--amber);background:var(--amber-soft)}
+
+.pullquote{position:relative;font-family:'Fraunces',serif;font-size:clamp(19px,2.2vw,25px);line-height:1.4;color:var(--accent-deep);padding:8px 0 0 40px;margin-top:6px}
+.pullquote::before{content:"\201C";position:absolute;left:-4px;top:-14px;font-size:70px;color:var(--accent);opacity:.28;font-family:'Fraunces',serif}
+</style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> Quadro Marketing</div>
+    <div class="section-tag" id="sectionTag">Seção</div>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- CAPA -->
+    <section class="slide active" data-section="Abertura">
+      <div class="inner">
+        <div class="eyebrow">Otimização de Perfil — Instagram</div>
+        <h1>Bio &amp;<br>Destaques</h1>
+        <div class="cover-tag">Versão final para agosto</div>
+        <p class="lead" style="margin-top:26px">Reposicionamento do perfil para receber o lead frio que chega pelo anúncio — bio direta ao valor e destaques que qualificam e conduzem ao diagnóstico.</p>
+        <div class="cover-hint">
+          Navegue com <span class="keycap">←</span> <span class="keycap">→</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTEXTO / ESTRATÉGIA DA BIO -->
+    <section class="slide" data-section="Bio">
+      <div class="inner">
+        <div class="eyebrow">A Bio</div>
+        <h2>Duas versões, dois momentos</h2>
+        <div class="context" style="margin-top:24px">
+          <span class="ico">i</span>
+          <div><b>CONTEXTO:</b> a bio é a primeira leitura de quem chega. A escolha depende de quem está do outro lado — o lead frio que vê o perfil pela primeira vez, ou quem já reconhece a dor de depender das OTAs.</div>
+        </div>
+        <p class="pullquote">A bio não explica o que fazemos. Ela diz por que vale a conversa.</p>
+      </div>
+    </section>
+
+    <!-- BIO A -->
+    <section class="slide" data-section="Bio">
+      <div class="inner">
+        <div class="eyebrow">Bio — Proposta A</div>
+        <h2 style="margin-bottom:22px">Para público frio</h2>
+        <div class="bio-card reco">
+          <div class="bio-head">
+            <span class="bio-label">Proposta A</span>
+            <span class="tag reco">Recomendada</span>
+            <span class="tag chars">113 chars</span>
+          </div>
+          <div class="bio-text">Marketing de performance para hotéis independentes | Mais reservas diretas, menos OTA | Diagnóstico gratuito 👇</div>
+          <div class="bio-note">Ideal para o lead que vem pelo anúncio e vê o perfil pela primeira vez: entrega valor e destino antes de exigir familiaridade com o problema.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BIO B -->
+    <section class="slide" data-section="Bio">
+      <div class="inner">
+        <div class="eyebrow">Bio — Proposta B</div>
+        <h2 style="margin-bottom:22px">Posicionamento verbal do cliente</h2>
+        <div class="bio-card">
+          <div class="bio-head">
+            <span class="bio-label">Proposta B</span>
+            <span class="tag alt">Alternativa</span>
+            <span class="tag chars">115 chars</span>
+          </div>
+          <div class="bio-text">Agência especialista em hotelaria | Devolvemos ao hotel a margem que vai para as OTAs | Diagnóstico gratuito 👇</div>
+          <div class="bio-note">Usa o próprio discurso do cliente. Funciona melhor para quem já conhece o problema e reconhece a margem que escorre para o Booking.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RECOMENDAÇÃO -->
+    <section class="slide" data-section="Bio">
+      <div class="inner">
+        <div class="eyebrow">Decisão</div>
+        <h2 style="margin-bottom:22px">Recomendação para agosto</h2>
+        <div class="objective"><b>PROPOSTA A.</b> O público-alvo do mês é frio — vindo pelo anúncio. A bio precisa entregar valor imediato a quem ainda não conhece a marca.</div>
+        <div class="note">Se o cliente quiser usar o próprio posicionamento verbal, a Proposta B também funciona.</div>
+      </div>
+    </section>
+
+    <!-- DESTAQUES — INTRO -->
+    <section class="slide" data-section="Destaques">
+      <div class="inner">
+        <div class="eyebrow">Os Destaques</div>
+        <h2>Cinco destaques, um caminho</h2>
+        <div class="context" style="margin-top:24px">
+          <span class="ico">i</span>
+          <div><b>ESTRUTURA:</b> cada destaque abre com um story de introdução e fecha com um CTA. A Copy entrega os textos de abertura e os CTAs — a ordem conduz o lead do "para quem" ao diagnóstico.</div>
+        </div>
+        <p class="pullquote">Qualifica, explica, prova e convida — nessa ordem.</p>
+      </div>
+    </section>
+
+    <!-- DESTAQUE 1 -->
+    <section class="slide" data-section="Destaques">
+      <div class="inner">
+        <div class="hl-card">
+          <div class="hl-top"><span class="hl-num">1</span><span class="hl-name">Para Quem</span></div>
+          <div class="msg-head"><span class="badge">Abertura</span></div>
+          <div class="script"><p>A Quadro não atende todo hotel. Veja se o seu se encaixa.</p></div>
+          <div class="msg-head"><span class="badge amber">CTA interno</span></div>
+          <div class="script amber"><p>Se você marcou 4 ou 5 itens, a conversa faz sentido. Me chama no DM.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTAQUE 2 -->
+    <section class="slide" data-section="Destaques">
+      <div class="inner">
+        <div class="hl-card">
+          <div class="hl-top"><span class="hl-num">2</span><span class="hl-name">Como Funciona</span></div>
+          <div class="msg-head"><span class="badge">Abertura</span></div>
+          <div class="script"><p>4 etapas. Do diagnóstico ao check-in rastreado.</p></div>
+          <div class="msg-head"><span class="badge amber">CTA interno</span></div>
+          <div class="script amber"><p>Quer começar pelo diagnóstico? Link na bio.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTAQUE 3 -->
+    <section class="slide" data-section="Destaques">
+      <div class="inner">
+        <div class="hl-card">
+          <div class="hl-top"><span class="hl-num">3</span><span class="hl-name">OTA vs. Direto</span></div>
+          <div class="msg-head"><span class="badge">Abertura</span></div>
+          <div class="script"><p>Quanto vai para o Booking todo mês no seu hotel? Fiz o cálculo.</p></div>
+          <div class="msg-head"><span class="badge amber">CTA interno</span></div>
+          <div class="script amber"><p>Quer calcular o do seu hotel? Me chama no DM.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTAQUE 4 -->
+    <section class="slide" data-section="Destaques">
+      <div class="inner">
+        <div class="hl-card">
+          <div class="hl-top"><span class="hl-num">4</span><span class="hl-name">Resultados</span></div>
+          <div class="msg-head"><span class="badge">Abertura</span></div>
+          <div class="script"><p>O que monitoramos para cada hotel que atendemos.</p></div>
+          <div class="msg-head"><span class="badge amber">CTA interno</span></div>
+          <div class="script amber"><p>Quer ver isso aplicado ao seu hotel? Diagnóstico gratuito. Link na bio.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DESTAQUE 5 -->
+    <section class="slide" data-section="Destaques">
+      <div class="inner">
+        <div class="hl-card">
+          <div class="hl-top"><span class="hl-num">5</span><span class="hl-name">Diagnóstico</span></div>
+          <div class="msg-head"><span class="badge">Abertura</span></div>
+          <div class="script"><p>30 minutos. Sem compromisso. Sem pitch de venda na primeira conversa.</p></div>
+          <div class="msg-head"><span class="badge amber">CTA interno</span></div>
+          <div class="script amber"><p>Agenda agora. Link na bio.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FECHAMENTO -->
+    <section class="slide" data-section="Resumo">
+      <div class="inner">
+        <div class="eyebrow">Resumo</div>
+        <h2 style="margin-bottom:24px">O perfil pronto para o lead frio</h2>
+        <p class="lead">Bio Proposta A no ar em agosto. Cinco destaques em sequência — Para Quem, Como Funciona, OTA vs. Direto, Resultados e Diagnóstico — cada um abrindo com story e fechando com CTA, conduzindo até a conversa por DM ou o link na bio.</p>
+        <div class="note" style="margin-top:24px">Proposta B fica como alternativa caso o cliente prefira o próprio posicionamento verbal.</div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <div class="dots" id="dots"></div>
+    <div class="arrows">
+      <button class="arrow" id="prev" aria-label="Anterior">‹</button>
+      <div class="counter" id="counter">01 / 01</div>
+      <button class="arrow" id="next" aria-label="Próximo">›</button>
+    </div>
+  </div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let cur = 0;
+  const dotsWrap = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const progress = document.getElementById('progress');
+  const sectionTag = document.getElementById('sectionTag');
+
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label','Slide '+(i+1));
+    b.addEventListener('click',()=>go(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+  const pad = n => String(n).padStart(2,'0');
+
+  function go(i){
+    i = Math.max(0, Math.min(total-1, i));
+    slides[cur].classList.remove('active');
+    cur = i;
+    slides[cur].classList.add('active');
+    slides[cur].scrollTop = 0;
+    dots.forEach((d,k)=>d.classList.toggle('on', k===cur));
+    counter.textContent = pad(cur+1)+' / '+pad(total);
+    progress.style.width = ((cur)/(total-1)*100)+'%';
+    prevBtn.disabled = cur===0;
+    nextBtn.disabled = cur===total-1;
+    sectionTag.textContent = slides[cur].dataset.section || '';
+  }
+
+  prevBtn.addEventListener('click',()=>go(cur-1));
+  nextBtn.addEventListener('click',()=>go(cur+1));
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); go(cur+1); }
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+    else if(e.key===' '){
+      const s=slides[cur];
+      if(Math.ceil(s.scrollTop+s.clientHeight) >= s.scrollHeight-2){ e.preventDefault(); go(cur+1); }
+    }
+    else if(e.key==='Home'){ go(0); }
+    else if(e.key==='End'){ go(total-1); }
+  });
+
+  let tsx=0, tsy=0;
+  document.addEventListener('touchstart',e=>{tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tsx;
+    const dy=e.changedTouches[0].clientY-tsy;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)){ dx<0?go(cur+1):go(cur-1); }
+  },{passive:true});
+
+  go(0);
+</script>
+</body>
+</html>

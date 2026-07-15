@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blueprint de Tráfego — Quadro Marketing — 2026-08</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F1EA;
+  --surface:#FFFFFF;
+  --surface-2:#FBF9F4;
+  --ink:#23211C;
+  --muted:#726D62;
+  --faint:#9A9488;
+  --line:#E5E0D4;
+  --accent:#2E6C5F;
+  --accent-deep:#1F4E44;
+  --accent-soft:#E4EFEB;
+  --amber:#B27A26;
+  --amber-soft:#F5EBD6;
+  --green:#3B8B57;
+  --green-soft:#E2F0E5;
+  --shadow:0 1px 2px rgba(35,33,28,.04), 0 12px 34px -18px rgba(35,33,28,.28);
+  --radius:18px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);overflow:hidden;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;}
+
+h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(38px,6.4vw,74px);line-height:1.02;letter-spacing:-.01em}
+h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.01em}
+.lead{font-size:clamp(16px,1.5vw,19px);line-height:1.65;color:var(--muted);max-width:70ch}
+
+.eyebrow{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.step-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700}
+
+.deck{position:relative;height:100vh;width:100vw}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:96px clamp(28px,7vw,120px) 108px;
+  opacity:0;visibility:hidden;
+  transform:translateY(18px) scale(.99);
+  transition:opacity .5s ease, transform .5s ease, visibility .5s;
+  overflow-y:auto;
+}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide::-webkit-scrollbar{width:8px}
+.slide::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.inner{width:100%;max-width:980px;margin:auto}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:820px){ .two{grid-template-columns:1fr} }
+@media(max-width:560px){ .slide{padding:88px 22px 104px} }
+
+#progress{
+  position:fixed;top:0;left:0;height:3px;width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-deep));
+  z-index:60;transition:width .45s cubic-bezier(.4,0,.2,1);
+}
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:40;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 34px;pointer-events:none;
+}
+.brand{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);font-weight:600}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.section-tag{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 34px;background:linear-gradient(to top,var(--bg) 60%,transparent);
+}
+.dots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;max-width:60vw}
+.dots button{width:8px;height:8px;border-radius:50%;border:none;background:var(--line);
+  cursor:pointer;padding:0;transition:all .3s}
+.dots button.on{background:var(--accent);transform:scale(1.35)}
+.arrows{display:flex;align-items:center;gap:10px}
+.counter{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;
+  min-width:52px;text-align:center;font-weight:500}
+.arrow{
+  width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);
+  cursor:pointer;display:grid;place-items:center;color:var(--ink);transition:all .2s;box-shadow:var(--shadow);
+}
+.arrow:hover{border-color:var(--accent);color:var(--accent)}
+.arrow:disabled{opacity:.35;cursor:not-allowed}
+
+/* Componentes */
+.cover-tag{display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent-deep);
+  padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;margin-top:26px}
+.cover-hint{margin-top:44px;font-size:13px;color:var(--faint);display:flex;align-items:center;gap:12px}
+.keycap{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;
+  border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:12px;font-weight:600;
+  color:var(--muted);box-shadow:0 1px 0 var(--line)}
+
+.context{display:flex;gap:12px;align-items:flex-start;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:26px;
+  font-size:14.5px;color:var(--muted);line-height:1.55;}
+.context b{color:var(--ink);font-weight:600}
+.context .ico{flex:none;width:22px;height:22px;border-radius:6px;background:var(--accent-soft);color:var(--accent);
+  display:grid;place-items:center;font-size:13px;font-weight:700;margin-top:1px}
+
+.script{position:relative;background:var(--surface);border:1px solid var(--line);
+  border-left:3px solid var(--accent);border-radius:14px;padding:18px 22px 18px 24px;
+  margin:14px 0;box-shadow:var(--shadow);font-size:15.5px;line-height:1.62;color:var(--ink);}
+.script p+p{margin-top:10px}
+.script.amber{border-left-color:var(--amber)}
+
+.msg-head{display:flex;align-items:center;gap:10px;margin:26px 0 4px}
+.msg-head:first-child{margin-top:0}
+.badge{font-size:11.5px;letter-spacing:.06em;font-weight:700;text-transform:uppercase;
+  padding:5px 11px;border-radius:8px;background:var(--accent-soft);color:var(--accent-deep);}
+.badge.amber{background:var(--amber-soft);color:var(--amber)}
+.badge.muted{background:#EDEAE1;color:var(--muted)}
+
+.note{display:flex;gap:9px;font-size:13.5px;font-style:italic;color:var(--faint);
+  line-height:1.5;margin:8px 2px 4px;padding-left:2px;}
+.note::before{content:"";flex:none;width:3px;border-radius:3px;background:var(--line)}
+
+.chips{display:flex;flex-direction:column;gap:8px;margin:12px 0 4px}
+.chip{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5}
+.chip .k{flex:none;font-weight:700;padding:2px 10px;border-radius:7px;font-size:12px;
+  letter-spacing:.03em;margin-top:1px}
+.chip.green .k{background:var(--green-soft);color:var(--green)}
+.chip.amber .k{background:var(--amber-soft);color:var(--amber)}
+.chip.neutral .k{background:#EDEAE1;color:var(--muted)}
+.chip .v{color:var(--muted)}
+.chip .v i{color:var(--faint)}
+
+.tempos{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:26px 0 24px}
+.tempo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow)}
+.tempo .n{font-family:'Fraunces',serif;font-size:30px;color:var(--accent);line-height:1;margin-bottom:12px}
+.tempo h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.tempo p{font-size:13px;color:var(--muted);line-height:1.5}
+@media(max-width:820px){ .tempos{grid-template-columns:1fr 1fr} }
+@media(max-width:560px){ .tempos{grid-template-columns:1fr} }
+
+.pullquote{position:relative;font-family:'Fraunces',serif;font-size:clamp(19px,2.2vw,25px);
+  line-height:1.4;color:var(--accent-deep);padding:8px 0 0 40px;margin-top:6px;}
+.pullquote::before{content:"\201C";position:absolute;left:-4px;top:-14px;font-size:70px;
+  color:var(--accent);opacity:.28;font-family:'Fraunces',serif}
+
+.objective{font-size:14.5px;line-height:1.55;color:var(--muted);background:var(--accent-soft);
+  border-radius:12px;padding:14px 18px;margin-bottom:22px}
+.objective b{color:var(--accent-deep)}
+
+.obs{display:flex;flex-direction:column;gap:16px;margin-top:10px}
+.obs-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);
+  border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.obs-card .oi{flex:none;width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);
+  display:grid;place-items:center;font-family:'Fraunces',serif;font-size:17px;font-weight:600}
+.obs-card h3{font-size:15.5px;font-weight:600;margin-bottom:5px}
+.obs-card p{font-size:14px;line-height:1.58;color:var(--muted)}
+
+.ol-clean{margin:8px 0 0 2px;padding:0;list-style:none;counter-reset:o}
+.ol-clean li{display:flex;gap:11px;font-size:14px;line-height:1.55;color:var(--muted);margin-bottom:7px}
+.ol-clean li::before{counter-increment:o;content:counter(o);flex:none;width:20px;height:20px;border-radius:50%;
+  background:var(--accent-soft);color:var(--accent-deep);font-size:11px;font-weight:700;
+  display:grid;place-items:center;margin-top:2px}
+
+.kicker-row{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.kicker-row .num{font-family:'Fraunces',serif;font-size:15px;color:var(--accent);
+  border:1px solid var(--accent-soft);background:var(--accent-soft);border-radius:999px;
+  padding:4px 14px;font-weight:600}
+
+/* Auxiliares específicos deste deck */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow)}
+.stat .v{font-family:'Fraunces',serif;font-size:clamp(26px,3vw,34px);color:var(--accent-deep);line-height:1;margin-bottom:8px}
+.stat .l{font-size:12px;color:var(--muted);line-height:1.45;text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+@media(max-width:820px){ .stat-grid{grid-template-columns:1fr 1fr} }
+@media(max-width:560px){ .stat-grid{grid-template-columns:1fr} }
+
+table.tbl{width:100%;border-collapse:collapse;margin-top:14px;font-size:13.5px;background:var(--surface);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+table.tbl th{background:var(--surface-2);text-align:left;padding:12px 16px;font-size:11.5px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);font-weight:700;border-bottom:1px solid var(--line)}
+table.tbl td{padding:12px 16px;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:top;line-height:1.5}
+table.tbl tr:last-child td{border-bottom:none}
+table.tbl tr.total td{background:var(--accent-soft);color:var(--accent-deep);font-weight:700}
+.num-cell{font-variant-numeric:tabular-nums;font-weight:600;color:var(--accent-deep)}
+
+.cardset{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:14px}
+@media(max-width:820px){ .cardset{grid-template-columns:1fr} }
+.cardbox{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow)}
+.cardbox.amber-edge{border-top:3px solid var(--amber)}
+.cardbox.accent-edge{border-top:3px solid var(--accent)}
+.cardbox h3{font-family:'Fraunces',serif;font-size:19px;color:var(--ink);margin-bottom:4px}
+.cardbox .sub{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.cardbox ul{list-style:none;padding:0;margin:0}
+.cardbox li{font-size:13.5px;color:var(--muted);line-height:1.5;padding-left:16px;position:relative;margin-bottom:7px}
+.cardbox li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+.cardbox .pill{display:inline-block;font-size:12px;font-weight:700;color:var(--accent-deep);
+  background:var(--accent-soft);padding:3px 10px;border-radius:7px;margin-bottom:10px}
+
+.copy-head{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.copy-head .code{font-family:'Fraunces',serif;font-size:20px;color:var(--accent-deep)}
+.copy-head .tag{font-size:12px;color:var(--muted)}
+.hl{font-family:'Fraunces',serif;font-size:clamp(17px,2vw,21px);color:var(--ink);line-height:1.3;
+  padding:14px 18px;background:var(--surface-2);border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:12px;margin-bottom:12px}
+.cta-line{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--accent);
+  background:var(--accent-soft);padding:6px 14px;border-radius:999px;margin-top:6px}
+</style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> Quadro Marketing</div>
+    <div class="section-tag" id="sectionTag">Abertura</div>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- 01 · CAPA -->
+    <section class="slide active" data-section="Abertura">
+      <div class="inner">
+        <div class="eyebrow">Blueprint de Tráfego — Agosto 2026</div>
+        <h1>Primeiro ciclo<br>nichado em hotelaria</h1>
+        <div class="cover-tag">Meta Ads · Geração de leads qualificados</div>
+        <p class="lead" style="margin-top:26px">Estratégia, públicos, verba e direção criativa para transformar R$ 2.000/mês em 20 reuniões R1 realizadas com donos e gestores de hotéis independentes.</p>
+        <div class="cover-hint">
+          Navegue com <span class="keycap">←</span> <span class="keycap">→</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 · RESUMO PARA O GESTOR -->
+    <section class="slide" data-section="Resumo">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">01</span><span style="font-size:13px;color:var(--muted)">Resumo para o gestor</span></div>
+        <h2>As metas do mês</h2>
+        <div class="stat-grid">
+          <div class="stat"><div class="v">R$ 2.000</div><div class="l">Verba total do mês</div></div>
+          <div class="stat"><div class="v">133–167</div><div class="l">Leads qualificados</div></div>
+          <div class="stat"><div class="v">20</div><div class="l">Reuniões R1 realizadas</div></div>
+          <div class="stat"><div class="v">≤ R$ 15</div><div class="l">Alvo de CPL</div></div>
+        </div>
+        <div class="chips">
+          <div class="chip green"><span class="k">Meta</span><span class="v">Qualificação SDR ≥ 35% dos leads</span></div>
+          <div class="chip green"><span class="k">Meta</span><span class="v">Show-up R1 ≥ 70%</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 · A CAMPANHA ABRE A PORTA -->
+    <section class="slide" data-section="Resumo">
+      <div class="inner">
+        <div class="eyebrow">Princípio do ciclo</div>
+        <h2>A campanha não fecha negócio — ela abre a porta</h2>
+        <p class="pullquote">Entregar leads pré-qualificados para a SDR qualificar no WhatsApp e agendar a R1.</p>
+        <div class="context" style="margin-top:28px">
+          <span class="ico">i</span>
+          <div>Público-alvo: <b>proprietários e gestores de hotéis independentes</b> com dor real de dependência de OTA ou baixa ocupação na baixa temporada.</div>
+        </div>
+        <div class="obs">
+          <div class="obs-card"><div class="oi">A</div>
+            <div><h3>Campanha principal</h3><p>Formulário Instantâneo de alta intenção com redirecionamento direto para o WhatsApp da SDR (Click-to-WhatsApp).</p></div>
+          </div>
+          <div class="obs-card"><div class="oi">B</div>
+            <div><h3>Campanha secundária</h3><p>Remarketing recupera leads mornos que já demonstraram interesse mas não converteram.</p></div>
+          </div>
+        </div>
+        <div class="note">Sem landing page externa neste ciclo — o formulário nativo da Meta tem menos fricção e CPL mais baixo para este público.</div>
+      </div>
+    </section>
+
+    <!-- 04 · CAMPANHA 1 -->
+    <section class="slide" data-section="Campanhas">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">02</span><span style="font-size:13px;color:var(--muted)">Estrutura de campanhas</span></div>
+        <h2>Campanha 1 — Leads Hoteleiros</h2>
+        <div class="objective"><b>TOPO DE FUNIL:</b> primeiro contato com a Quadro · Meta Ads (Facebook + Instagram) · formulário de alta intenção → WhatsApp SDR · <b>R$ 1.500/mês</b></div>
+        <div class="cardset">
+          <div class="cardbox accent-edge">
+            <span class="pill">Conjunto 1A · R$ 750/mês</span>
+            <h3>Frio Comportamental</h3>
+            <div class="sub">Público frio por interesses · CTA "Quero mais reservas diretas"</div>
+            <ul>
+              <li>Hipótese: quem pesquisa gestão hoteleira, Booking e reservas diretas responde a ganchos de dor OTA</li>
+              <li>Criativos: TRA-01, TRA-02, TRA-03</li>
+            </ul>
+          </div>
+          <div class="cardbox accent-edge">
+            <span class="pill">Conjunto 1B · R$ 750/mês</span>
+            <h3>Frio por Semelhança</h3>
+            <div class="sub">Lookalike 1–3% da base de clientes · CTA "Consultoria gratuita para hotéis"</div>
+            <ul>
+              <li>Hipótese: perfis parecidos com os 15 hotéis clientes têm maior propensão a qualificar</li>
+              <li>Criativos: TRA-04, TRA-05</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 · CAMPANHA 2 -->
+    <section class="slide" data-section="Campanhas">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">02</span><span style="font-size:13px;color:var(--muted)">Estrutura de campanhas</span></div>
+        <h2>Campanha 2 — Remarketing Base Morna</h2>
+        <div class="objective"><b>MEIO DE FUNIL:</b> recuperação de atenção de leads que já demonstraram interesse · Meta Ads · <b>R$ 500/mês</b></div>
+        <div class="cardset">
+          <div class="cardbox amber-edge">
+            <span class="pill">Conjunto 2A · R$ 300/mês</span>
+            <h3>Envolvimento Recente</h3>
+            <div class="sub">Morno por engajamento · CTA "Ver como funciona"</div>
+            <ul>
+              <li>Hipótese: quem viu o anúncio mas não preencheu precisa de prova social — depoimento ou caso real</li>
+              <li>Criativos: TRA-06, TRA-07</li>
+            </ul>
+          </div>
+          <div class="cardbox amber-edge">
+            <span class="pill">Conjunto 2B · R$ 200/mês</span>
+            <h3>Visitantes do Perfil/Site</h3>
+            <div class="sub">Morno por visita · CTA "Falar com especialista em hotelaria"</div>
+            <ul>
+              <li>Hipótese: curiosidade existe, falta autoridade — autoridade + gancho Copa 2026</li>
+              <li>Criativos: TRA-08</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 · FORMULÁRIO -->
+    <section class="slide" data-section="Formulário">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">03</span><span style="font-size:13px;color:var(--muted)">Formulário Instantâneo</span></div>
+        <h2>Alta intenção, menos volume, mais qualidade</h2>
+        <div class="context">
+          <span class="ico">i</span>
+          <div><b>Alta intenção:</b> exige confirmação antes de enviar. Reduz o volume, mas aumenta a qualidade do lead que chega na SDR.</div>
+        </div>
+        <table class="tbl">
+          <thead><tr><th>#</th><th>Campo</th><th>Tipo</th><th>Lógica</th></tr></thead>
+          <tbody>
+            <tr><td class="num-cell">1</td><td>Nome</td><td>Pré-preenchido</td><td>Reduz fricção</td></tr>
+            <tr><td class="num-cell">2</td><td>WhatsApp</td><td>Pré-preenchido</td><td>Canal principal da SDR</td></tr>
+            <tr><td class="num-cell">3</td><td>Maior desafio do hotel hoje</td><td>Seleção única</td><td>OTA · baixa ocupação · sem rastreio de reserva · quer reservas diretas</td></tr>
+            <tr><td class="num-cell">4</td><td>Nome do hotel + nº de quartos</td><td>Texto livre</td><td>Filtro de porte — SDR descarta &lt; 20 quartos</td></tr>
+          </tbody>
+        </table>
+        <div class="msg-head"><span class="badge">Tela de confirmação</span></div>
+        <div class="script"><p>"Obrigado, [Nome]! Nossa especialista em hotelaria entra em contato em até 5 minutos via WhatsApp."</p></div>
+      </div>
+    </section>
+
+    <!-- 07 · COPIES CAMPANHA 1 (FRIO) -->
+    <section class="slide" data-section="Criativos">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">04</span><span style="font-size:13px;color:var(--muted)">Copies de anúncio · Frio</span></div>
+        <h2>Ganchos de dor e urgência</h2>
+        <div class="copy-head"><span class="code">TRA-01</span><span class="tag">Dor OTA · imagem/carrossel</span></div>
+        <div class="hl">"Seu hotel ainda paga 15–25% de comissão pro Booking?"</div>
+        <div class="msg-head"><span class="badge">TRA-02</span><span style="font-size:13px;color:var(--muted)">Dor sazonalidade · vídeo curto</span></div>
+        <div class="script"><p>"Baixa temporada? Só se for no hotel concorrente." — o custo fixo não para na baixa; a ocupação é que precisa acompanhar.</p></div>
+        <div class="msg-head"><span class="badge amber">TRA-03</span><span style="font-size:13px;color:var(--muted)">Copa 2026 · gancho de urgência</span></div>
+        <div class="script amber"><p>"Você já tem estratégia para a Copa do Mundo 2026?" — quem se prepara antes captura a demanda; quem não, vê o concorrente encher primeiro.</p></div>
+      </div>
+    </section>
+
+    <!-- 08 · COPIES LOOKALIKE + REMARKETING -->
+    <section class="slide" data-section="Criativos">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">04</span><span style="font-size:13px;color:var(--muted)">Copies · Lookalike e Remarketing</span></div>
+        <h2>Especialidade, prova e recuperação</h2>
+        <div class="copy-head"><span class="code">TRA-04</span><span class="tag">Posicionamento · Lookalike</span></div>
+        <div class="hl">"Agência que entende de diária, OTA e sazonalidade — não de tudo um pouco."</div>
+        <div class="msg-head"><span class="badge">TRA-05</span><span style="font-size:13px;color:var(--muted)">Autoridade + prova · Lookalike</span></div>
+        <div class="script"><p>"O hotel que investia em tráfego e não sabia o que virou reserva." — resultado em reservas diretas, não em métricas de vaidade.</p></div>
+        <div class="msg-head"><span class="badge amber">TRA-06 · 07 · 08</span><span style="font-size:13px;color:var(--muted)">Remarketing</span></div>
+        <div class="script amber"><p>Prova social e depoimento de hoteleiros (TRA-06/07) para leads mornos; autoridade Copa 2026 (TRA-08) para visitantes do site e perfil.</p></div>
+      </div>
+    </section>
+
+    <!-- 09 · BUDGET -->
+    <section class="slide" data-section="Verba">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">05</span><span style="font-size:13px;color:var(--muted)">Budget breakdown</span></div>
+        <h2>Onde cada real é aplicado</h2>
+        <table class="tbl">
+          <thead><tr><th>Campanha</th><th>Conjunto</th><th>Verba/mês</th><th>%</th><th>Objetivo</th></tr></thead>
+          <tbody>
+            <tr><td>Leads Hoteleiros</td><td>1A — Frio Comportamental</td><td class="num-cell">R$ 750</td><td>37,5%</td><td>Volume de leads frios por interesse</td></tr>
+            <tr><td>Leads Hoteleiros</td><td>1B — Lookalike</td><td class="num-cell">R$ 750</td><td>37,5%</td><td>Leads similares a clientes atuais</td></tr>
+            <tr><td>Remarketing</td><td>2A — Envolvimento</td><td class="num-cell">R$ 300</td><td>15%</td><td>Recuperação de leads mornos</td></tr>
+            <tr><td>Remarketing</td><td>2B — Visitantes</td><td class="num-cell">R$ 200</td><td>10%</td><td>Conversão de curiosos</td></tr>
+            <tr class="total"><td>TOTAL</td><td>—</td><td class="num-cell">R$ 2.000</td><td>100%</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 10 · PÚBLICOS -->
+    <section class="slide" data-section="Públicos">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">06</span><span style="font-size:13px;color:var(--muted)">Públicos e temperatura</span></div>
+        <h2>Quatro públicos, três temperaturas</h2>
+        <div class="chips" style="margin-bottom:20px">
+          <div class="chip amber"><span class="k">Frio</span><span class="v"><b>A · Comportamental</b> — interesses de gestão hoteleira, Booking, turismo de negócios · Brasil · 30–65 anos</span></div>
+          <div class="chip amber"><span class="k">Frio</span><span class="v"><b>B · Lookalike</b> — 1–3% da base de 15 hotéis clientes; alternativa: lookalike de engajamento (60 dias)</span></div>
+          <div class="chip green"><span class="k">Morno</span><span class="v"><b>C · Envolvimento</b> — curtiu, comentou, salvou, clicou ou visitou o perfil nos últimos 30 dias</span></div>
+          <div class="chip green"><span class="k">Morno</span><span class="v"><b>D · Visitantes</b> — site (60 dias, via Pixel) + engajamento Instagram (30 dias)</span></div>
+        </div>
+        <div class="note">Todos os públicos excluem quem já preencheu o formulário. Público D exige Pixel instalado e ativo — verificar antes de lançar a Campanha 2.</div>
+      </div>
+    </section>
+
+    <!-- 11 · KPIs -->
+    <section class="slide" data-section="KPIs">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">07</span><span style="font-size:13px;color:var(--muted)">KPIs e guard-rails</span></div>
+        <h2>Metas e gatilhos de alerta</h2>
+        <table class="tbl">
+          <thead><tr><th>KPI</th><th>Meta</th><th>Guard-rail (acionar agência)</th></tr></thead>
+          <tbody>
+            <tr><td>CPL total</td><td class="num-cell">≤ R$ 15</td><td>&gt; R$ 20 por 7 dias → pausar conjunto e revisar criativo</td></tr>
+            <tr><td>Leads/mês</td><td class="num-cell">133–167</td><td>&lt; 100 no mês → revisar meta de R1</td></tr>
+            <tr><td>Conclusão do formulário</td><td class="num-cell">&gt; 70%</td><td>&lt; 50% → simplificar formulário (sem campo 4)</td></tr>
+            <tr><td>Qualificação SDR</td><td class="num-cell">≥ 35%</td><td>&lt; 25% por 2 semanas → revisar campos</td></tr>
+            <tr><td>Show-up R1</td><td class="num-cell">≥ 70%</td><td>&lt; 60% → reforçar cadência de confirmação</td></tr>
+            <tr><td>Custo por R1</td><td class="num-cell">≤ R$ 100</td><td>&gt; R$ 150 → revisão completa do funil</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 12 · OTIMIZAÇÃO SEMANAL -->
+    <section class="slide" data-section="Otimização">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">07</span><span style="font-size:13px;color:var(--muted)">Ritmo de otimização</span></div>
+        <h2>O mês em quatro semanas</h2>
+        <div class="tempos">
+          <div class="tempo"><div class="n">1</div><h3>Lançamento</h3><p>Monitorar CPL e conclusão do formulário diariamente. Parar conjunto com CPL &gt; R$ 25 por 3 dias. Não mexer no que funciona.</p></div>
+          <div class="tempo"><div class="n">2</div><h3>Comparar</h3><p>CPL e qualificação SDR entre 1A e 1B. Concentrar 60% da verba no melhor performer.</p></div>
+          <div class="tempo"><div class="n">3</div><h3>Criativos</h3><p>Pausar TRA com CTR &lt; 0,8% e substituir. Testar novo copy no conjunto de melhor CPL.</p></div>
+          <div class="tempo"><div class="n">4</div><h3>Avaliar</h3><p>Resultados do mês. Definir conjuntos e criativos que entram no mês 2.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 · DIVISÃO DE RESPONSABILIDADE -->
+    <section class="slide" data-section="Operação">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">08</span><span style="font-size:13px;color:var(--muted)">Divisão de responsabilidade</span></div>
+        <h2>Onde o gestor de tráfego opera</h2>
+        <div class="two">
+          <div>
+            <div class="msg-head"><span class="badge">O blueprint define</span></div>
+            <ol class="ol-clean">
+              <li>Estratégia geral do ciclo</li>
+              <li>Públicos e temperaturas</li>
+              <li>Divisão de verba</li>
+              <li>Direção criativa (copies e ganchos)</li>
+            </ol>
+          </div>
+          <div>
+            <div class="msg-head"><span class="badge amber">O gestor decide</span></div>
+            <ol class="ol-clean">
+              <li>Lances e estratégia de licitação</li>
+              <li>Ajustes de praça dentro do Brasil</li>
+              <li>Testes de placement (feed, stories, reels)</li>
+              <li>Otimização diária de performance</li>
+              <li>Duplicar conjunto vencedor vs. escalar budget</li>
+            </ol>
+          </div>
+        </div>
+        <p class="pullquote" style="margin-top:24px">O blueprint aponta a direção. O gestor conduz a execução.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <div class="dots" id="dots"></div>
+    <div class="arrows">
+      <button class="arrow" id="prev" aria-label="Anterior">‹</button>
+      <div class="counter" id="counter">01 / 01</div>
+      <button class="arrow" id="next" aria-label="Próximo">›</button>
+    </div>
+  </div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let cur = 0;
+  const dotsWrap = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const progress = document.getElementById('progress');
+  const sectionTag = document.getElementById('sectionTag');
+
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label','Slide '+(i+1));
+    b.addEventListener('click',()=>go(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+  const pad = n => String(n).padStart(2,'0');
+
+  function go(i){
+    i = Math.max(0, Math.min(total-1, i));
+    slides[cur].classList.remove('active');
+    cur = i;
+    slides[cur].classList.add('active');
+    slides[cur].scrollTop = 0;
+    dots.forEach((d,k)=>d.classList.toggle('on', k===cur));
+    counter.textContent = pad(cur+1)+' / '+pad(total);
+    progress.style.width = ((cur)/(total-1)*100)+'%';
+    prevBtn.disabled = cur===0;
+    nextBtn.disabled = cur===total-1;
+    sectionTag.textContent = slides[cur].dataset.section || '';
+  }
+
+  prevBtn.addEventListener('click',()=>go(cur-1));
+  nextBtn.addEventListener('click',()=>go(cur+1));
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); go(cur+1); }
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+    else if(e.key===' '){
+      const s=slides[cur];
+      if(Math.ceil(s.scrollTop+s.clientHeight) >= s.scrollHeight-2){ e.preventDefault(); go(cur+1); }
+    }
+    else if(e.key==='Home'){ go(0); }
+    else if(e.key==='End'){ go(total-1); }
+  });
+
+  let tsx=0, tsy=0;
+  document.addEventListener('touchstart',e=>{tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tsx;
+    const dy=e.changedTouches[0].clientY-tsy;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)){ dx<0?go(cur+1):go(cur-1); }
+  },{passive:true});
+
+  go(0);
+</script>
+</body>
+</html>

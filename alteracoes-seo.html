@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadro Marketing · Reformulação de Copy e SEO do Site</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F1EA; --surface:#FFFFFF; --surface-2:#FBF9F4;
+  --ink:#23211C; --muted:#726D62; --faint:#9A9488;
+  --line:#E5E0D4;
+  --accent:#2E6C5F; --accent-deep:#1F4E44; --accent-soft:#E4EFEB;
+  --amber:#B27A26; --amber-soft:#F5EBD6;
+  --green:#3B8B57; --green-soft:#E2F0E5;
+  --shadow:0 1px 2px rgba(35,33,28,.04), 0 12px 34px -18px rgba(35,33,28,.28);
+  --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);overflow:hidden;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+
+h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(38px,6.4vw,74px);line-height:1.02;letter-spacing:-.01em}
+h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.01em}
+.lead{font-size:clamp(16px,1.5vw,19px);line-height:1.65;color:var(--muted);max-width:70ch}
+.eyebrow{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600}
+
+.deck{position:relative;height:100vh;width:100vw}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:96px clamp(28px,7vw,120px) 108px;opacity:0;visibility:hidden;
+  transform:translateY(18px) scale(.99);transition:opacity .5s ease, transform .5s ease, visibility .5s;overflow-y:auto}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide::-webkit-scrollbar{width:8px}
+.slide::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.inner{width:100%;max-width:980px;margin:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:820px){ .two{grid-template-columns:1fr} }
+@media(max-width:560px){ .slide{padding:88px 22px 104px} }
+
+#progress{position:fixed;top:0;left:0;height:3px;width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent-deep));z-index:60;transition:width .45s cubic-bezier(.4,0,.2,1)}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:22px 34px;pointer-events:none}
+.brand{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.section-tag{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 34px;background:linear-gradient(to top,var(--bg) 60%,transparent)}
+.dots{display:flex;gap:8px;align-items:center;flex-wrap:wrap;max-width:60vw}
+.dots button{width:8px;height:8px;border-radius:50%;border:none;background:var(--line);cursor:pointer;padding:0;transition:all .3s}
+.dots button.on{background:var(--accent);transform:scale(1.35)}
+.arrows{display:flex;align-items:center;gap:10px}
+.counter{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:52px;text-align:center;font-weight:500}
+.arrow{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);cursor:pointer;display:grid;place-items:center;color:var(--ink);transition:all .2s;box-shadow:var(--shadow)}
+.arrow:hover{border-color:var(--accent);color:var(--accent)}
+.arrow:disabled{opacity:.35;cursor:not-allowed}
+
+.cover-tag{display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent-deep);padding:7px 16px;border-radius:999px;font-size:12.5px;font-weight:600;letter-spacing:.06em;margin-top:26px}
+.cover-hint{margin-top:44px;font-size:13px;color:var(--faint);display:flex;align-items:center;gap:12px}
+.keycap{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;padding:0 7px;border:1px solid var(--line);border-radius:7px;background:var(--surface);font-size:12px;font-weight:600;color:var(--muted);box-shadow:0 1px 0 var(--line)}
+
+.context{display:flex;gap:12px;align-items:flex-start;background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:26px;font-size:14.5px;color:var(--muted);line-height:1.55}
+.context b{color:var(--ink);font-weight:600}
+.context .ico{flex:none;width:22px;height:22px;border-radius:6px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:13px;font-weight:700;margin-top:1px}
+
+.script{position:relative;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:14px;padding:18px 22px 18px 24px;margin:14px 0;box-shadow:var(--shadow);font-size:15.5px;line-height:1.62;color:var(--ink)}
+.script p+p{margin-top:10px}
+.script.amber{border-left-color:var(--amber)}
+.script .cta-line{display:inline-block;margin-top:12px;font-weight:600;color:var(--accent-deep);background:var(--accent-soft);padding:6px 14px;border-radius:8px;font-size:14px}
+.script .cta-line.sec{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+
+.msg-head{display:flex;align-items:center;gap:10px;margin:26px 0 4px}
+.msg-head:first-child{margin-top:0}
+.badge{font-size:11.5px;letter-spacing:.06em;font-weight:700;text-transform:uppercase;padding:5px 11px;border-radius:8px;background:var(--accent-soft);color:var(--accent-deep)}
+.badge.amber{background:var(--amber-soft);color:var(--amber)}
+.badge.muted{background:#EDEAE1;color:var(--muted)}
+
+.note{display:flex;gap:9px;font-size:13.5px;font-style:italic;color:var(--faint);line-height:1.5;margin:8px 2px 4px;padding-left:2px}
+.note::before{content:"";flex:none;width:3px;border-radius:3px;background:var(--line)}
+
+.tempos{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:26px 0 24px}
+.tempo{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;box-shadow:var(--shadow)}
+.tempo .n{font-family:'Fraunces',serif;font-size:30px;color:var(--accent);line-height:1;margin-bottom:12px}
+.tempo h3{font-size:15px;font-weight:600;margin-bottom:6px}
+.tempo p{font-size:13px;color:var(--muted);line-height:1.5}
+@media(max-width:820px){ .tempos{grid-template-columns:1fr 1fr} }
+@media(max-width:560px){ .tempos{grid-template-columns:1fr} }
+
+.pullquote{position:relative;font-family:'Fraunces',serif;font-size:clamp(19px,2.2vw,25px);line-height:1.4;color:var(--accent-deep);padding:8px 0 0 40px;margin-top:6px}
+.pullquote::before{content:"\201C";position:absolute;left:-4px;top:-14px;font-size:70px;color:var(--accent);opacity:.28;font-family:'Fraunces',serif}
+
+.objective{font-size:14.5px;line-height:1.55;color:var(--muted);background:var(--accent-soft);border-radius:12px;padding:14px 18px;margin-bottom:22px}
+.objective b{color:var(--accent-deep)}
+
+.obs{display:flex;flex-direction:column;gap:16px;margin-top:10px}
+.obs-card{display:flex;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.obs-card .oi{flex:none;width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:'Fraunces',serif;font-size:17px;font-weight:600}
+.obs-card h3{font-size:15.5px;font-weight:600;margin-bottom:5px}
+.obs-card p{font-size:14px;line-height:1.58;color:var(--muted)}
+
+.ol-clean{margin:8px 0 0 2px;padding:0;list-style:none;counter-reset:o}
+.ol-clean li{display:flex;gap:11px;font-size:14.5px;line-height:1.55;color:var(--muted);margin-bottom:9px}
+.ol-clean li::before{counter-increment:o;content:counter(o);flex:none;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent-deep);font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+
+.kicker-row{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.kicker-row .num{font-family:'Fraunces',serif;font-size:15px;color:var(--accent);border:1px solid var(--accent-soft);background:var(--accent-soft);border-radius:999px;padding:4px 14px;font-weight:600}
+
+.chips{display:flex;flex-direction:column;gap:8px;margin:12px 0 4px}
+.chip{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.5}
+.chip .k{flex:none;font-weight:700;padding:2px 10px;border-radius:7px;font-size:12px;letter-spacing:.03em;margin-top:1px}
+.chip.green .k{background:var(--green-soft);color:var(--green)}
+.chip.amber .k{background:var(--amber-soft);color:var(--amber)}
+.chip.neutral .k{background:#EDEAE1;color:var(--muted)}
+.chip .v{color:var(--muted)}
+
+/* SEO code block */
+.seocode{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:8px 0 6px;box-shadow:var(--shadow);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;line-height:1.55;color:var(--ink);word-break:break-word}
+.field-lbl{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:18px 0 4px}
+.field-lbl:first-child{margin-top:0}
+.charhint{font-size:12px;color:var(--faint);font-style:italic}
+
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow)}
+.svc .st{font-family:'Fraunces',serif;font-size:18px;color:var(--ink);margin-bottom:2px}
+.svc .stag{font-size:13px;color:var(--accent);font-weight:600;margin-bottom:8px}
+.svc p{font-size:13.5px;line-height:1.55;color:var(--muted)}
+</style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> Quadro Marketing</div>
+    <div class="section-tag" id="sectionTag">Abertura</div>
+  </div>
+
+  <div class="deck" id="deck">
+
+    <!-- 01 · Capa -->
+    <section class="slide active" data-section="Abertura">
+      <div class="inner">
+        <div class="eyebrow">Site · leitura de 14/07/2026</div>
+        <h1>Reformulação de<br>Copy e SEO</h1>
+        <div class="cover-tag">quadromarketing.com.br — foco em hotel independente</div>
+        <div class="cover-hint">
+          Navegue com <span class="keycap">←</span> <span class="keycap">→</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 · O que funciona -->
+    <section class="slide" data-section="Diagnóstico">
+      <div class="inner">
+        <div class="eyebrow">Diagnóstico</div>
+        <h2>O que já funciona no copy atual</h2>
+        <div class="objective"><b>Manter:</b> a base está correta. Não jogar fora o que já converte — refinar em cima.</div>
+        <div class="chips">
+          <div class="chip green"><span class="k">OK</span><span class="v">Hero direto e relevante: "Mais reservas. Mais hóspedes. Mais resultados."</span></div>
+          <div class="chip green"><span class="k">OK</span><span class="v">CTA de "Diagnóstico Grátis" presente e consistente.</span></div>
+          <div class="chip green"><span class="k">OK</span><span class="v">Clientes reais do setor visíveis: Golden Dolphin, Pipa Ocean, Là-Bas, Hotel Nacional.</span></div>
+          <div class="chip green"><span class="k">OK</span><span class="v">Posicionamento "Hotelaria &amp; Turismo" declarado no subtítulo do hero.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 · O que precisa mudar -->
+    <section class="slide" data-section="Diagnóstico">
+      <div class="inner">
+        <div class="eyebrow">Diagnóstico</div>
+        <h2>O que precisa mudar</h2>
+        <div class="chips">
+          <div class="chip amber"><span class="k">Ajustar</span><span class="v">FAQ diz "Multipropriedade é nossa especialidade" — conflita com o foco em hotéis independentes.</span></div>
+          <div class="chip amber"><span class="k">Ajustar</span><span class="v">Serviços listados de forma genérica, sem ângulo hoteleiro.</span></div>
+          <div class="chip amber"><span class="k">Ajustar</span><span class="v">Seção de "cross marketing" fora do posicionamento — confunde quem chegou pelo anúncio.</span></div>
+          <div class="chip amber"><span class="k">Ajustar</span><span class="v">Autoridade declarada sem evidência: sem dado de mercado ou prova de especialidade.</span></div>
+          <div class="chip amber"><span class="k">Ajustar</span><span class="v">Serviços não respondem o que o dono precisa ver: reservas diretas, rastreamento, OTA e sazonalidade.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 · SEO On-Page -->
+    <section class="slide" data-section="SEO On-Page">
+      <div class="inner">
+        <div class="kicker-row"><span class="num">SEO</span><span style="font-size:13px;color:var(--muted)">Otimização On-Page</span></div>
+        <h2>Title, Meta e H1</h2>
+        <div class="field-lbl">Title tag <span class="charhint">— até 60 caracteres</span></div>
+        <div class="seocode">Quadro Marketing | Agência para Hotéis Independentes</div>
+        <div class="field-lbl">Meta description <span class="charhint">— até 155 caracteres</span></div>
+        <div class="seocode">Agência especializada em marketing de performance para hotéis independentes. Mais reservas diretas, menos OTA. Diagnóstico gratuito em 30 minutos.</div>
+        <div class="field-lbl">H1 sugerido</div>
+        <div class="seocode">Mais reservas diretas. Menos dependência de OTA.</div>
+      </div>
+    </section>
+
+    <!-- 05 · Homepage — Hero -->
+    <section class="slide" data-section="Homepage">
+      <div class="inner">
+        <div class="eyebrow">Homepage · Hero</div>
+        <h2>Nova proposta de abertura</h2>
+        <div class="note">Tag acima do H1: Agência especializada em hotelaria independente</div>
+        <div class="script">
+          <p style="font-family:'Fraunces',serif;font-size:20px;color:var(--accent-deep)">Mais reservas diretas. Menos dependência de OTA.</p>
+          <p>Marketing de performance para hotéis independentes de 40 a 200 quartos. Resultado rastreado da campanha até o check-in.</p>
+          <span class="cta-line">Diagnóstico gratuito — 30 minutos</span>
+          <span class="cta-line sec">Como funciona</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 · Por que a Quadro -->
+    <section class="slide" data-section="Homepage">
+      <div class="inner">
+        <div class="eyebrow">Homepage · Seção</div>
+        <h2>Agência que entende de hotel — não de post.</h2>
+        <div class="obs">
+          <div class="obs-card"><div class="oi">1</div>
+            <div><h3>Só hotelaria.</h3><p>Não atendemos restaurante, clínica nem academia. Trabalhamos exclusivamente com hotéis independentes — porque operar hotel é diferente de qualquer outro negócio.</p></div>
+          </div>
+          <div class="obs-card"><div class="oi">2</div>
+            <div><h3>Da campanha ao check-in.</h3><p>Você sabe qual anúncio gerou qual reserva, qual foi o CPL real e o que cada real produziu. Relatório de alcance não é resultado. Resultado é reserva.</p></div>
+          </div>
+          <div class="obs-card"><div class="oi">3</div>
+            <div><h3>Marketing e comercial juntos.</h3><p>Tráfego nichado, SDR com metodologia NEPQ e rastreamento de funil completo. O lead precisa ser qualificado e convertido — não só gerado.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 · Para quem é -->
+    <section class="slide" data-section="Homepage">
+      <div class="inner">
+        <div class="eyebrow">Homepage · ICP</div>
+        <h2>O hotel certo para a estratégia certa.</h2>
+        <p class="lead" style="margin:6px 0 8px">Trabalhamos com hotéis independentes que:</p>
+        <ol class="ol-clean">
+          <li>Têm entre 40 e 200 quartos.</li>
+          <li>Já investem em marketing ou tráfego pago — com ou sem resultado.</li>
+          <li>Querem reduzir a dependência de OTA e construir canal de reserva direta.</li>
+          <li>Têm dono ou gestor ativo — que toma decisão e acompanha resultado.</li>
+        </ol>
+        <div class="script" style="margin-top:18px">
+          <p>Se o seu hotel se encaixa nesse perfil: o próximo passo é um diagnóstico de 30 minutos.</p>
+          <span class="cta-line">Quero o diagnóstico gratuito</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08 · Como funciona -->
+    <section class="slide" data-section="Homepage">
+      <div class="inner">
+        <div class="eyebrow">Homepage · Processo</div>
+        <h2>Como funciona — 4 etapas</h2>
+        <div class="tempos">
+          <div class="tempo"><div class="n">1</div><h3>Diagnóstico</h3><p>30 min, gratuito. Mapeamos de onde vêm as reservas, o custo real via OTA e o que está travando o canal direto.</p></div>
+          <div class="tempo"><div class="n">2</div><h3>Estratégia</h3><p>Campanha, público, script de atendimento e meta de resultado em 90 dias — sob medida.</p></div>
+          <div class="tempo"><div class="n">3</div><h3>Campanha + processo</h3><p>Tráfego nichado integrado ao SDR. Cada lead é qualificado antes de entrar no funil de reunião.</p></div>
+          <div class="tempo"><div class="n">4</div><h3>Acompanhamento</h3><p>Relatório mensal com o que importa: CPL, custo por reunião, leads qualificados e reservas rastreadas.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 09 · Serviços 1 e 2 -->
+    <section class="slide" data-section="Serviços">
+      <div class="inner">
+        <div class="eyebrow">Página de Serviços · foco hoteleiro</div>
+        <h2>Tráfego e Processo Comercial</h2>
+        <div class="two" style="margin-top:16px">
+          <div class="svc">
+            <div class="st">Tráfego Pago para Hotelaria</div>
+            <div class="stag">Campanha que gera lead qualificado — não clique.</div>
+            <p>Meta Ads estruturado para o nicho: público segmentado por comportamento de quem pesquisa hospedagem, formulário de alta intenção que filtra antes do atendimento e rastreamento até a reserva confirmada. Mídia a partir de R$ 2.000/mês.</p>
+          </div>
+          <div class="svc">
+            <div class="st">Processo Comercial SDR</div>
+            <div class="stag">Do lead ao agendamento — sem desperdício.</div>
+            <p>SDR treinada com NEPQ adaptada à hotelaria: qualificação por porte, decisor e dor real com OTA. Só entra na reunião quem tem fit. Script completo de abordagem, qualificação e confirmação.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 · Serviços 3 e 4 -->
+    <section class="slide" data-section="Serviços">
+      <div class="inner">
+        <div class="eyebrow">Página de Serviços · foco hoteleiro</div>
+        <h2>Redes Sociais e Site</h2>
+        <div class="two" style="margin-top:16px">
+          <div class="svc">
+            <div class="st">Gestão de Redes Sociais</div>
+            <div class="stag">Orgânico que valida o anúncio.</div>
+            <p>Conteúdo estratégico para Instagram e Facebook: educação sobre reservas diretas e prova de autoridade no nicho. O lead visita o perfil antes de preencher — perfil de agência hoteleira especializada aumenta a conversão.</p>
+          </div>
+          <div class="svc">
+            <div class="st">Site e Landing Page</div>
+            <div class="stag">Presença digital que converte visita em reserva.</div>
+            <p>Site com copy voltado para reserva direta, motor de reserva integrado e SEO para hotelaria. Landing de campanha com formulário de alta intenção para captura de lead.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 · CTA de fechamento -->
+    <section class="slide" data-section="Fechamento">
+      <div class="inner">
+        <div class="eyebrow">CTA · antes do rodapé</div>
+        <h2>Pronto para entender o que está travando as reservas diretas do seu hotel?</h2>
+        <p class="pullquote">30 minutos de diagnóstico gratuito. Sem compromisso. Sem pitch de vendas.</p>
+        <div class="script" style="margin-top:20px">
+          <p>Você sai entendendo onde está o gargalo — e o que é possível mudar nos próximos 90 dias.</p>
+          <span class="cta-line">Quero o diagnóstico gratuito</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 · FAQ parte 1 -->
+    <section class="slide" data-section="FAQ">
+      <div class="inner">
+        <div class="eyebrow">FAQ revisado · alinhado ao ICP</div>
+        <h2>Perguntas 1 a 3</h2>
+        <div class="msg-head"><span class="badge">01</span><span style="font-size:13px;color:var(--muted)">Para quais hotéis a Quadro trabalha?</span></div>
+        <div class="script"><p>Hotéis independentes — fora de rede ou bandeira — de 40 a 200 quartos, em qualquer região do Brasil. Ideal: hotel que já opera, já investe em marketing e quer estruturar reservas diretas com resultado rastreado.</p></div>
+        <div class="msg-head"><span class="badge">02</span><span style="font-size:13px;color:var(--muted)">Vocês trabalham com OTAs também?</span></div>
+        <div class="script"><p>Não gerenciamos OTAs. Nossa especialidade é o canal direto: tráfego que gera lead qualificado, atendimento que converte e rastreamento até a reserva. O objetivo é reduzir a dependência do Booking — mudar a direção da agulha.</p></div>
+        <div class="msg-head"><span class="badge amber">03</span><span style="font-size:13px;color:var(--muted)">Em quanto tempo vejo resultado?</span></div>
+        <div class="script amber"><p>CPL validado e SDR funcionando nas primeiras 4 semanas. Reuniões a partir da 6ª semana. Reservas rastreadas a partir do 2º mês. Os prazos dependem do porte e da base de partida — o diagnóstico define a expectativa do seu contexto.</p></div>
+      </div>
+    </section>
+
+    <!-- 13 · FAQ parte 2 -->
+    <section class="slide" data-section="FAQ">
+      <div class="inner">
+        <div class="eyebrow">FAQ revisado · alinhado ao ICP</div>
+        <h2>Perguntas 4 e 5</h2>
+        <div class="msg-head"><span class="badge">04</span><span style="font-size:13px;color:var(--muted)">Quanto custa trabalhar com a Quadro?</span></div>
+        <div class="script"><p>O fee de agência começa em R$ 4.000/mês, com contrato de 12 meses e verba de mídia à parte. O diagnóstico gratuito é o primeiro passo — nele mapeamos o que faz sentido para o porte e o momento do seu hotel antes de qualquer proposta.</p></div>
+        <div class="msg-head"><span class="badge">05</span><span style="font-size:13px;color:var(--muted)">O que é o diagnóstico gratuito?</span></div>
+        <div class="script"><p>Uma conversa de 30 minutos com o time. Sem compromisso e sem pitch. Entendemos o momento do hotel, o que já foi tentado, a dependência atual de OTA e onde está o gargalo. Você sai com clareza sobre o próximo passo — contratando ou não.</p></div>
+        <div class="note">Fim do FAQ — todas as 5 perguntas reescritas para reforçar o posicionamento de nicho.</div>
+      </div>
+    </section>
+
+    <!-- 14 · Encerramento -->
+    <section class="slide" data-section="Resumo">
+      <div class="inner">
+        <div class="eyebrow">Resumo</div>
+        <h2>O fio condutor da reformulação</h2>
+        <p class="pullquote">Um só posicionamento em toda a página: hotel independente, reserva direta, resultado rastreado.</p>
+        <div class="obs" style="margin-top:24px">
+          <div class="obs-card"><div class="oi">A</div><div><h3>Coerência de nicho</h3><p>Remover multipropriedade e cross marketing. Tudo aponta para hotel independente de 40 a 200 quartos.</p></div></div>
+          <div class="obs-card"><div class="oi">B</div><div><h3>Prova acima de promessa</h3><p>Rastreamento da campanha ao check-in como argumento central, não autoridade declarada.</p></div></div>
+          <div class="obs-card"><div class="oi">C</div><div><h3>Um único CTA</h3><p>Diagnóstico gratuito de 30 minutos repetido de ponta a ponta como próximo passo.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="nav">
+    <div class="dots" id="dots"></div>
+    <div class="arrows">
+      <button class="arrow" id="prev" aria-label="Anterior">‹</button>
+      <div class="counter" id="counter">01 / 01</div>
+      <button class="arrow" id="next" aria-label="Próximo">›</button>
+    </div>
+  </div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let cur = 0;
+  const dotsWrap = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const progress = document.getElementById('progress');
+  const sectionTag = document.getElementById('sectionTag');
+
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');
+    b.setAttribute('aria-label','Slide '+(i+1));
+    b.addEventListener('click',()=>go(i));
+    dotsWrap.appendChild(b);
+  });
+  const dots = Array.from(dotsWrap.children);
+  const pad = n => String(n).padStart(2,'0');
+
+  function go(i){
+    i = Math.max(0, Math.min(total-1, i));
+    slides[cur].classList.remove('active');
+    cur = i;
+    slides[cur].classList.add('active');
+    slides[cur].scrollTop = 0;
+    dots.forEach((d,k)=>d.classList.toggle('on', k===cur));
+    counter.textContent = pad(cur+1)+' / '+pad(total);
+    progress.style.width = ((cur)/(total-1)*100)+'%';
+    prevBtn.disabled = cur===0;
+    nextBtn.disabled = cur===total-1;
+    sectionTag.textContent = slides[cur].dataset.section || '';
+  }
+
+  prevBtn.addEventListener('click',()=>go(cur-1));
+  nextBtn.addEventListener('click',()=>go(cur+1));
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); go(cur+1); }
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+    else if(e.key===' '){
+      const s=slides[cur];
+      if(Math.ceil(s.scrollTop+s.clientHeight) >= s.scrollHeight-2){ e.preventDefault(); go(cur+1); }
+    }
+    else if(e.key==='Home'){ go(0); }
+    else if(e.key==='End'){ go(total-1); }
+  });
+
+  let tsx=0, tsy=0;
+  document.addEventListener('touchstart',e=>{tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;},{passive:true});
+  document.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tsx;
+    const dy=e.changedTouches[0].clientY-tsy;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)){ dx<0?go(cur+1):go(cur-1); }
+  },{passive:true});
+
+  go(0);
+</script>
+</body>
+</html>
