@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadro Marketing — Marketing para hotelaria independente</title>
+<meta name="description" content="Menos comissão pro Booking, mais reserva direta no seu caixa. Marketing feito só para hotelaria independente, com método próprio e atendimento que fecha reserva.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F1EA; --surface:#FFFFFF; --surface-2:#FBF9F4;
+  --ink:#23211C; --muted:#726D62; --faint:#9A9488;
+  --line:#E5E0D4;
+  --accent:#2E6C5F; --accent-deep:#1F4E44; --accent-soft:#E4EFEB;
+  --amber:#B27A26; --amber-soft:#F5EBD6; --amber-deep:#8A5D1A;
+  --green:#3B8B57; --green-soft:#E2F0E5;
+  --shadow-sm:0 1px 2px rgba(35,33,28,.05);
+  --shadow:0 1px 2px rgba(35,33,28,.04), 0 12px 34px -18px rgba(35,33,28,.28);
+  --shadow-lg:0 2px 4px rgba(35,33,28,.05), 0 30px 60px -28px rgba(35,33,28,.35);
+  --radius:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* type */
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-.01em;line-height:1.06}
+h1{font-size:clamp(38px,6vw,68px)}
+h2{font-size:clamp(30px,4.2vw,48px);line-height:1.1}
+h3{font-size:clamp(19px,2vw,23px);line-height:1.2}
+p{font-size:16.5px;color:var(--muted)}
+.eyebrow{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:16px;display:inline-block}
+.eyebrow.amber{color:var(--amber-deep)}
+
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 clamp(20px,5vw,48px)}
+.section{padding:clamp(64px,9vw,120px) 0}
+.section-tight{padding:clamp(48px,6vw,80px) 0}
+.center{text-align:center}
+.center p{margin-left:auto;margin-right:auto}
+.lead{font-size:clamp(17px,1.6vw,20px);line-height:1.6;max-width:60ch}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Inter';font-size:15px;font-weight:600;padding:14px 24px;border-radius:12px;cursor:pointer;border:1px solid transparent;transition:transform .15s ease, background .2s ease, border-color .2s ease}
+.btn:focus-visible{outline:2px solid var(--accent-deep);outline-offset:3px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-deep);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.btn-lg{padding:16px 30px;font-size:16px}
+
+/* header */
+header{position:sticky;top:0;z-index:100;background:rgba(244,241,234,.82);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid transparent;transition:border-color .3s, background .3s}
+header.scrolled{border-bottom-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces';font-size:21px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);flex:none}
+.menu{display:flex;align-items:center;gap:30px}
+.menu a{font-size:14.5px;color:var(--muted);font-weight:500;transition:color .2s}
+.menu a:hover{color:var(--ink)}
+.nav-cta{display:flex;align-items:center;gap:14px}
+.burger{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:11px;background:var(--surface);cursor:pointer;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+.burger span{width:18px;height:2px;background:var(--ink);border-radius:2px;transition:.25s}
+.burger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:900px){
+  .menu, .nav-cta .btn{display:none}
+  .burger{display:flex}
+}
+#mobileMenu{display:none;flex-direction:column;gap:6px;padding:16px clamp(20px,5vw,48px) 24px;border-bottom:1px solid var(--line);background:var(--bg)}
+#mobileMenu.open{display:flex}
+#mobileMenu a{padding:12px 4px;font-size:16px;color:var(--ink);border-bottom:1px solid var(--line)}
+#mobileMenu .btn{margin-top:12px;justify-content:center}
+
+/* hero */
+.hero{padding:clamp(52px,8vw,96px) 0 clamp(40px,6vw,64px)}
+.hero h1{max-width:15ch}
+.hero .sub{margin-top:24px;max-width:52ch}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.hero-trust{margin-top:34px;font-size:14px;color:var(--faint);display:flex;align-items:center;gap:10px}
+.hero-trust .pip{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+/* calculator */
+.calc{background:var(--ink);color:#EFEBE1;border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden;margin-top:8px}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+@media(max-width:820px){ .calc-grid{grid-template-columns:1fr} }
+.calc-inputs{padding:clamp(28px,4vw,44px)}
+.calc-inputs .eyebrow{color:#C9A45E}
+.calc-inputs h2{color:#F7F3EA;font-size:clamp(24px,3vw,34px)}
+.calc-inputs p{color:#B7B1A4;font-size:14.5px;margin-top:12px}
+.field{margin-top:22px}
+.field label{display:block;font-size:13px;font-weight:600;color:#D8D2C6;margin-bottom:8px}
+.field .inp{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:11px;padding:0 14px;transition:border-color .2s}
+.field .inp:focus-within{border-color:#C9A45E}
+.field .inp span{color:#8F897C;font-size:15px}
+.field input{flex:1;background:transparent;border:none;color:#F7F3EA;font-family:'Inter';font-size:17px;font-weight:600;padding:13px 0;outline:none;min-width:0}
+.field .range{width:100%;margin-top:12px;accent-color:#C9A45E}
+.calc-out{background:linear-gradient(160deg,#2A2823,#1C1A16);padding:clamp(28px,4vw,44px);display:flex;flex-direction:column;justify-content:center;border-left:1px solid rgba(255,255,255,.08)}
+@media(max-width:820px){ .calc-out{border-left:none;border-top:1px solid rgba(255,255,255,.08)} }
+.calc-out .tag{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#C9A45E;font-weight:600}
+.calc-out .big{font-family:'Fraunces';font-weight:500;font-size:clamp(42px,6vw,60px);color:#E8B968;line-height:1.02;margin:12px 0 4px}
+.calc-out .per{font-size:14px;color:#B7B1A4}
+.calc-out .month{margin-top:20px;font-size:14.5px;color:#D8D2C6}
+.calc-out .month b{color:#F7F3EA}
+.calc-out .cta-row{margin-top:26px}
+.calc-note{font-size:12.5px;color:var(--faint);margin-top:14px;font-style:italic}
+
+/* generic grid cards */
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){ .g4{grid-template-columns:1fr 1fr} .g3{grid-template-columns:1fr 1fr} }
+@media(max-width:620px){ .g4,.g3,.g2{grid-template-columns:1fr} }
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-sm);transition:transform .18s ease, box-shadow .18s ease}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.card .ic{width:42px;height:42px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:'Fraunces';font-size:20px;font-weight:600;margin-bottom:16px}
+.card h3{margin-bottom:8px}
+.card p{font-size:14.5px}
+
+/* problem split */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,60px);align-items:center}
+@media(max-width:820px){ .split{grid-template-columns:1fr} }
+.mediabox{aspect-ratio:4/3;border-radius:var(--radius);background:
+  linear-gradient(135deg,var(--accent-soft),var(--surface-2));
+  border:1px solid var(--line);display:grid;place-items:center;color:var(--faint);
+  font-size:13px;letter-spacing:.04em;box-shadow:var(--shadow-sm)}
+.mediabox.tall{aspect-ratio:3/4}
+
+/* método steps */
+.steps{counter-reset:st;display:grid;gap:14px;margin-top:12px}
+.step{display:flex;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow-sm)}
+.step .num{counter-increment:st;font-family:'Fraunces';font-size:22px;font-weight:600;color:var(--accent);flex:none;width:40px}
+.step .num::before{content:counter(st,decimal-leading-zero)}
+.step h3{font-size:17px;margin-bottom:4px}
+.step p{font-size:14.5px}
+.honest{margin-top:24px;background:var(--accent-soft);border-radius:14px;padding:20px 24px;font-size:15.5px;color:var(--accent-deep);line-height:1.55}
+
+/* quadro chat feature list */
+.feat{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.feat:last-child{border-bottom:none}
+.feat .fi{flex:none;width:30px;height:30px;border-radius:9px;background:var(--green-soft);color:var(--green);display:grid;place-items:center;font-size:15px;margin-top:2px}
+.feat h3{font-size:16px;margin-bottom:3px}
+.feat p{font-size:14px}
+
+/* diagnóstico */
+.diag{background:var(--accent-deep);color:#EAF3F0;border-radius:calc(var(--radius) + 6px);padding:clamp(32px,5vw,56px);box-shadow:var(--shadow-lg)}
+.diag .eyebrow{color:#8FD3C1}
+.diag h2{color:#fff;max-width:20ch}
+.diag p{color:#C4DAD4}
+.diag-list{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px;margin:28px 0 30px}
+@media(max-width:620px){ .diag-list{grid-template-columns:1fr} }
+.diag-list li{list-style:none;display:flex;gap:11px;font-size:15px;color:#DCEAE6;align-items:flex-start}
+.diag-list li::before{content:"✓";color:#8FD3C1;font-weight:700;margin-top:1px}
+.diag .btn-primary{background:#fff;color:var(--accent-deep)}
+.diag .btn-primary:hover{background:#EAF3F0}
+
+/* faq */
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 40px 22px 0;position:relative;font-family:'Fraunces';font-size:clamp(17px,1.8vw,20px);color:var(--ink);line-height:1.3}
+.faq-q::after{content:"+";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-family:'Inter';font-size:24px;color:var(--accent);font-weight:400;transition:transform .25s}
+.faq-item.open .faq-q::after{transform:translateY(-50%) rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-a p{padding:0 40px 24px 0;font-size:15.5px}
+
+/* testimonials */
+.quote{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-sm)}
+.quote p{font-size:15.5px;color:var(--ink);line-height:1.55}
+.quote .who{margin-top:18px;display:flex;align-items:center;gap:12px}
+.quote .av{width:38px;height:38px;border-radius:50%;background:var(--accent-soft);flex:none}
+.quote .who .n{font-size:14px;font-weight:600;color:var(--ink)}
+.quote .who .r{font-size:12.5px;color:var(--faint)}
+.placeholder-note{font-size:12.5px;color:var(--faint);font-style:italic;text-align:center;margin-top:18px}
+
+/* final cta */
+.finalcta{text-align:center}
+.finalcta h2{max-width:20ch;margin:0 auto}
+.finalcta p{margin:18px auto 30px}
+
+/* footer */
+footer{background:var(--ink);color:#B7B1A4;padding:clamp(48px,6vw,72px) 0 34px}
+.foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.1)}
+@media(max-width:820px){ .foot-top{grid-template-columns:1fr} }
+footer .brand{color:#F7F3EA;margin-bottom:14px}
+.foot-top p{color:#948E82;font-size:14px;max-width:38ch}
+.foot-col h4{color:#D8D2C6;font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;font-weight:600;font-family:'Inter'}
+.foot-col a, .foot-col span{display:block;color:#948E82;font-size:14.5px;margin-bottom:10px;transition:color .2s}
+.foot-col a:hover{color:#F7F3EA}
+.foot-bottom{padding-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12.5px;color:#7C766B}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  .card:hover,.btn-primary:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="wrap nav">
+    <a href="#top" class="brand"><span class="dot"></span>Quadro</a>
+    <nav class="menu">
+      <a href="#conta">A conta</a>
+      <a href="#metodo">Método</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#quadro-chat">Quadro Chat</a>
+      <a href="#para-quem">Para quem</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#diagnostico" class="btn btn-primary">Diagnóstico gratuito</a>
+      <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+  <div id="mobileMenu">
+    <a href="#conta">A conta</a>
+    <a href="#metodo">Método</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#quadro-chat">Quadro Chat</a>
+    <a href="#para-quem">Para quem</a>
+    <a href="#diagnostico" class="btn btn-primary">Diagnóstico gratuito</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="section hero">
+    <div class="wrap">
+      <span class="eyebrow reveal">Marketing para hotelaria independente</span>
+      <h1 class="reveal">Menos comissão pro Booking. Mais reserva direta no seu caixa.</h1>
+      <p class="lead sub reveal">Você lota o hotel e mesmo assim vê boa parte do lucro ir embora em comissão. A gente vira esse jogo com um método feito só pra hotelaria, mês a mês.</p>
+      <div class="hero-actions reveal">
+        <a href="#diagnostico" class="btn btn-primary btn-lg">Quero meu diagnóstico gratuito</a>
+        <a href="#metodo" class="btn btn-ghost btn-lg">Ver como funciona</a>
+      </div>
+      <div class="hero-trust reveal"><span class="pip"></span> Especialistas em hotelaria. Atendemos hotéis independentes no Brasil inteiro.</div>
+    </div>
+  </section>
+
+  <!-- CALCULADORA (assinatura) -->
+  <section class="section-tight" id="conta">
+    <div class="wrap">
+      <div class="calc reveal">
+        <div class="calc-grid">
+          <div class="calc-inputs">
+            <span class="eyebrow amber" style="color:#C9A45E">A conta que dói</span>
+            <h2>Faz a conta: quanto as OTAs tiram de você por ano?</h2>
+            <p>Mexa nos números do seu hotel e veja o tamanho da comissão que sai do seu resultado.</p>
+            <div class="field">
+              <label for="fat">Faturamento por mês</label>
+              <div class="inp"><span>R$</span><input id="fat" type="number" inputmode="numeric" value="80000" min="0"></div>
+            </div>
+            <div class="field">
+              <label for="ota">Quanto das reservas vem por OTA: <span id="otaVal" style="color:#E8B968">60%</span></label>
+              <input id="ota" class="range" type="range" min="0" max="100" value="60">
+            </div>
+            <div class="field">
+              <label for="com">Comissão média da OTA: <span id="comVal" style="color:#E8B968">18%</span></label>
+              <input id="com" class="range" type="range" min="5" max="30" value="18">
+            </div>
+          </div>
+          <div class="calc-out">
+            <span class="tag">Você deixa na mão das OTAs</span>
+            <div class="big" id="outYear">R$ 103.680</div>
+            <div class="per">por ano, todo ano</div>
+            <div class="month">São <b id="outMonth">R$ 8.640</b> por mês que poderiam voltar pro seu bolso.</div>
+            <div class="cta-row"><a href="#diagnostico" class="btn btn-primary">Quero reduzir isso</a></div>
+          </div>
+        </div>
+      </div>
+      <p class="calc-note reveal">Cálculo estimado com base no que você informou. Serve pra dimensionar a dor, não pra fechar o balanço.</p>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section class="section" id="problema">
+    <div class="wrap split">
+      <div class="reveal">
+        <span class="eyebrow">Por que as OTAs ganham</span>
+        <h2>Elas chegam antes. Só por isso.</h2>
+        <p style="margin-top:20px">O hóspede abre o Booking e já encontra vinte opções, a sua no meio delas. Aí a briga vira preço, e nessa briga a comissão sempre ganha.</p>
+        <p style="margin-top:16px">Só que a maioria dos viajantes pesquisa seu hotel no Google e no Instagram antes de reservar. Se você não aparece nessa hora, entra só na comparação de preço lá na OTA.</p>
+        <p style="margin-top:16px">A gente coloca seu hotel na frente, antes disso. Quando o hóspede chega no seu site, ele já conhece sua marca, e reservar direto vira a escolha óbvia.</p>
+      </div>
+      <div class="mediabox tall reveal">[ foto do seu hotel ]</div>
+    </div>
+  </section>
+
+  <!-- MÉTODO MAESTRO -->
+  <section class="section" id="metodo" style="background:var(--surface-2)">
+    <div class="wrap">
+      <div class="center reveal" style="max-width:640px;margin:0 auto 8px">
+        <span class="eyebrow">O método</span>
+        <h2>MAESTRO: cada peça tocando no tempo certo</h2>
+        <p class="lead" style="margin-top:18px">Marketing de hotel não é post bonito. É atrair, converter e fidelizar em sintonia. O MAESTRO é o nosso ciclo, e ele roda todo mês pro seu hotel.</p>
+      </div>
+      <div class="steps reveal" style="max-width:820px;margin:36px auto 0">
+        <div class="step"><div class="num"></div><div><h3>Retrato do Mês</h3><p>A gente lê o estado real do seu hotel: ocupação, canais, o que a concorrência fez e quanto do seu faturamento ainda depende de OTA.</p></div></div>
+        <div class="step"><div class="num"></div><div><h3>Estratégia comercial</h3><p>Definimos onde atacar no mês: atrair mais gente que ainda não te conhece, ou converter quem já está decidindo.</p></div></div>
+        <div class="step"><div class="num"></div><div><h3>Tráfego certo</h3><p>Google Hotel Ads pra quem já compara tarifa, anúncio no Instagram pra despertar desejo e busca pelo nome do seu hotel pra não perder quem já ouviu falar de você.</p></div></div>
+        <div class="step"><div class="num"></div><div><h3>Conteúdo e copy</h3><p>Cada post, anúncio e página de reserva escrito pra falar com o hóspede certo, na hora certa.</p></div></div>
+        <div class="step"><div class="num"></div><div><h3>Atendimento que fecha</h3><p>Scripts pro seu time de reservas e o Quadro Chat respondendo na hora, porque lead que espera esfria e vai pro Booking.</p></div></div>
+        <div class="step"><div class="num"></div><div><h3>Escuta e ajuste</h3><p>No fim do mês, os números dizem o que funcionou. O mês seguinte já começa mais afiado.</p></div></div>
+      </div>
+      <div class="honest reveal" style="max-width:820px;margin-left:auto;margin-right:auto">A gente não promete acabar com as OTAs da noite pro dia. Promete reduzir sua dependência delas, mês a mês, e devolver essa margem pro seu bolso.</div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="section" id="servicos">
+    <div class="wrap">
+      <div class="center reveal" style="max-width:620px;margin:0 auto 44px">
+        <span class="eyebrow">O que a gente faz</span>
+        <h2>Tudo que seu hotel precisa pra vender direto</h2>
+      </div>
+      <div class="grid g3 reveal">
+        <div class="card"><div class="ic">E</div><h3>Estratégia comercial</h3><p>O plano do mês: quem atrair, por qual canal e com qual mensagem.</p></div>
+        <div class="card"><div class="ic">T</div><h3>Tráfego pago</h3><p>Google Hotel Ads e Meta Ads mirados em reserva, não em curtida.</p></div>
+        <div class="card"><div class="ic">S</div><h3>Site + motor de reservas</h3><p>Um site rápido que fecha reserva em poucos cliques, sem comissão pra ninguém.</p></div>
+        <div class="card"><div class="ic">Q</div><h3>Quadro Chat</h3><p>WhatsApp, Instagram e site num painel só, com atendimento 24 horas.</p></div>
+        <div class="card"><div class="ic">C</div><h3>Social media</h3><p>Conteúdo que conta a história do seu hotel e traz hóspede, não só seguidor.</p></div>
+        <div class="card"><div class="ic">V</div><h3>Consultoria de vendas</h3><p>A gente treina e dá script pro seu time de reservas fechar mais.</p></div>
+        <div class="card"><div class="ic">I</div><h3>Identidade visual</h3><p>Sua marca com a cara certa pro público que você quer atrair.</p></div>
+        <div class="card"><div class="ic">F</div><h3>Imagem e vídeo</h3><p>Captação profissional do seu hotel, presencial na região de Caldas Novas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUADRO CHAT -->
+  <section class="section" id="quadro-chat" style="background:var(--surface-2)">
+    <div class="wrap split">
+      <div class="mediabox reveal">[ tela do Quadro Chat ]</div>
+      <div class="reveal">
+        <span class="eyebrow">Nossa plataforma</span>
+        <h2>Quadro Chat: o hóspede chama e ninguém fica sem resposta</h2>
+        <p style="margin-top:18px">A maioria das reservas de hotel começa numa mensagem. Se ninguém responde rápido, o hóspede fecha o app e abre o Booking. O Quadro Chat resolve isso.</p>
+        <div style="margin-top:22px">
+          <div class="feat"><div class="fi">◆</div><div><h3>Tudo num painel só</h3><p>WhatsApp, Instagram e site juntos, sem perder mensagem.</p></div></div>
+          <div class="feat"><div class="fi">◆</div><div><h3>Atendimento 24h com IA</h3><p>Responde valores, disponibilidade e café da manhã na hora, mesmo fora do horário.</p></div></div>
+          <div class="feat"><div class="fi">◆</div><div><h3>CRM com histórico</h3><p>Cada hóspede vira um contato seu, não um anônimo que some.</p></div></div>
+          <div class="feat"><div class="fi">◆</div><div><h3>Relacionamento e automações</h3><p>Traz o hóspede de volta e pede avaliação no Google, sem pagar comissão de novo.</p></div></div>
+        </div>
+        <p style="margin-top:22px;color:var(--ink);font-weight:600">É onde a conversa vira reserva direta.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- POR QUE A QUADRO -->
+  <section class="section" id="porque">
+    <div class="wrap">
+      <div class="center reveal" style="max-width:620px;margin:0 auto 44px">
+        <span class="eyebrow">Por que a gente</span>
+        <h2>Não somos uma agência genérica</h2>
+      </div>
+      <div class="grid g3 reveal">
+        <div class="card"><div class="ic">1</div><h3>Só hotelaria</h3><p>A gente entende diária, OTA, sazonalidade e reserva direta. Campanha feita por quem não conhece o setor queima verba.</p></div>
+        <div class="card"><div class="ic">2</div><h3>Entramos no comercial</h3><p>Olhamos seu site, seu atendimento e seu time de vendas, não só o anúncio. Marketing sem venda não paga a conta.</p></div>
+        <div class="card"><div class="ic">3</div><h3>Devolvemos sua margem</h3><p>Cada reserva direta é uma comissão que fica com você. Esse é o placar que a gente joga pra virar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARA QUEM -->
+  <section class="section-tight" id="para-quem" style="background:var(--surface-2)">
+    <div class="wrap split">
+      <div class="reveal">
+        <span class="eyebrow">Para quem é</span>
+        <h2>Feito pro hotel que já rala e quer parar de depender das OTAs</h2>
+      </div>
+      <div class="reveal">
+        <p style="color:var(--ink);font-weight:600;margin-bottom:14px">É pra você se:</p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:12px">
+          <li style="display:flex;gap:11px;font-size:15.5px;color:var(--muted)"><span style="color:var(--accent);font-weight:700">✓</span> Tem um hotel ou pousada independente, de 40 a 200 quartos.</li>
+          <li style="display:flex;gap:11px;font-size:15.5px;color:var(--muted)"><span style="color:var(--accent);font-weight:700">✓</span> Já investe em tráfego, mas não sabe quanto virou reserva.</li>
+          <li style="display:flex;gap:11px;font-size:15.5px;color:var(--muted)"><span style="color:var(--accent);font-weight:700">✓</span> Tem site próprio, mas ainda depende do Booking.</li>
+          <li style="display:flex;gap:11px;font-size:15.5px;color:var(--muted)"><span style="color:var(--accent);font-weight:700">✓</span> Acompanha o negócio de perto e quer o controle de volta.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section class="section">
+    <div class="wrap">
+      <div class="center reveal" style="max-width:620px;margin:0 auto 44px">
+        <span class="eyebrow">Quem trabalha com a gente</span>
+        <h2>Resultado de quem já virou o jogo</h2>
+      </div>
+      <div class="grid g3 reveal">
+        <div class="quote"><p>"[ Espaço para o depoimento real do cliente: o antes, o que mudou e o número que prova. ]"</p><div class="who"><div class="av"></div><div><div class="n">[ Nome ]</div><div class="r">[ Hotel · Cidade ]</div></div></div></div>
+        <div class="quote"><p>"[ Espaço para o depoimento real do cliente: o antes, o que mudou e o número que prova. ]"</p><div class="who"><div class="av"></div><div><div class="n">[ Nome ]</div><div class="r">[ Hotel · Cidade ]</div></div></div></div>
+        <div class="quote"><p>"[ Espaço para o depoimento real do cliente: o antes, o que mudou e o número que prova. ]"</p><div class="who"><div class="av"></div><div><div class="n">[ Nome ]</div><div class="r">[ Hotel · Cidade ]</div></div></div></div>
+      </div>
+      <p class="placeholder-note reveal">Modelo base: troque pelos depoimentos e números reais dos seus clientes. Prova com nome e número vale mais que qualquer adjetivo.</p>
+    </div>
+  </section>
+
+  <!-- DIAGNÓSTICO -->
+  <section class="section" id="diagnostico">
+    <div class="wrap">
+      <div class="diag reveal">
+        <div class="split" style="align-items:center">
+          <div>
+            <span class="eyebrow">Comece por aqui</span>
+            <h2>Um Raio-X gratuito do seu hotel</h2>
+            <p style="margin-top:18px">Antes de qualquer contrato, a gente olha seu hotel e te mostra onde as reservas estão vazando. Sem custo e sem enrolação.</p>
+            <ul class="diag-list">
+              <li>Quanto você perde de comissão por mês</li>
+              <li>Onde seu site perde reserva</li>
+              <li>Como você aparece no Google</li>
+              <li>Um plano com as ações de maior impacto</li>
+            </ul>
+            <a href="https://wa.me/5564936180948?text=Quero%20meu%20diagn%C3%B3stico%20gratuito" class="btn btn-primary btn-lg">Quero meu diagnóstico gratuito</a>
+          </div>
+          <div>
+            <div style="display:flex;flex-direction:column;gap:18px">
+              <div style="display:flex;gap:16px;align-items:flex-start"><div style="font-family:'Fraunces';font-size:22px;color:#8FD3C1;flex:none;width:32px">1</div><div><div style="color:#fff;font-weight:600;font-size:15.5px">Preenche o formulário</div><div style="color:#C4DAD4;font-size:14px;margin-top:2px">Leva 2 minutos. Conte o essencial do seu hotel.</div></div></div>
+              <div style="display:flex;gap:16px;align-items:flex-start"><div style="font-family:'Fraunces';font-size:22px;color:#8FD3C1;flex:none;width:32px">2</div><div><div style="color:#fff;font-weight:600;font-size:15.5px">A gente analisa</div><div style="color:#C4DAD4;font-size:14px;margin-top:2px">Olhamos seu site, seus canais e o Google do seu hotel.</div></div></div>
+              <div style="display:flex;gap:16px;align-items:flex-start"><div style="font-family:'Fraunces';font-size:22px;color:#8FD3C1;flex:none;width:32px">3</div><div><div style="color:#fff;font-weight:600;font-size:15.5px">Apresenta o plano</div><div style="color:#C4DAD4;font-size:14px;margin-top:2px">Numa conversa, sem tecniquês. Você decide se segue com a gente.</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq" style="background:var(--surface-2)">
+    <div class="wrap" style="max-width:820px">
+      <div class="center reveal" style="margin-bottom:36px">
+        <span class="eyebrow">Perguntas frequentes</span>
+        <h2>O que todo hoteleiro pergunta</h2>
+      </div>
+      <div class="reveal">
+        <div class="faq-item"><button class="faq-q">Preciso sair do Booking pra ter reserva direta?</button><div class="faq-a"><p>Não. A ideia é usar a OTA como vitrine e trazer esse hóspede pro seu canal direto, com melhor tarifa e vantagens que só você oferece. Os dois trabalham juntos, e a sua margem cresce no direto.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Quanto devo investir em marketing?</button><div class="faq-a"><p>O mercado de hotelaria trabalha com 4% a 6% da receita. Mas o número que importa é outro: compare com o que você já paga de comissão pras OTAs. Quase sempre o marketing direto sai bem mais barato que a comissão, e ainda te deixa um ativo que é seu.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Vocês atendem meu hotel em qualquer cidade?</button><div class="faq-a"><p>Sim, o Brasil inteiro. Nosso time é de Caldas Novas e trabalha 100% digital. A única coisa presencial é a captação de foto e vídeo, feita na nossa região.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Em quanto tempo eu vejo resultado?</button><div class="faq-a"><p>Anúncio no Google e no Instagram pode trazer reserva em poucos dias. SEO e conteúdo crescem em alguns meses. A reserva direta sobe mês a mês, e é isso que a gente mede junto com você.</p></div></div>
+        <div class="faq-item"><button class="faq-q">Qual a diferença de vocês pra uma agência comum?</button><div class="faq-a"><p>Agência comum entrega curtida e arte bonita. A gente só faz hotelaria, entra no seu comercial, não só no marketing, e joga por um placar só: reserva direta no seu caixa.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="section finalcta">
+    <div class="wrap reveal">
+      <h2>Bora tirar seu lucro da mão das OTAs?</h2>
+      <p class="lead">Começa pelo diagnóstico gratuito. A gente te mostra o tamanho da oportunidade antes de você decidir qualquer coisa.</p>
+      <a href="#diagnostico" class="btn btn-primary btn-lg">Quero meu diagnóstico gratuito</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="brand" style="color:#F7F3EA"><span class="dot"></span>Quadro Marketing</div>
+        <p>Marketing feito só pra hotelaria independente. A gente devolve pro seu hotel a margem que hoje escorre pras OTAs.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Navegar</h4>
+        <a href="#metodo">Método MAESTRO</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#quadro-chat">Quadro Chat</a>
+        <a href="#diagnostico">Diagnóstico gratuito</a>
+      </div>
+      <div class="foot-col">
+        <h4>Falar com a gente</h4>
+        <a href="https://wa.me/5564936180948">WhatsApp (64) 93618-0948</a>
+        <a href="mailto:comercial@quadromkt.com.br">comercial@quadromkt.com.br</a>
+        <span>Caldas Novas, GO · atendemos o Brasil</span>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Quadro Marketing · CNPJ 46.992.421/0001-47</span>
+      <span>Reservas diretas. Menos OTA, mais margem.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // header shadow on scroll
+  const header = document.getElementById('header');
+  addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 8), {passive:true});
+
+  // mobile menu
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open'); burger.classList.remove('open');
+  }));
+
+  // calculadora de comissão
+  const fat = document.getElementById('fat');
+  const ota = document.getElementById('ota');
+  const com = document.getElementById('com');
+  const otaVal = document.getElementById('otaVal');
+  const comVal = document.getElementById('comVal');
+  const outYear = document.getElementById('outYear');
+  const outMonth = document.getElementById('outMonth');
+  const brl = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+  function calc(){
+    const f = Math.max(0, Number(fat.value) || 0);
+    const o = Number(ota.value) / 100;
+    const c = Number(com.value) / 100;
+    otaVal.textContent = ota.value + '%';
+    comVal.textContent = com.value + '%';
+    const month = f * o * c;
+    outMonth.textContent = brl(month);
+    outYear.textContent = brl(month * 12);
+  }
+  [fat, ota, com].forEach(el => el.addEventListener('input', calc));
+  calc();
+
+  // faq accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const a = q.nextElementSibling;
+      const open = item.classList.toggle('open');
+      a.style.maxHeight = open ? a.scrollHeight + 'px' : 0;
+    });
+  });
+
+  // reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
