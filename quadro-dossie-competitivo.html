@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadro Marketing — Dossiê Competitivo &amp; Ciclo Ideal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17181C;
+    --paper:#EFEBE1;
+    --paper-dim:#E4DECD;
+    --card:#FAF8F2;
+    --line: rgba(23,24,28,.16);
+    --line-soft: rgba(23,24,28,.09);
+    --muted:#5C594E;
+
+    --s1:#3C6E52;   --s1-bg:#182620;  --s1-bg2:#20362B; --s1-soft:#DCE6DD;
+    --s2:#8A5A2E;   --s2-bg:#201A11;  --s2-bg2:#33261A; --s2-soft:#EBE0D1;
+    --s3:#A83A2C;   --s3-bg:#211311;  --s3-bg2:#341C18; --s3-soft:#F2DFDA;
+
+    --ok:#2F7A52;      --ok-bg:#DFEEE3;
+    --partial:#946A22; --partial-bg:#F3E7CE;
+    --no:#9C433A;      --no-bg:#F3DEDA;
+    --maestro:#3D5C82; --maestro-bg:#DCE4EC;
+
+    --disp:'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --mono:'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --body:'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    --r-sm:8px; --r-md:14px; --r-lg:20px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--body);
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--s3); color:#fff;}
+
+  a{color:inherit;}
+
+  /* ---------- Deck scroll container ---------- */
+  #deck{
+    height:100vh;
+    overflow-y:scroll;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+  }
+  @media (prefers-reduced-motion: reduce){
+    #deck{scroll-behavior:auto;}
+    *{animation:none !important; transition:none !important;}
+  }
+
+  .slide{
+    min-height:100vh;
+    width:100%;
+    scroll-snap-align:start;
+    position:relative;
+    padding:clamp(28px,5vw,64px) clamp(20px,6vw,88px) clamp(72px,10vw,110px);
+    display:flex;
+    flex-direction:column;
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .55s ease, transform .55s ease;
+  }
+  .slide.in-view{opacity:1; transform:translateY(0);}
+
+  /* ---------- Running header (signature device) ---------- */
+  .doc-head{
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:var(--mono); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+    padding-bottom:18px; margin-bottom:auto; opacity:.72;
+  }
+  .slide.cover .doc-head{opacity:.62; color:#fff;}
+  .doc-head .tag{display:flex; align-items:center; gap:10px;}
+  .doc-head .sep{opacity:.5;}
+
+  /* ---------- Cover slides ---------- */
+  .slide.cover{ color:#fff; justify-content:center; overflow:hidden;}
+  .slide.cover.s1{background:radial-gradient(120% 140% at 15% 10%, var(--s1-bg2) 0%, var(--s1-bg) 55%, #10160F 100%);}
+  .slide.cover.s2{background:radial-gradient(120% 140% at 85% 10%, var(--s2-bg2) 0%, var(--s2-bg) 55%, #140E08 100%);}
+  .slide.cover.s3{background:radial-gradient(120% 140% at 15% 90%, var(--s3-bg2) 0%, var(--s3-bg) 55%, #170C0A 100%);}
+  .slide.cover.deck0{background:
+      radial-gradient(90% 120% at 10% 0%, rgba(60,110,82,.35), transparent 55%),
+      radial-gradient(90% 120% at 90% 10%, rgba(138,90,46,.32), transparent 55%),
+      radial-gradient(90% 120% at 50% 100%, rgba(168,58,44,.30), transparent 55%),
+      #14151A;
+  }
+
+  .ghost-num{
+    position:absolute; right:clamp(6px,3vw,40px); bottom:clamp(-30px,2vw,10px);
+    font-family:var(--disp); font-weight:700; font-size:clamp(8rem,26vw,20rem);
+    line-height:.8; letter-spacing:-.02em; color:#fff; opacity:.07; pointer-events:none;
+  }
+  .cover-body{max-width:900px;}
+  .kicker{
+    font-family:var(--mono); font-size:.78rem; letter-spacing:.16em; text-transform:uppercase;
+    opacity:.78; margin-bottom:16px; display:inline-flex; align-items:center; gap:10px;
+  }
+  .kicker::before{content:''; width:22px; height:1px; background:currentColor; opacity:.7;}
+  .cover h1{
+    font-family:var(--disp); font-weight:600; font-size:clamp(2.15rem,5.4vw,4.3rem);
+    line-height:1.06; letter-spacing:-.015em; margin:0 0 22px;
+  }
+  .cover .lead{
+    font-size:clamp(1rem,1.5vw,1.2rem); line-height:1.6; max-width:56ch; opacity:.86; margin:0 0 34px; font-weight:400;
+  }
+  .tabs-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:6px;}
+  .tab-chip{
+    font-family:var(--mono); font-size:.76rem; letter-spacing:.04em;
+    border:1px solid rgba(255,255,255,.28); border-radius:999px; padding:7px 14px 7px 10px;
+    display:inline-flex; align-items:center; gap:8px; color:#fff; background:rgba(255,255,255,.06);
+  }
+  .tab-chip .dot{width:8px; height:8px; border-radius:50%; flex:none;}
+
+  /* deck cover agenda */
+  .agenda{display:grid; gap:14px; margin-top:38px; max-width:760px;}
+  .agenda a{
+    display:grid; grid-template-columns:52px 1fr auto; align-items:center; gap:18px;
+    padding:16px 18px; border:1px solid rgba(255,255,255,.16); border-radius:var(--r-md);
+    text-decoration:none; color:#fff; background:rgba(255,255,255,.04);
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .agenda a:hover{background:rgba(255,255,255,.09); border-color:rgba(255,255,255,.32);}
+  .agenda .num{font-family:var(--mono); font-size:1rem; opacity:.7;}
+  .agenda .txt b{display:block; font-family:var(--disp); font-weight:600; font-size:1.02rem;}
+  .agenda .txt span{display:block; font-size:.84rem; opacity:.72; margin-top:2px;}
+  .agenda .arrow{opacity:.55; font-family:var(--mono);}
+
+  /* ---------- Content slides ---------- */
+  .slide.content{background:var(--paper);}
+  .content-head{margin-bottom:clamp(22px,3vw,34px);}
+  .content-head .kicker{color:var(--accent, var(--ink)); opacity:1;}
+  .content-head h2{
+    font-family:var(--disp); font-weight:600; font-size:clamp(1.5rem,2.7vw,2.15rem);
+    letter-spacing:-.01em; margin:0 0 10px; line-height:1.15;
+  }
+  .content-head .sub{font-size:.98rem; color:var(--muted); max-width:64ch; line-height:1.55; margin:0;}
+  .content-head .rule{width:64px; height:2px; background:var(--accent, var(--ink)); margin:14px 0 0;}
+
+  .content-body{flex:1; display:flex; flex-direction:column; gap:22px;}
+
+  /* footer ref line inside content */
+  .doc-foot{
+    margin-top:28px; padding-top:14px; border-top:1px solid var(--line-soft);
+    font-family:var(--mono); font-size:.72rem; color:var(--muted); letter-spacing:.03em;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+
+  /* ---------- Legend chips ---------- */
+  .legend{display:flex; flex-wrap:wrap; gap:10px;}
+  .chip{
+    display:inline-flex; align-items:center; gap:9px; padding:8px 14px; border-radius:999px;
+    border:1px solid var(--line); font-size:.83rem; background:var(--card); font-weight:500;
+  }
+  .chip .dot{width:9px; height:9px; border-radius:50%; flex:none;}
+  .dot--ok{background:var(--ok);} .dot--partial{background:var(--partial);} .dot--no{background:var(--no);}
+  .dot--maestro{background:var(--maestro);} .dot--chat{background:var(--ok);}
+  .dot--import{background:var(--partial);} .dot--gap{background:var(--no);}
+  .dot--rv{background:#3C6E52;} .dot--rp{background:#8A5A2E;} .dot--tz{background:#A83A2C;} .dot--hw{background:#3D5C82;} .dot--qd{background:#17181C;}
+
+  /* ---------- Agency identity row ---------- */
+  .agency-row{display:flex; flex-wrap:wrap; gap:12px;}
+  .agency-pill{
+    display:flex; align-items:center; gap:10px; padding:10px 16px; border-radius:var(--r-md);
+    border:1px solid var(--line); background:var(--card); min-width:220px; flex:1 1 220px;
+  }
+  .agency-pill .code{
+    font-family:var(--mono); font-size:.72rem; font-weight:600; color:#fff;
+    width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex:none;
+  }
+  .agency-pill .info b{display:block; font-family:var(--disp); font-size:.94rem; font-weight:600;}
+  .agency-pill .info span{display:block; font-size:.78rem; color:var(--muted); margin-top:2px; line-height:1.35;}
+
+  /* ---------- Table ---------- */
+  .table-wrap{border:1px solid var(--line); border-radius:var(--r-lg); overflow:auto; background:var(--card);}
+  table{width:100%; border-collapse:collapse; min-width:820px; font-size:.88rem;}
+  thead th{
+    text-align:left; padding:14px 16px; background:var(--paper-dim);
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; text-transform:uppercase;
+    border-bottom:1px solid var(--line); white-space:nowrap; color:var(--muted);
+  }
+  thead th:first-child{position:sticky; left:0; background:var(--paper-dim); z-index:2;}
+  tbody td{padding:13px 16px; border-bottom:1px solid var(--line-soft); vertical-align:top; line-height:1.4;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody td:first-child{font-weight:600; position:sticky; left:0; background:var(--card); z-index:1; min-width:190px;}
+  tbody tr:nth-child(even) td{background-color:rgba(23,24,28,.02);}
+  tbody tr:nth-child(even) td:first-child{background-color:var(--paper-dim);}
+  .cell-note{display:block; font-size:.76rem; color:var(--muted); margin-top:4px; line-height:1.35; font-weight:400;}
+
+  .stat{
+    display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px;
+    font-size:.76rem; font-weight:600; white-space:nowrap;
+  }
+  .stat--ok{background:var(--ok-bg); color:var(--ok);}
+  .stat--partial{background:var(--partial-bg); color:var(--partial);}
+  .stat--no{background:var(--no-bg); color:var(--no);}
+
+  /* ---------- Cards / grid ---------- */
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:16px;}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr));}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--r-lg); padding:20px 22px;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .card .code-tag{
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; color:#fff;
+    display:inline-flex; padding:3px 8px; border-radius:6px; align-self:flex-start; margin-bottom:2px;
+  }
+  .card h3{font-family:var(--disp); font-size:1.04rem; font-weight:600; margin:0;}
+  .card p{font-size:.86rem; color:var(--muted); line-height:1.5; margin:0;}
+  .card ul{margin:2px 0 0; padding-left:18px; font-size:.86rem; color:var(--ink); line-height:1.55;}
+  .card ul li{margin-bottom:3px;}
+  .card ul.muted-list li{color:var(--muted);}
+
+  /* ---------- Timeline ---------- */
+  .timeline{position:relative; padding-left:26px; display:flex; flex-direction:column; gap:20px;}
+  .timeline::before{content:''; position:absolute; left:5px; top:6px; bottom:6px; width:2px; background:var(--line);}
+  .tl-node{position:relative;}
+  .tl-node::before{
+    content:''; position:absolute; left:-26px; top:3px; width:12px; height:12px; border-radius:50%;
+    background:var(--accent,var(--ink)); box-shadow:0 0 0 4px var(--paper);
+  }
+  .tl-stage{font-family:var(--mono); font-size:.72rem; letter-spacing:.07em; text-transform:uppercase; color:var(--accent,var(--muted)); font-weight:600;}
+  .tl-title{font-family:var(--disp); font-weight:600; font-size:1.02rem; margin:3px 0 6px;}
+  .tl-bullets{margin:0; padding-left:18px; font-size:.87rem; color:var(--muted); line-height:1.55;}
+  .tl-bullets li{margin-bottom:2px;}
+
+  /* horizontal mini timeline (map slide) */
+  .hmap{display:flex; flex-wrap:wrap; gap:0; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:var(--card);}
+  .hmap .hm-step{
+    flex:1 1 150px; padding:16px 16px 18px; border-right:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);
+    position:relative;
+  }
+  .hmap .hm-step:last-child{border-right:none;}
+  .hm-step .hm-idx{font-family:var(--mono); font-size:.68rem; color:var(--muted); letter-spacing:.05em;}
+  .hm-step .hm-title{font-family:var(--disp); font-weight:600; font-size:.9rem; margin:6px 0 0; line-height:1.3;}
+
+  /* ---------- Callout ---------- */
+  .callout{
+    border:1.5px dashed var(--line); border-radius:var(--r-lg); padding:16px 20px;
+    background:var(--paper-dim); font-size:.86rem; line-height:1.55; color:var(--ink);
+  }
+  .callout b{display:block; font-family:var(--mono); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; font-weight:600;}
+  .callout.warn{border-color:var(--no); background:var(--no-bg);}
+  .callout.warn b{color:var(--no);}
+  .callout.good{border-color:var(--ok); background:var(--ok-bg);}
+  .callout.good b{color:var(--ok);}
+
+  /* pricing block */
+  .price-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;}
+  .price-box{border:1px solid var(--line); border-radius:var(--r-md); padding:14px 16px; background:var(--card); text-align:left;}
+  .price-box .p-name{font-family:var(--mono); font-size:.7rem; letter-spacing:.05em; text-transform:uppercase; color:var(--muted);}
+  .price-box .p-val{font-family:var(--disp); font-weight:700; font-size:1.3rem; margin-top:4px;}
+  .price-box .p-val span{font-family:var(--body); font-weight:400; font-size:.72rem; color:var(--muted);}
+
+  /* summary two-col */
+  .split{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:900px){ .split.two{grid-template-columns:1fr 1fr;} }
+
+  /* meeting list */
+  .meet-list{display:flex; flex-direction:column; gap:0; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:var(--card);}
+  .meet-row{display:grid; grid-template-columns:160px 1fr; gap:18px; padding:16px 20px; border-bottom:1px solid var(--line-soft);}
+  .meet-row:last-child{border-bottom:none;}
+  .meet-row .when{font-family:var(--mono); font-size:.76rem; color:var(--s3); font-weight:600; padding-top:2px;}
+  .meet-row .what b{font-family:var(--disp); font-size:.96rem; display:block; margin-bottom:3px;}
+  .meet-row .what span{font-size:.85rem; color:var(--muted); line-height:1.5;}
+
+  /* ---------- Nav bar ---------- */
+  .progress-bar{position:fixed; top:0; left:0; right:0; height:3px; z-index:70; background:rgba(0,0,0,.08);}
+  .progress-fill{height:100%; width:0%; background:linear-gradient(90deg,var(--s1),var(--s2),var(--s3)); transition:width .2s ease;}
+
+  .deck-nav{
+    position:fixed; left:0; right:0; bottom:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:10px clamp(14px,3vw,30px); background:rgba(239,235,225,.88); backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+  }
+  .deck-nav .left{display:flex; align-items:center; gap:14px; min-width:0;}
+  .deck-nav .brand{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; color:var(--muted); white-space:nowrap;}
+  .pills{display:flex; gap:6px; flex-wrap:wrap;}
+  .pill-btn{
+    font-family:var(--mono); font-size:.7rem; letter-spacing:.03em; font-weight:600;
+    border:1px solid var(--line); background:#fff; color:var(--muted); border-radius:999px;
+    padding:6px 12px; cursor:pointer; transition:.15s ease;
+  }
+  .pill-btn:hover{border-color:var(--ink); color:var(--ink);}
+  .pill-btn.active{background:var(--ink); color:#fff; border-color:var(--ink);}
+  .deck-nav .right{display:flex; align-items:center; gap:10px;}
+  #counter{font-family:var(--mono); font-size:.74rem; color:var(--muted); min-width:60px; text-align:center;}
+  .icon-btn{
+    width:34px; height:34px; border-radius:50%; border:1px solid var(--line); background:#fff;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex:none; color:var(--ink);
+  }
+  .icon-btn:hover{background:var(--paper-dim);}
+  .icon-btn:focus-visible, .pill-btn:focus-visible, a:focus-visible, button:focus-visible{
+    outline:2px solid var(--s3); outline-offset:2px;
+  }
+
+  @media (max-width:760px){
+    .deck-nav .brand{display:none;}
+    thead th, tbody td{padding:10px 12px;}
+  }
+
+  @media print{
+    .deck-nav, .progress-bar{display:none;}
+    #deck{height:auto; overflow:visible;}
+    .slide{min-height:auto; scroll-snap-align:none; opacity:1; transform:none; page-break-after:always;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<main id="deck">
+
+  <!-- ============================================================ -->
+  <!-- DECK COVER                                                    -->
+  <!-- ============================================================ -->
+  <section class="slide cover deck0" id="deck-cover" data-section="0">
+    <div class="doc-head">
+      <span class="tag">QUADRO MARKETING <span class="sep">·</span> DOSSIÊ INTERNO</span>
+      <span class="tag">JUL. 2026 <span class="sep">·</span> USO INTERNO</span>
+    </div>
+    <div class="cover-body">
+      <div class="kicker">Inteligência competitiva — marketing hoteleiro</div>
+      <h1>Como os 4 principais concorrentes operam — e o ciclo ideal da Quadro</h1>
+      <p class="lead">Mapeamento de serviços, ciclo operacional completo de cada agência e a proposta de ciclo ideal combinando a metodologia MAESTRO com o Quadro Chat.</p>
+      <div class="agenda">
+        <a href="#s1-cover">
+          <span class="num" style="color:#8FD1AC">01</span>
+          <span class="txt"><b>O que cada um entrega</b><span>Tabela de serviços — Réserve, Reprotel, Tribuzana, HotelariaWeb</span></span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="#s2-cover">
+          <span class="num" style="color:#E8B87C">02</span>
+          <span class="txt"><b>O ciclo completo de cada um</b><span>Simulação cronológica do primeiro ciclo de um cliente novo</span></span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="#s3-cover">
+          <span class="num" style="color:#F0A08F">03</span>
+          <span class="txt"><b>O ciclo ideal Quadro</b><span>MAESTRO + Quadro Chat, incorporando o melhor dos 4</span></span>
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SEÇÃO 01 — COVER                                              -->
+  <!-- ============================================================ -->
+  <section class="slide cover s1" id="s1-cover" data-section="1">
+    <div class="doc-head">
+      <span class="tag">DOC · SEÇÃO 01</span>
+      <span class="tag">RECONHECIMENTO <span class="sep">·</span> 4 AGÊNCIAS</span>
+    </div>
+    <div class="cover-body">
+      <div class="kicker">Seção 01</div>
+      <h1>O que cada um entrega</h1>
+      <p class="lead">Mapeamento completo de serviços, produtos próprios e iscas digitais — o que está documentado publicamente por Réserve, Reprotel, Tribuzana e HotelariaWeb.</p>
+      <div class="tabs-row">
+        <span class="tab-chip"><span class="dot dot--rv"></span>RV · Réserve</span>
+        <span class="tab-chip"><span class="dot dot--rp"></span>RP · Reprotel</span>
+        <span class="tab-chip"><span class="dot dot--tz"></span>TZ · Tribuzana</span>
+        <span class="tab-chip"><span class="dot dot--hw"></span>HW · HotelariaWeb</span>
+      </div>
+    </div>
+    <div class="ghost-num">01</div>
+  </section>
+
+  <!-- S1 — Legenda -->
+  <section class="slide content" id="s1-legend" data-section="1" style="--accent:var(--s1)">
+    <div class="doc-head">
+      <span class="tag">DOC · REG 01.01 <span class="sep">·</span> SEÇÃO 01</span>
+      <span class="tag">SERVIÇOS</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Como ler esta seção</div>
+      <h2>Legenda e perfil das 4 agências</h2>
+      <p class="sub">Baseado exclusivamente no que está documentado publicamente — incluindo leitura de páginas internas (central de ajuda, produtos próprios, parceiros técnicos).</p>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="legend">
+        <span class="chip"><span class="dot dot--ok"></span>Sim / explícito</span>
+        <span class="chip"><span class="dot dot--partial"></span>Parcial / embutido em outro serviço</span>
+        <span class="chip"><span class="dot dot--no"></span>Não / ausente</span>
+      </div>
+      <div class="grid cols-2">
+        <div class="card">
+          <span class="code-tag" style="background:#3C6E52">RV</span>
+          <h3>Réserve</h3>
+          <p>Ecossistema com automação própria — chatbot, CRM e métricas específicas de hotelaria formalizadas.</p>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:#8A5A2E">RP</span>
+          <h3>Reprotel</h3>
+          <p>Tráfego pago e conteúdo tradicionais — sem tecnologia proprietária (CRM, automação ou motor).</p>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:#A83A2C">TZ</span>
+          <h3>Tribuzana</h3>
+          <p>Metodologia mais nomeada do mercado — mas motor de automação 100% terceirizado (RD Station).</p>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:#3D5C82">HW</span>
+          <h3>HotelariaWeb</h3>
+          <p>Plataforma própria mais ampla — a mais forte em Google Meu Negócio e reputação com IA.</p>
+        </div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>SEÇÃO 01 / 04</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S1 — Tabela 1: Aquisição e Mídia -->
+  <section class="slide content" id="s1-t1" data-section="1" style="--accent:var(--s1)">
+    <div class="doc-head">
+      <span class="tag">DOC · REG 01.02 <span class="sep">·</span> SEÇÃO 01</span>
+      <span class="tag">TABELA 1 / 4</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Serviços de aquisição e mídia</div>
+      <h2>Diagnóstico, tráfego pago e redes sociais</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Serviço</th><th>RV · Réserve</th><th>RP · Reprotel</th><th>TZ · Tribuzana</th><th>HW · HotelariaWeb</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Diagnóstico / consultoria gratuita</td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--no">✕ Não</span><span class="cell-note">entrada é paga (Planejamento)</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">pago, dentro do Planejamento</span></td>
+            </tr>
+            <tr>
+              <td>Google Ads (busca)</td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">dentro de GHA</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">foco é GHA</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+            </tr>
+            <tr>
+              <td>Google Hotel Ads</td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">produto "Seu Hotel no Google"</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+            </tr>
+            <tr>
+              <td>Google Meu Negócio / ranqueamento local</td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">dentro de Gestão de Canais</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span><span class="cell-note">sem passo a passo público</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">o mais detalhado — 9 itens</span></td>
+            </tr>
+            <tr>
+              <td>Meta Ads (Facebook/Instagram pago)</td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--no">✕ Não</span><span class="cell-note">FAQ confirma: não é foco</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+            </tr>
+            <tr>
+              <td>Gestão de redes sociais (orgânico)</td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">dentro de Gestão de Canais</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span><span class="cell-note">FAQ: "não focam em Social Media"</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">metodologia própria "Social Selling"</span></td>
+            </tr>
+            <tr>
+              <td>Produção audiovisual (foto/vídeo)</td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">serviço dedicado</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">mencionado dentro de redes sociais</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="doc-foot"><span>AQUISIÇÃO E MÍDIA</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S1 — Tabela 2: Site, Conversão e Conteúdo -->
+  <section class="slide content" id="s1-t2" data-section="1" style="--accent:var(--s1)">
+    <div class="doc-head">
+      <span class="tag">DOC · REG 01.03 <span class="sep">·</span> SEÇÃO 01</span>
+      <span class="tag">TABELA 2 / 4</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Site, conversão e conteúdo</div>
+      <h2>Da criação do site ao produto de urgência</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Serviço</th><th>RV · Réserve</th><th>RP · Reprotel</th><th>TZ · Tribuzana</th><th>HW · HotelariaWeb</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Criação de site para hotel</td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+            </tr>
+            <tr>
+              <td>Motor de reservas (integração/produto)</td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">integrado ao PMS</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">integra motor de terceiro</span></td>
+            </tr>
+            <tr>
+              <td>SEO</td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">serviço dedicado</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">embutido em Conteúdo/Blog</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">embutido em Site + Conteúdo</span></td>
+            </tr>
+            <tr>
+              <td>Marketing de conteúdo / blog</td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">têm blog, não é serviço vendido</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">2 produtos: Conteúdo + Blog Posts</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+            </tr>
+            <tr>
+              <td>E-mail marketing</td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">via RD Station</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+            </tr>
+            <tr>
+              <td>Produto de urgência / conversão (pop-up, contador)</td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">produto próprio: Reserva Relâmpago</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">feature da plataforma, não vendido isolado</span></td>
+            </tr>
+            <tr>
+              <td>Página centralizada para o hóspede</td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">produto próprio: Página do Hóspede</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="doc-foot"><span>SITE, CONVERSÃO E CONTEÚDO</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S1 — Tabela 3: Atendimento, CRM, Dados e Reputação -->
+  <section class="slide content" id="s1-t3" data-section="1" style="--accent:var(--s1)">
+    <div class="doc-head">
+      <span class="tag">DOC · REG 01.04 <span class="sep">·</span> SEÇÃO 01</span>
+      <span class="tag">TABELA 3 / 4</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Atendimento, CRM, dados e reputação</div>
+      <h2>O que roda por trás da conversão</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Serviço</th><th>RV · Réserve</th><th>RP · Reprotel</th><th>TZ · Tribuzana</th><th>HW · HotelariaWeb</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Automação de atendimento WhatsApp / chatbot</td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">o mais completo: 24h, qualificação, follow-up</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">só add-on pago da Página do Hóspede</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">captura dados, não qualifica</span></td>
+            </tr>
+            <tr>
+              <td>CRM / central de contatos</td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">integração citada dentro da automação</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">RD Station é o CRM de base — sem CRM próprio</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">Central de Contatos + Lead Score</span></td>
+            </tr>
+            <tr>
+              <td>Gestão de reputação / avaliações</td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">dentro de Gestão de Canais</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">+ resposta de review assistida por IA</span></td>
+            </tr>
+            <tr>
+              <td>Pesquisa de satisfação (NPS)</td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">convite seletivo só a promotores</span></td>
+            </tr>
+            <tr>
+              <td>Relatórios / analytics (dashboard)</td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">único a fixar 6 métricas específicas do nicho</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">genérico, via GA4</span></td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">análise dentro do RD Station</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">dashboard próprio</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grid cols-2">
+        <div class="callout"><b>TZ · Tribuzana</b>Motor de automação é 100% RD Station (parceiro) — sem CRM próprio. Integração de PMS via parceiros técnicos TOTVS e Silbeck.</div>
+        <div class="callout"><b>HW · HotelariaWeb</b>WhatsApp Capture dispara alerta em tempo real para o hoteleiro assim que um lead clica. Resposta de avaliação por IA é nativa da plataforma.</div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>ATENDIMENTO, CRM, DADOS E REPUTAÇÃO</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S1 — Tabela 4: Iscas digitais -->
+  <section class="slide content" id="s1-t4" data-section="1" style="--accent:var(--s1)">
+    <div class="doc-head">
+      <span class="tag">DOC · REG 01.05 <span class="sep">·</span> SEÇÃO 01</span>
+      <span class="tag">TABELA 4 / 4</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Materiais gratuitos / iscas digitais</div>
+      <h2>Como cada um capta novos leads</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Isca</th><th>RV · Réserve</th><th>RP · Reprotel</th><th>TZ · Tribuzana</th><th>HW · HotelariaWeb</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>E-books</td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">GHA + Performance Max, co-branded com HSystem</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">1 único: Guia Definitivo</span></td>
+            </tr>
+            <tr>
+              <td>Calendário hoteleiro</td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">PDF anual</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">evoluiu para SaaS com conta e alertas</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+            </tr>
+            <tr>
+              <td>Calculadora</td>
+              <td><span class="stat stat--partial">◐ Parcial</span><span class="cell-note">de perda por OTA, dentro de Reservas Diretas</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">calculadora de investimento em marketing</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+            </tr>
+            <tr>
+              <td>Conteúdo educativo em vídeo</td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">canal Youtube ativo</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+            </tr>
+            <tr>
+              <td>Newsletter</td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">"Marketing + Hoteleiro", com edições anteriores públicas</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+            </tr>
+            <tr>
+              <td>Conteúdo gated progressivo</td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+              <td><span class="stat stat--ok">✓ Sim</span><span class="cell-note">Jornada do Hóspede — 5 fases públicas, 15 etapas + aula de 1h+ do CEO liberadas só após captura de lead</span></td>
+              <td><span class="stat stat--no">✕ Não</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout">
+        <b>Produto à parte — Página do Hóspede (TZ · Tribuzana)</b>
+        Não é isca gratuita, mas é o dado de preço mais relevante reforçado nesta análise:
+        <div class="price-grid" style="margin-top:10px">
+          <div class="price-box"><div class="p-name">Simples</div><div class="p-val">R$49,90<span>/mês</span></div></div>
+          <div class="price-box"><div class="p-name">Encantadora</div><div class="p-val">R$109,50<span>/mês</span></div></div>
+          <div class="price-box"><div class="p-name">Surpreendente</div><div class="p-val">R$149<span>/mês</span></div></div>
+          <div class="price-box"><div class="p-name">+ Chat IA (add-on)</div><div class="p-val">R$69<span>/mês extra</span></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>ISCAS DIGITAIS</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S1 — Leitura rápida -->
+  <section class="slide content" id="s1-summary" data-section="1" style="--accent:var(--s1)">
+    <div class="doc-head">
+      <span class="tag">DOC · REG 01.06 <span class="sep">·</span> SEÇÃO 01</span>
+      <span class="tag">SÍNTESE</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Fechamento da seção 01</div>
+      <h2>Leitura rápida por agência</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid cols-2">
+        <div class="card">
+          <span class="code-tag" style="background:#3C6E52">RV</span>
+          <h3>Réserve</h3>
+          <ul>
+            <li>Mais forte em automação de atendimento (chatbot 24h completo)</li>
+            <li>Única a formalizar 6 métricas específicas de hotelaria no relatório</li>
+            <li>Fraca em iscas gratuitas — só o formulário de diagnóstico</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:#8A5A2E">RP</span>
+          <h3>Reprotel</h3>
+          <ul>
+            <li>Portfólio mais genérico / tradicional, sem produto próprio</li>
+            <li>Parceria de conteúdo com fornecedor (HSystem) para e-book</li>
+            <li>Isca mais numerosa em quantidade (4 materiais)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:#A83A2C">TZ</span>
+          <h3>Tribuzana</h3>
+          <ul>
+            <li>2 produtos SaaS próprios (Reserva Relâmpago + Página do Hóspede)</li>
+            <li>Mecânica de isca mais sofisticada (conteúdo gated em camadas)</li>
+            <li>Motor de automação 100% terceirizado (RD Station) — nenhuma tecnologia proprietária de fato</li>
+            <li>Declara publicamente que não atua em redes sociais / Meta Ads</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:#3D5C82">HW</span>
+          <h3>HotelariaWeb</h3>
+          <ul>
+            <li>Portfólio mais largo e granular; único com GMN como serviço dedicado (9 itens)</li>
+            <li>Avaliação de reviews por IA nativa</li>
+            <li>Inconsistência de números institucionais entre páginas (60 / 80 / 120 hotéis)</li>
+            <li>Isca mais fraca — apenas 1 e-book</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>FIM DA SEÇÃO 01</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SEÇÃO 02 — COVER                                              -->
+  <!-- ============================================================ -->
+  <section class="slide cover s2" id="s2-cover" data-section="2">
+    <div class="doc-head">
+      <span class="tag">DOC · SEÇÃO 02</span>
+      <span class="tag">MECANISMO <span class="sep">·</span> CICLO OPERACIONAL</span>
+    </div>
+    <div class="cover-body">
+      <div class="kicker">Seção 02</div>
+      <h1>O ciclo completo de cada concorrente</h1>
+      <p class="lead">Simulação cronológica do primeiro ciclo de um cliente novo com serviço completo — da configuração de contas à entrega de relatórios.</p>
+      <div class="tabs-row">
+        <span class="tab-chip"><span class="dot dot--rv"></span>RV · Réserve</span>
+        <span class="tab-chip"><span class="dot dot--rp"></span>RP · Reprotel</span>
+        <span class="tab-chip"><span class="dot dot--tz"></span>TZ · Tribuzana</span>
+        <span class="tab-chip"><span class="dot dot--hw"></span>HW · HotelariaWeb</span>
+      </div>
+    </div>
+    <div class="ghost-num">02</div>
+  </section>
+
+  <!-- S2 — Intro -->
+  <section class="slide content" id="s2-intro" data-section="2" style="--accent:var(--s2)">
+    <div class="doc-head">
+      <span class="tag">DOC · REG 02.01 <span class="sep">·</span> SEÇÃO 02</span>
+      <span class="tag">COMO LER</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Como ler os ciclos</div>
+      <h2>Linha do tempo por agência</h2>
+      <p class="sub">Cada agência é lida como uma linha do tempo, de Semana 1 a Mês 5+. Marcadores de alerta mostram lacunas confirmadas — o que a agência não entrega, mesmo no pacote completo.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="legend">
+        <span class="chip"><span class="dot dot--ok"></span>Etapa explicitamente documentada</span>
+        <span class="chip"><span class="dot dot--no"></span>Lacuna confirmada — não faz parte do serviço</span>
+      </div>
+      <div class="callout">
+        <b>Nota metodológica</b>
+        Onde uma agência não descreve publicamente uma etapa do checklist (ex: teste de integração motor↔PMS, GMN detalhado), isso é sinalizado como lacuna — não simulado como se existisse.
+      </div>
+    </div>
+    <div class="doc-foot"><span>SEÇÃO 02 / 04</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S2 — Réserve -->
+  <section class="slide content" id="s2-reserve" data-section="2" style="--accent:#3C6E52">
+    <div class="doc-head">
+      <span class="tag">DOC · RV-01 <span class="sep">·</span> SEÇÃO 02</span>
+      <span class="tag">CICLO 1 / 4</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">RV · Réserve</div>
+      <h2>Ecossistema de Aquisição de Hóspedes</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="timeline">
+        <div class="tl-node"><div class="tl-stage">Semana 1</div><div class="tl-title">Kickoff &amp; Diagnóstico</div>
+          <ul class="tl-bullets"><li>Coleta de acessos e auditoria de site/motor atuais</li><li>Levantamento de dependência de OTA</li><li>Definição do perfil de hóspede prioritário</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Semana 2</div><div class="tl-title">Setup de contas</div>
+          <ul class="tl-bullets"><li>Google Ads, GTM, GA4, Meta Business Suite</li><li>Google Meu Negócio básico</li><li>Escolha do motor de reservas compatível com o PMS</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Semanas 3–6 · Mês 1–2</div><div class="tl-title">Construção do canal direto</div>
+          <ul class="tl-bullets"><li>Site com SEO técnico e motor integrado</li><li><b>Teste de reserva ponta a ponta</b> motor ↔ PMS</li><li>Gatilhos de conversão + rastreamento GA4</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Fechamento Mês 1–2</div><div class="tl-title">Primeiras campanhas no ar</div>
+          <ul class="tl-bullets"><li>GHA + Search pelo nome + Meta Ads</li><li>Checagem de paridade tarifária</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 3–4</div><div class="tl-title">Atendimento automatizado</div>
+          <ul class="tl-bullets"><li>WhatsApp Business API + scripts de qualificação</li><li>Fluxos: proposta, follow-up, pré/pós-estadia</li><li>Integração com CRM + roteamento de grupos/eventos</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 3–6</div><div class="tl-title">SEO e conteúdo</div>
+          <ul class="tl-bullets"><li>Calendário editorial de blog</li><li>Link building com publicações de turismo</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 4+</div><div class="tl-title">Relacionamento</div>
+          <ul class="tl-bullets"><li>Base de hóspedes no CRM + e-mail marketing</li><li>Remarketing para visitantes não convertidos</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Cadência mensal</div><div class="tl-title">Relatório</div>
+          <ul class="tl-bullets"><li>GA4 + Looker Studio + Meta Business Suite</li><li>Relatório Estratégico com 6 métricas fixas</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 5+</div><div class="tl-title">Escala</div>
+          <ul class="tl-bullets"><li>Redistribuição de verba pros canais de maior ROI</li><li>Redução progressiva e mensurada de OTA</li></ul></div>
+      </div>
+      <div class="callout good"><b>Diferencial confirmado</b>Única a formalizar teste técnico motor↔PMS e checagem de paridade tarifária como etapas explícitas do ciclo.</div>
+    </div>
+    <div class="doc-foot"><span>RV · RÉSERVE</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S2 — Reprotel -->
+  <section class="slide content" id="s2-reprotel" data-section="2" style="--accent:#8A5A2E">
+    <div class="doc-head">
+      <span class="tag">DOC · RP-01 <span class="sep">·</span> SEÇÃO 02</span>
+      <span class="tag">CICLO 2 / 4</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">RP · Reprotel</div>
+      <h2>Consultoria + Tráfego + Conteúdo</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="split two">
+        <div class="timeline">
+          <div class="tl-node"><div class="tl-stage">Semana 1</div><div class="tl-title">Consultoria gratuita</div>
+            <ul class="tl-bullets"><li>Formulário Typeform + reunião de diagnóstico</li><li>Coleta de acessos: site, ads, redes, GA</li></ul></div>
+          <div class="tl-node"><div class="tl-stage">Semanas 2–3</div><div class="tl-title">Site vendedor</div>
+            <ul class="tl-bullets"><li>Gatilhos mentais e diferenciais no site</li><li>GA4 configurado</li></ul></div>
+          <div class="tl-node"><div class="tl-stage">Semanas 3–4</div><div class="tl-title">Tráfego pago</div>
+            <ul class="tl-bullets"><li>Google Ads + Google Hotel Ads</li><li>Meta Ads segmentado</li></ul></div>
+          <div class="tl-node"><div class="tl-stage">Mês 2</div><div class="tl-title">Conversão e relacionamento</div>
+            <ul class="tl-bullets"><li>Fluxo de e-mail marketing</li><li>Pauta de marketing de conteúdo</li></ul></div>
+          <div class="tl-node"><div class="tl-stage">Mês 2–3</div><div class="tl-title">Conteúdo contínuo</div>
+            <ul class="tl-bullets"><li>Artigos de blog com técnica de SEO</li></ul></div>
+          <div class="tl-node"><div class="tl-stage">Cadência</div><div class="tl-title">Relatório</div>
+            <ul class="tl-bullets"><li>Digital Analytics via GA4 — formato não detalhado publicamente</li></ul></div>
+        </div>
+        <div class="callout warn">
+          <b>Gaps confirmados — não fazem parte do serviço</b>
+          <ul style="margin:8px 0 0; padding-left:18px; line-height:1.6;">
+            <li>Motor de reservas próprio</li>
+            <li>Automação de atendimento / chatbot</li>
+            <li>CRM</li>
+            <li>Gestão de redes sociais orgânica</li>
+            <li>Google Meu Negócio como serviço dedicado</li>
+            <li>Persona formal documentada</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>RP · REPROTEL</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S2 — Tribuzana -->
+  <section class="slide content" id="s2-tribuzana" data-section="2" style="--accent:#A83A2C">
+    <div class="doc-head">
+      <span class="tag">DOC · TZ-01 <span class="sep">·</span> SEÇÃO 02</span>
+      <span class="tag">CICLO 3 / 4</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">TZ · Tribuzana</div>
+      <h2>Implementação + Inbound Marketing Luxo</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="timeline">
+        <div class="tl-node"><div class="tl-stage">Mês 1, Semana 1</div><div class="tl-title">Diagnóstico e planejamento</div>
+          <ul class="tl-bullets"><li>Persona + Jornada do Hóspede (5 fases)</li><li>Definição da Voz da Marca</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 1, Semana 2</div><div class="tl-title">Estruturação técnica</div>
+          <ul class="tl-bullets"><li>RD Station implementado</li><li>Integração via parceiro técnico (TOTVS ou Silbeck)</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 1, Sem 3–4</div><div class="tl-title">Materiais base</div>
+          <ul class="tl-bullets"><li>Site, conteúdo, landing pages, pop-ups, botão WhatsApp</li><li>Página do Hóspede, se contratada</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 2</div><div class="tl-title">Atração</div>
+          <ul class="tl-bullets"><li>SEO + "Seu Hotel no Google" (GHA) + blog</li><li>Reserva Relâmpago, se contratado</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 3</div><div class="tl-title">Conversão e nutrição</div>
+          <ul class="tl-bullets"><li>E-books/iscas como captura de leads</li><li>Fluxos de automação no RD Station</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Cadência</div><div class="tl-title">Análise de resultados</div>
+          <ul class="tl-bullets"><li>Passo 5 da metodologia, dentro do RD Station</li><li>Ciclo de 5 passos se repete todo mês</li></ul></div>
+      </div>
+      <div class="callout warn">
+        <b>Gaps confirmados</b>
+        Meta Ads / redes sociais pagas — explicitamente fora do foco (FAQ). GMN não é serviço detalhado publicamente. Automação de atendimento tipo chatbot de vendas só existe como <i>add-on</i> pago (R$69/mês) dentro da Página do Hóspede — é FAQ pro hóspede, não bot de qualificação/venda.
+      </div>
+    </div>
+    <div class="doc-foot"><span>TZ · TRIBUZANA</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S2 — HotelariaWeb -->
+  <section class="slide content" id="s2-hweb" data-section="2" style="--accent:#3D5C82">
+    <div class="doc-head">
+      <span class="tag">DOC · HW-01 <span class="sep">·</span> SEÇÃO 02</span>
+      <span class="tag">CICLO 4 / 4</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">HW · HotelariaWeb</div>
+      <h2>Planejamento + Plataforma Própria</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="timeline">
+        <div class="tl-node"><div class="tl-stage">Semana 1</div><div class="tl-title">Planejamento de marketing</div>
+          <ul class="tl-bullets"><li>SWOT + persona + Kit de Voz da Marca + funil</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Semana 2</div><div class="tl-title">Fundação técnica</div>
+          <ul class="tl-bullets"><li>Site na plataforma própria + motor de terceiro integrado</li><li>WhatsApp Capture + tags de conversão</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Semanas 2–3</div><div class="tl-title">Google Meu Negócio</div>
+          <ul class="tl-bullets"><li>Checklist de 9 itens: ficha, etiquetas, tarifário linkado, avaliações, fotos, amenidades, promoções…</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Semanas 3–4</div><div class="tl-title">Mídia paga</div>
+          <ul class="tl-bullets"><li>Google Ads + GHA + Performance Max</li><li>Meta Ads</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 2</div><div class="tl-title">Conteúdo e redes</div>
+          <ul class="tl-bullets"><li>Metodologia "Social Selling" + cronograma + blog</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 2</div><div class="tl-title">Recursos de conversão</div>
+          <ul class="tl-bullets"><li>Pop-up + contador regressivo</li><li>Pacotes/promoções + landing pages</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 2–3</div><div class="tl-title">CRM e reputação</div>
+          <ul class="tl-bullets"><li>Lead Score + NPS (convite seletivo só a promotores)</li><li>Resposta de avaliação por IA</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Mês 3+</div><div class="tl-title">Otimização</div>
+          <ul class="tl-bullets"><li>Biblioteca de mídia com IA</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Cadência</div><div class="tl-title">Relatório</div>
+          <ul class="tl-bullets"><li>Dashboard próprio + relatório mensal por e-mail</li></ul></div>
+      </div>
+      <div class="callout good"><b>Diferencial confirmado</b>Único com checklist de GMN detalhado e resposta de avaliação por IA nativa. Motor de reservas não é próprio — integra com o que o hotel já usa.</div>
+    </div>
+    <div class="doc-foot"><span>HW · HOTELARIAWEB</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S2 — Tabela síntese -->
+  <section class="slide content" id="s2-synthesis" data-section="2" style="--accent:var(--s2)">
+    <div class="doc-head">
+      <span class="tag">DOC · REG 02.06 <span class="sep">·</span> SEÇÃO 02</span>
+      <span class="tag">SÍNTESE</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Tabela síntese</div>
+      <h2>Seu checklist × cada agência</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Etapa</th><th>RV</th><th>RP</th><th>TZ</th><th>HW</th></tr></thead>
+          <tbody>
+            <tr><td>Configuração de contas (Ads/Analytics/Pixel)</td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--ok">✓</span></td></tr>
+            <tr><td>Site (criação/atualização)</td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--ok">✓</span></td></tr>
+            <tr><td>Integração do motor de reservas</td><td><span class="stat stat--ok">✓</span><span class="cell-note">com teste ponta a ponta</span></td><td><span class="stat stat--no">✕</span></td><td><span class="stat stat--partial">◐</span><span class="cell-note">via parceiro PMS</span></td><td><span class="stat stat--partial">◐</span><span class="cell-note">integra motor de terceiro</span></td></tr>
+            <tr><td>Conferência da integração com PMS</td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--no">✕</span></td><td><span class="stat stat--ok">✓</span><span class="cell-note">TOTVS/Silbeck</span></td><td><span class="stat stat--partial">◐</span></td></tr>
+            <tr><td>Plugins / gatilhos de conversão</td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--partial">◐</span></td><td><span class="stat stat--ok">✓</span><span class="cell-note">Reserva Relâmpago</span></td><td><span class="stat stat--ok">✓</span></td></tr>
+            <tr><td>Análise de público / persona</td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--no">✕</span><span class="cell-note">implícito só</span></td><td><span class="stat stat--ok">✓</span><span class="cell-note">persona formal</span></td><td><span class="stat stat--ok">✓</span><span class="cell-note">SWOT + persona</span></td></tr>
+            <tr><td>Planejamento de campanhas</td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--partial">◐</span></td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--ok">✓</span></td></tr>
+            <tr><td>Atualização do Google Meu Negócio</td><td><span class="stat stat--partial">◐</span></td><td><span class="stat stat--no">✕</span></td><td><span class="stat stat--partial">◐</span></td><td><span class="stat stat--ok">✓</span><span class="cell-note">o mais completo</span></td></tr>
+            <tr><td>Ativação de lista / e-mail</td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--ok">✓</span></td><td><span class="stat stat--ok">✓</span></td></tr>
+            <tr><td>Automação de atendimento (chatbot)</td><td><span class="stat stat--ok">✓</span><span class="cell-note">o mais completo</span></td><td><span class="stat stat--no">✕</span></td><td><span class="stat stat--partial">◐</span><span class="cell-note">só FAQ p/ hóspede</span></td><td><span class="stat stat--partial">◐</span><span class="cell-note">capta, não qualifica</span></td></tr>
+            <tr><td>Entrega de relatório</td><td><span class="stat stat--ok">✓</span><span class="cell-note">5 fontes</span></td><td><span class="stat stat--partial">◐</span><span class="cell-note">genérico</span></td><td><span class="stat stat--ok">✓</span><span class="cell-note">dentro do RD Station</span></td><td><span class="stat stat--ok">✓</span><span class="cell-note">dashboard próprio</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="doc-foot"><span>SÍNTESE — SEÇÃO 02</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S2 — Leitura rápida -->
+  <section class="slide content" id="s2-summary" data-section="2" style="--accent:var(--s2)">
+    <div class="doc-head">
+      <span class="tag">DOC · REG 02.07 <span class="sep">·</span> SEÇÃO 02</span>
+      <span class="tag">FECHAMENTO</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Fechamento da seção 02</div>
+      <h2>Leitura rápida</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid cols-2">
+        <div class="card"><span class="code-tag" style="background:#3C6E52">RV</span><p><b>Réserve</b> é a única com teste técnico motor↔PMS e o pacote de atendimento automatizado mais completo.</p></div>
+        <div class="card"><span class="code-tag" style="background:#A83A2C">TZ</span><p><b>Tribuzana</b> é a mais forte em nomear cada passo do funil, mas depende 100% de ferramentas de terceiros.</p></div>
+        <div class="card"><span class="code-tag" style="background:#3D5C82">HW</span><p><b>HotelariaWeb</b> é isoladamente a mais forte em Google Meu Negócio.</p></div>
+        <div class="card"><span class="code-tag" style="background:#8A5A2E">RP</span><p><b>Reprotel</b> é a mais "tradicional" — tráfego pago + conteúdo, sem automação, CRM ou motor de reservas no próprio serviço.</p></div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>FIM DA SEÇÃO 02</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- SEÇÃO 03 — COVER                                              -->
+  <!-- ============================================================ -->
+  <section class="slide cover s3" id="s3-cover" data-section="3">
+    <div class="doc-head">
+      <span class="tag">DOC · SEÇÃO 03</span>
+      <span class="tag">VEREDITO <span class="sep">·</span> APROVADO</span>
+    </div>
+    <div class="cover-body">
+      <div class="kicker">Seção 03</div>
+      <h1>O ciclo ideal Quadro</h1>
+      <p class="lead">MAESTRO + Quadro Chat, incorporando o melhor dos 4 concorrentes — do pré-venda à cadência mensal recorrente.</p>
+      <div class="tabs-row">
+        <span class="tab-chip"><span class="dot dot--maestro"></span>MAESTRO · já existe</span>
+        <span class="tab-chip"><span class="dot dot--chat"></span>Quadro Chat · já existe</span>
+        <span class="tab-chip"><span class="dot dot--import"></span>Importado · novo pra nós</span>
+        <span class="tab-chip"><span class="dot dot--gap"></span>Gap de mercado · oportunidade</span>
+      </div>
+    </div>
+    <div class="ghost-num">03</div>
+  </section>
+
+  <!-- S3 — Legenda -->
+  <section class="slide content" id="s3-legend" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-01 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">LEGENDA</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Como ler esta seção</div>
+      <h2>Ponto de partida já é diferenciado</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="legend">
+        <span class="chip"><span class="dot dot--maestro"></span>MAESTRO — já existe no fluxo</span>
+        <span class="chip"><span class="dot dot--chat"></span>Quadro Chat — já existe no produto</span>
+        <span class="chip"><span class="dot dot--import"></span>Importado de um concorrente — novo pra nós</span>
+        <span class="chip"><span class="dot dot--gap"></span>Gap de mercado — ninguém faz, oportunidade</span>
+      </div>
+      <div class="callout good">
+        <b>Correção incorporada</b>
+        O Omnichannel do Quadro Chat já reúne WhatsApp, Instagram e Facebook num painel único, com notificação em tempo real. Nenhum dos 4 concorrentes analisados tem isso — a HotelariaWeb só captura WhatsApp, e a Tribuzana declara explicitamente que não faz gestão de redes sociais. Este ciclo já parte desse patamar.
+      </div>
+    </div>
+    <div class="doc-foot"><span>SEÇÃO 03 / 04</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Linha do tempo executiva -->
+  <section class="slide content" id="s3-timeline" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-02 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">MAPA GERAL</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Linha do tempo executiva</div>
+      <h2>Do pré-venda à cadência mensal</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="hmap">
+        <div class="hm-step"><div class="hm-idx">PRÉ-VENDA</div><div class="hm-title">Calculadora + orçamento transparente</div></div>
+        <div class="hm-step"><div class="hm-idx">SEMANA 1</div><div class="hm-title">Dossiê fundacional + iscas + kickoff</div></div>
+        <div class="hm-step"><div class="hm-idx">SEMANA 2</div><div class="hm-title">Setup técnico + checklist GMN</div></div>
+        <div class="hm-step"><div class="hm-idx">SEMANAS 3–4</div><div class="hm-title">Site, paridade e 1ª campanha</div></div>
+        <div class="hm-step"><div class="hm-idx">FECH. MÊS 1</div><div class="hm-title">Reunião de lançamento</div></div>
+        <div class="hm-step"><div class="hm-idx">MÊS 2</div><div class="hm-title">Quadro Chat pleno + conteúdo</div></div>
+        <div class="hm-step"><div class="hm-idx">MÊS 2–3</div><div class="hm-title">NPS segmentado + reputação</div></div>
+        <div class="hm-step"><div class="hm-idx">CADÊNCIA</div><div class="hm-title">Ciclo MAESTRO enriquecido</div></div>
+        <div class="hm-step"><div class="hm-idx">MÊS 5+</div><div class="hm-title">Escala</div></div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>MAPA GERAL DO CICLO</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Semana 1a: Dossiê Fundacional -->
+  <section class="slide content" id="s3-week1a" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-03 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">SEMANA 1</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Semana 1</div>
+      <h2>Fundação estratégica</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid cols-2">
+        <div class="card">
+          <span class="code-tag" style="background:var(--partial)">Importado</span>
+          <h3>SWOT do hotel + do destino</h3>
+          <p>Comparado à concorrência direta na região — não só o hotel isolado.</p>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:var(--partial)">Importado</span>
+          <h3>Kit de Persona formal</h3>
+          <p>Nome, idade, profissão, poder aquisitivo, motivações, objeções, canal de pesquisa — entregue por escrito.</p>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:var(--partial)">Importado</span>
+          <h3>Mapa da Jornada do Hóspede</h3>
+          <p>5 fases (Pesquisa → Análise → Decisão → Hospedagem → Fidelização), complementar ao funil comercial do MAESTRO.</p>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:var(--partial)">Importado</span>
+          <h3>Kit de Voz da Marca</h3>
+          <p>Documento formal, entregável — não fica só internalizado pela equipe de Copy.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <b>Reunião de Kickoff</b>
+        Apresenta o diagnóstico, a Persona, o SWOT, o Kit de Voz e — principalmente — o Roteiro de Expectativas (próximo slide). Objetivo: alinhar o que vai acontecer e quando, e combinar a política de aprovação automática de conteúdo.
+      </div>
+    </div>
+    <div class="doc-foot"><span>SEMANA 1 — FUNDAÇÃO</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Semana 1b: Roteiro de Expectativas -->
+  <section class="slide content" id="s3-week1b" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-04 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">GAP DE MERCADO</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Entregável novo</div>
+      <h2>Roteiro de Expectativas</h2>
+      <p class="sub">Nenhum dos 4 concorrentes formaliza isso como documento entregue ao cliente — resolve o "por que meu chatbot não tá pronto na semana 2" antes mesmo da pergunta existir.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Quando</th><th>O que entra no ar</th><th>O que o hotel vê acontecer</th></tr></thead>
+          <tbody>
+            <tr><td>Semana 1</td><td>Diagnóstico, Persona, SWOT, Voz da Marca, Jornada do Hóspede</td><td>Reunião de Kickoff + Dossiê inicial</td></tr>
+            <tr><td>Semana 2–4 (Mês 1)</td><td>Site, teste motor↔PMS, GMN otimizado, GHA + Search + Meta Ads no ar</td><td>Site novo, primeiras campanhas rodando</td></tr>
+            <tr><td>Mês 2</td><td>Quadro Chat em operação (Omnichannel + bot + scripts), SEO/conteúdo, isca B2C</td><td>WhatsApp automatizado 24h, primeiro conteúdo publicando</td></tr>
+            <tr><td>Mês 2–3</td><td>NPS segmentado, gestão de reputação ativa</td><td>Pesquisas pós-estadia, avaliações sendo respondidas</td></tr>
+            <tr><td>Mês 3+</td><td>Ciclo mensal MAESTRO em regime pleno</td><td>Relatório mensal recorrente</td></tr>
+            <tr><td>Mês 5+</td><td>Escala dos canais de maior ROI</td><td>Redução mensurável de % OTA</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="doc-foot"><span>ROTEIRO DE EXPECTATIVAS</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Semana 1c: Iscas digitais -->
+  <section class="slide content" id="s3-week1c" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-05 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">DOIS FUNIS</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Semana 1</div>
+      <h2>Iscas digitais — dois públicos diferentes</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid cols-2">
+        <div class="card">
+          <span class="code-tag" style="background:var(--partial)">Importado</span>
+          <h3>Trilha B2B — capta novos hotéis-clientes</h3>
+          <ul>
+            <li>Calendário Comercial Hoteleiro próprio</li>
+            <li>Calculadora de ROI/CAC (comissão OTA vs. canal direto)</li>
+            <li>Quiz de diagnóstico instantâneo</li>
+          </ul>
+          <p>Trilha paralela e contínua — não uma etapa da Semana 1. Entregue no kickoff como valor imediato ao novo cliente, e reforça autoridade para próximos leads.</p>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:var(--no)">Gap de mercado</span>
+          <h3>Trilha B2C — dentro do site do hóspede</h3>
+          <ul>
+            <li>Conteúdo gated: guia de passeios, checklist de viagem, roteiro de X dias</li>
+            <li>Captura e-mail/WhatsApp de quem ainda não está pronto pra reservar</li>
+          </ul>
+          <p>Nenhum dos 4 concorrentes documenta fazer isso pelo cliente. É o que de fato preenche a lista de e-mail — sem isca, a ativação fica só esperando quem já reservou deixar contato.</p>
+        </div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>ISCAS DIGITAIS</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Semana 2 -->
+  <section class="slide content" id="s3-week2" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-06 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">SEMANA 2</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Semana 2</div>
+      <h2>Setup técnico</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Contas e integração</h3>
+          <ul>
+            <li>GA4, GTM, Meta Business Suite + Pixel, Google Ads</li>
+            <li>Escolha/confirmação do motor compatível com GHA e o PMS do hotel</li>
+            <li><span class="code-tag" style="background:var(--partial)">Importado</span> Teste técnico motor↔PMS ponta a ponta antes de qualquer campanha</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:var(--partial)">Importado</span>
+          <h3>Checklist GMN completo</h3>
+          <ul class="muted-list">
+            <li>Ficha/categoria/horários atualizados</li>
+            <li>Etiquetas e palavras-chave</li>
+            <li>Tarifário com link direto pra reserva</li>
+            <li>Gestão de avaliações</li>
+            <li>Fotos/vídeos periódicos</li>
+            <li>Fomentação seletiva de avaliações</li>
+            <li>Revisão de amenidades</li>
+            <li>Publicação de promoções/posts</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>SEMANA 2 — SETUP TÉCNICO</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Semanas 3-4 -->
+  <section class="slide content" id="s3-week34" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-07 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">SEMANAS 3–4</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Semanas 3–4</div>
+      <h2>Site, conversão e primeira campanha</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid cols-2">
+        <div class="card"><span class="code-tag" style="background:var(--maestro)">MAESTRO</span><h3>Site / atualização</h3><p>SEO técnico, dentro do blueprint já existente.</p></div>
+        <div class="card"><span class="code-tag" style="background:var(--partial)">Importado</span><h3>Gate de paridade tarifária</h3><p>Checagem explícita site vs. OTA como pré-requisito de lançamento — não item de pós-mortem.</p></div>
+        <div class="card"><span class="code-tag" style="background:var(--partial)">Importado</span><h3>Widget de urgência</h3><p>Contador regressivo ligado ao calendário de campanhas + Módulo de Relacionamento do Quadro Chat.</p></div>
+        <div class="card"><span class="code-tag" style="background:var(--maestro)">MAESTRO</span><h3>Ativação de mídia</h3><p>GHA + Search pelo nome do hotel + Meta Ads, conforme o blueprint de tráfego do mês.</p></div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>SEMANAS 3–4</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Fechamento mês 1 -->
+  <section class="slide content" id="s3-month1close" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-08 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">MARCO</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Fechamento Mês 1</div>
+      <h2>Reunião de Lançamento</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="callout">
+        <b>O que está no ar</b>
+        Site, campanhas ativas (GHA + Search + Meta Ads), Google Meu Negócio otimizado, isca digital B2C publicada.
+      </div>
+      <div class="callout">
+        <b>A reunião</b>
+        Apresentação do que foi construído nas primeiras 4 semanas + primeiras métricas de campanha. Marco grande o bastante pra merecer conversa dedicada — não só uma linha no relatório mensal.
+      </div>
+    </div>
+    <div class="doc-foot"><span>FECHAMENTO MÊS 1</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Mês 2 Quadro Chat -->
+  <section class="slide content" id="s3-month2chat" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-09 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">MÊS 2</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Mês 2</div>
+      <h2>Quadro Chat em operação plena</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid cols-2">
+        <div class="card">
+          <span class="code-tag" style="background:var(--ok)">Quadro Chat</span>
+          <h3>Omnichannel unificado</h3>
+          <p>WhatsApp + Instagram + Facebook num painel único, com notificação em tempo real — diferencial confirmado frente aos 4 concorrentes.</p>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:var(--ink)">Mecanismo</span>
+          <h3>"WhatsApp ligado às campanhas"</h3>
+          <p>Anúncio clique-para-WhatsApp: o botão do próprio anúncio abre a conversa já preenchida. A Meta injeta o parâmetro <code style="font-family:var(--mono)">ctwa_clid</code>, que identifica automaticamente de qual campanha/criativo o contato veio — fecha o efeito billboard sem passar pelo site.</p>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:var(--partial)">Importado</span>
+          <h3>Página centralizada do hóspede</h3>
+          <p>Substitui mensagem longa de texto no gatilho de pré-chegada: acesso, wifi, horários, dicas do bairro num link só.</p>
+        </div>
+        <div class="card">
+          <span class="code-tag" style="background:var(--maestro)">MAESTRO + Chat</span>
+          <h3>Chatbot e CRM</h3>
+          <p>Scripts do MAESTRO alimentando o bot; CRM agora alimentado pela Persona formal da Semana 1, não segmentação genérica.</p>
+        </div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>MÊS 2 — QUADRO CHAT</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Mês 2 conteúdo/aprovação -->
+  <section class="slide content" id="s3-month2content" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-10 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">MÊS 2</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Mês 2</div>
+      <h2>Conteúdo, SEO e fluxo de aprovação</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid cols-2">
+        <div class="card"><span class="code-tag" style="background:var(--maestro)">MAESTRO</span><h3>Plano de conteúdo</h3><p>Mapeado também pela Jornada do Hóspede — não só funil de aquisição.</p></div>
+        <div class="card"><span class="code-tag" style="background:var(--maestro)">MAESTRO</span><h3>Produção — Copy e Scripts</h3><p>Segue o passo já existente do ciclo mensal.</p></div>
+      </div>
+      <div class="timeline" style="margin-top:6px">
+        <div class="tl-node"><div class="tl-stage">Passo 1</div><div class="tl-title">Lote produzido com antecedência</div><ul class="tl-bullets"><li>Ex: dia 25 do mês anterior, não em cima da hora</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Passo 2</div><div class="tl-title">Entregue dentro da plataforma</div><ul class="tl-bullets"><li>Cada peça com botão Aprovar / Pedir Ajuste + campo de comentário</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Passo 3</div><div class="tl-title">Prazo de resposta</div><ul class="tl-bullets"><li>48–72h, com contagem visível no painel</li></ul></div>
+        <div class="tl-node"><div class="tl-stage">Passo 4</div><div class="tl-title">Aprovação automática por silêncio</div><ul class="tl-bullets"><li>Combinado explicitamente no kickoff — sem isso, silêncio trava o calendário editorial</li></ul></div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>MÊS 2 — CONTEÚDO</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — NPS -->
+  <section class="slide content" id="s3-nps" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-11 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">MÊS 2–3</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Mês 2–3</div>
+      <h2>Relacionamento por NPS segmentado</h2>
+      <p class="sub">O bloco com maior potencial de upgrade real no Módulo de Relacionamento do Quadro Chat — hoje dispara igual pra todo mundo, aqui segmenta por categoria.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid cols-2">
+        <div class="card"><span class="code-tag" style="background:var(--ok)">Promotor · 9–10</span><h3>Ação</h3><p>Convite pra avaliação no Google + oferta de fidelização/indicação.</p></div>
+        <div class="card"><span class="code-tag" style="background:var(--partial)">Neutro · 7–8</span><h3>Ação</h3><p>Mantido em relacionamento padrão, sem push de avaliação.</p></div>
+        <div class="card"><span class="code-tag" style="background:var(--no)">Detrator · 0–6</span><h3>Ação</h3><p>Alerta imediato à gerência via Quadro Chat + campanhas ativas suspensas até resolver.</p></div>
+        <div class="card"><span class="code-tag" style="background:var(--no)">Gap preenchido</span><h3>Resposta de avaliação por IA</h3><p>API do Google Business Profile → modelo gera rascunho com nota + texto + Kit de Voz da Marca → revisão humana → publica.</p></div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>NPS SEGMENTADO</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Cadência mensal -->
+  <section class="slide content" id="s3-cycle" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-12 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">RECORRENTE</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Cadência mensal</div>
+      <h2>Ciclo MAESTRO enriquecido</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="hmap">
+        <div class="hm-step"><div class="hm-idx">01</div><div class="hm-title">Retrato do Mês (Dossiê)</div></div>
+        <div class="hm-step"><div class="hm-idx">02</div><div class="hm-title">Análise de Desempenho</div></div>
+        <div class="hm-step"><div class="hm-idx">03</div><div class="hm-title">Estratégia Comercial do Mês</div></div>
+        <div class="hm-step"><div class="hm-idx">04</div><div class="hm-title">Plano de Conteúdo</div></div>
+        <div class="hm-step"><div class="hm-idx">05</div><div class="hm-title">Produção — Copy e Scripts</div></div>
+        <div class="hm-step"><div class="hm-idx">06</div><div class="hm-title">Escuta e Melhoria Contínua</div></div>
+      </div>
+      <div class="callout">
+        <b>6 métricas fixas no dashboard — importado da Réserve</b>
+        Custo por reserva por canal · ROAS por canal · Conversão do site · Receita direta vs. OTA (evolução) · Ocupação por período · LTV do hóspede
+      </div>
+    </div>
+    <div class="doc-foot"><span>CADÊNCIA MENSAL</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Entregáveis físicos -->
+  <section class="slide content" id="s3-entregaveis" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-13 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">TANGÍVEL</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Prova de trabalho</div>
+      <h2>Entregáveis físicos — tangibilizando o serviço</h2>
+      <p class="sub">O que o hoteleiro mostra pro sócio como prova de que está pagando por algo sério.</p>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid">
+        <div class="card"><h3>Kit de Persona</h3><p>Documento entregável, não só exercício interno.</p></div>
+        <div class="card"><h3>Kit de Voz da Marca</h3><p>Referência formal usada em toda produção de Copy.</p></div>
+        <div class="card"><h3>Mapa da Jornada do Hóspede</h3><p>Aplicado especificamente ao hotel do cliente.</p></div>
+        <div class="card"><h3>Dossiê mensal atualizado</h3><p>Histórico completo, não recriado do zero a cada ciclo.</p></div>
+        <div class="card"><span class="code-tag" style="background:var(--partial)">Importado</span><h3>Dashboard multi-papel</h3><p>Acesso admin/editor/visualizador — conceito da "Central do Hotel" da Tribuzana.</p></div>
+        <div class="card"><h3>Relatório Mensal Estratégico</h3><p>PDF pronto pra download e repasse ao sócio.</p></div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>ENTREGÁVEIS FÍSICOS</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Plataforma do cliente -->
+  <section class="slide content" id="s3-plataforma" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-14 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">ESPECIFICAÇÃO</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Especificação</div>
+      <h2>Plataforma do cliente — detalhada</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid">
+        <div class="card">
+          <h3>Painel Inicial</h3>
+          <ul class="muted-list"><li>Resumo do mês: reservas diretas, % direto vs. OTA</li><li>Alertas ativos (NPS detrator, CPA fora da curva)</li><li>Próxima reunião agendada</li></ul>
+        </div>
+        <div class="card">
+          <h3>Omnichannel</h3>
+          <ul class="muted-list"><li>Caixa unificada WhatsApp + Instagram + Facebook</li><li>Tag automática de origem por conversa</li><li>Histórico completo por contato</li></ul>
+        </div>
+        <div class="card">
+          <h3>CRM / Central de Contatos</h3>
+          <ul class="muted-list"><li>Lead Score, filtros por origem/status/canal</li><li>Segmentos usados em campanhas de relacionamento</li><li>Histórico de reservas por hóspede (via PMS)</li></ul>
+        </div>
+        <div class="card">
+          <h3>Conteúdo &amp; Aprovações</h3>
+          <ul class="muted-list"><li>Calendário editorial com status por peça</li><li>Aprovar / Pedir Ajuste + prazo visível</li><li>Kit de Voz da Marca sempre acessível</li></ul>
+        </div>
+        <div class="card">
+          <h3>Campanhas &amp; Mídia</h3>
+          <ul class="muted-list"><li>Status de cada campanha ativa (GHA/Search/Meta)</li><li>Verba investida vs. combinada</li><li>Blueprint do mês visível</li></ul>
+        </div>
+        <div class="card">
+          <h3>Relatórios &amp; KPIs</h3>
+          <ul class="muted-list"><li>As 6 métricas centrais do ciclo mensal</li><li>Relatório Estratégico em PDF</li><li>Comparativo histórico 6–12 meses</li></ul>
+        </div>
+        <div class="card">
+          <h3>Reputação</h3>
+          <ul class="muted-list"><li>Avaliações com status de resposta</li><li>NPS: % promotor/neutro/detrator, evolução</li></ul>
+        </div>
+        <div class="card">
+          <h3>Documentos Estratégicos</h3>
+          <ul class="muted-list"><li>Histórico de Dossiês mensais</li><li>Kit de Persona, Jornada do Hóspede, Roteiro de Expectativas</li></ul>
+        </div>
+        <div class="card">
+          <h3>Equipe &amp; Permissões</h3>
+          <ul class="muted-list"><li>Múltiplos usuários do lado do hotel, com papéis</li><li>Log de quem aprovou o quê</li></ul>
+        </div>
+        <div class="card">
+          <h3>Central de Ajuda</h3>
+          <ul class="muted-list"><li>Tutoriais de uso do painel</li><li>Canal de suporte</li></ul>
+        </div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>PLATAFORMA DO CLIENTE</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Reuniões -->
+  <section class="slide content" id="s3-reunioes" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-15 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">CADÊNCIA</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">Ritmo de conversa</div>
+      <h2>Calendário de reuniões</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="meet-list">
+        <div class="meet-row"><div class="when">Kickoff<br>Semana 1</div><div class="what"><b>Fundação</b><span>Diagnóstico, Persona, SWOT, Kit de Voz, Roteiro de Expectativas e política de aprovação automática.</span></div></div>
+        <div class="meet-row"><div class="when">Lançamento<br>Fim do Mês 1</div><div class="what"><b>Primeiros resultados</b><span>Site, campanhas no ar, GMN atualizado, primeiras métricas.</span></div></div>
+        <div class="meet-row"><div class="when">Mensal de Resultados<br>Recorrente</div><div class="what"><b>Coração do ciclo MAESTRO</b><span>Dossiê atualizado + Análise de Desempenho + Estratégia do mês novo — sempre uma conversa, não só um e-mail.</span></div></div>
+        <div class="meet-row"><div class="when">Virada de Fase<br>Mês 2–3</div><div class="what"><b>Quadro Chat em operação plena</b><span>Marco grande o bastante pra merecer conversa dedicada.</span></div></div>
+        <div class="meet-row"><div class="when">Trimestral Estratégica<br>A cada 3 meses</div><div class="what"><b>Revisão estrutural</b><span>A Persona ainda vale? O SWOT mudou? Ajuste de mix de canais, não só tático.</span></div></div>
+        <div class="meet-row"><div class="when">Ad hoc / Alerta<br>Por evento</div><div class="what"><b>Não espera o ciclo</b><span>Pico de detratores no NPS, CPA fora da curva, problema técnico.</span></div></div>
+      </div>
+    </div>
+    <div class="doc-foot"><span>CALENDÁRIO DE REUNIÕES</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+  <!-- S3 — Fechamento -->
+  <section class="slide content" id="s3-closing" data-section="3" style="--accent:var(--s3)">
+    <div class="doc-head">
+      <span class="tag">DOC · QD-16 <span class="sep">·</span> SEÇÃO 03</span>
+      <span class="tag">FECHAMENTO</span>
+    </div>
+    <div class="content-head">
+      <div class="kicker">O que decidimos não importar</div>
+      <h2>Fechamento do dossiê</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="content-body">
+      <div class="grid cols-2">
+        <div class="card"><span class="code-tag" style="background:#8A5A2E">RP</span><p><b>Reprotel</b> não contribuiu nada aqui — mais fraca das 4 em produto/tecnologia. Nada forte o bastante pra herdar.</p></div>
+        <div class="card"><span class="code-tag" style="background:#3D5C82">HW</span><p><b>Inconsistência de números institucionais</b> da HotelariaWeb (60/80/120 hotéis) — não é prática a copiar, é alerta: manter dados centralizados e consistentes.</p></div>
+        <div class="card"><span class="code-tag" style="background:#A83A2C">TZ</span><p><b>Tribuzana</b> declarar publicamente que não faz social media — não se aplica; o MAESTRO já cobre isso.</p></div>
+      </div>
+      <div class="callout good" style="margin-top:6px">
+        <b>Veredito</b>
+        Esse é o ciclo Quadro: a metodologia mais explícita do mercado + a única automação própria de verdade (Omnichannel unificado + chatbot + CRM) + o melhor que cada concorrente tem de tangível, formalizado em entregáveis que o cliente vê, usa e guarda.
+      </div>
+    </div>
+    <div class="doc-foot"><span>FIM DO DOSSIÊ</span><span>QUADRO MARKETING — DOSSIÊ INTERNO</span></div>
+  </section>
+
+</main>
+
+<nav class="deck-nav">
+  <div class="left">
+    <span class="brand">QUADRO · DOSSIÊ</span>
+    <div class="pills">
+      <button class="pill-btn" data-target="deck-cover">Capa</button>
+      <button class="pill-btn" data-target="s1-cover">01 Serviços</button>
+      <button class="pill-btn" data-target="s2-cover">02 Ciclos</button>
+      <button class="pill-btn" data-target="s3-cover">03 Quadro</button>
+    </div>
+  </div>
+  <div class="right">
+    <button class="icon-btn" id="prevBtn" aria-label="Slide anterior">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <span id="counter">01 / 33</span>
+    <button class="icon-btn" id="nextBtn" aria-label="Próximo slide">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="icon-btn" id="fsBtn" aria-label="Tela cheia" title="Tela cheia">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</nav>
+
+<script>
+  const deck = document.getElementById('deck');
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const counterEl = document.getElementById('counter');
+  const progressFill = document.getElementById('progressFill');
+  const pillBtns = Array.from(document.querySelectorAll('.pill-btn'));
+  let current = 0;
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+
+  function setActivePill(section){
+    const map = {0:'deck-cover', 1:'s1-cover', 2:'s2-cover', 3:'s3-cover'};
+    pillBtns.forEach(p => p.classList.toggle('active', p.dataset.target === map[section]));
+  }
+
+  function updateActive(idx){
+    current = idx;
+    counterEl.textContent = pad(idx+1) + ' / ' + pad(slides.length);
+    progressFill.style.width = ((idx) / (slides.length - 1) * 100) + '%';
+    setActivePill(slides[idx].dataset.section);
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('in-view'); }
+      if(e.isIntersecting && e.intersectionRatio > 0.55){
+        const idx = slides.indexOf(e.target);
+        if(idx !== -1) updateActive(idx);
+      }
+    });
+  }, {root: deck, threshold:[0, 0.55]});
+  slides.forEach(s => io.observe(s));
+
+  function goTo(idx){
+    idx = Math.max(0, Math.min(slides.length - 1, idx));
+    slides[idx].scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', (e) => {
+    const tag = (e.target && e.target.tagName) || '';
+    if(tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); goTo(current + 1); }
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); goTo(current - 1); }
+    else if(e.key === 'Home'){ e.preventDefault(); goTo(0); }
+    else if(e.key === 'End'){ e.preventDefault(); goTo(slides.length - 1); }
+  });
+
+  pillBtns.forEach(p => {
+    p.addEventListener('click', () => {
+      const target = document.getElementById(p.dataset.target);
+      if(target){ goTo(slides.indexOf(target)); }
+    });
+  });
+
+  const fsBtn = document.getElementById('fsBtn');
+  fsBtn.addEventListener('click', () => {
+    if(!document.fullscreenElement){ document.documentElement.requestFullscreen?.(); }
+    else{ document.exitFullscreen?.(); }
+  });
+
+  updateActive(0);
+</script>
+
+</body>
+</html>
